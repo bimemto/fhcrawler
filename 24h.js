@@ -3,8 +3,6 @@ var url = require('url');
 var db = require("./db.js");
 var trim = require("trim");
 
-db.connectDB();
-
 var c = new Crawler({
     maxConnections: 10,
     // This will be called for each crawled page
@@ -79,6 +77,7 @@ var c = new Crawler({
 });
 
 crawl = function() {
+    db.connectDB();
     // Queue just one URL, with default callback
     c.queue('http://www.24h.com.vn/video-ban-thang-c297.html');
 };
