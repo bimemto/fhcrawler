@@ -78,5 +78,9 @@ var c = new Crawler({
     }
 });
 
-// Queue just one URL, with default callback
-c.queue('http://www.24h.com.vn/video-ban-thang-c297.html');
+crawl = function() {
+    // Queue just one URL, with default callback
+    c.queue('http://www.24h.com.vn/video-ban-thang-c297.html');
+};
+
+module.exports.crawl = crawl;
