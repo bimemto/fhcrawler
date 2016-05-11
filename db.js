@@ -56,6 +56,12 @@ getAllHighlight = function(offset, limit, callback) {
 	});
 }
 
+getHighLightByTeam = function(team, callback) {
+	connection.query("SELECT * From highlight WHERE Title LIKE " + "'%" + team + "%'", function(err, rows) {
+		callback(err, rows);
+	});
+}
+
 closeDB = function() {
 	connection.end();
 };
@@ -65,3 +71,4 @@ module.exports.insertHighlight = insertHighlight;
 module.exports.closeDB = closeDB;
 module.exports.checkExist = checkExist;
 module.exports.getAllHighlight = getAllHighlight;
+module.exports.getHighLightByTeam = getHighLightByTeam;
