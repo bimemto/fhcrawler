@@ -15,14 +15,14 @@ tg.controller('PingController', ($) => {
             }
             else {
                 for (var i = 0; i < rows.length; i++) {
-		    var videoUrl2 = rows[i].VideoURL2;
-		    var videoUrl3 = rows[i].VideoURL3;
-	             if(videoUrl2 === null || videoUrl2 === 'null'){
-			videoUrl2 = "";
-                     }
-		     if(videoUrl3 === 'null' || videoUrl3 === null){
-			videoUrl3 = "";
-		     }
+                    var videoUrl2 = rows[i].VideoURL2;
+                    var videoUrl3 = rows[i].VideoURL3;
+                    if (videoUrl2 === null || videoUrl2 === 'null') {
+                        videoUrl2 = "";
+                    }
+                    if (videoUrl3 === 'null' || videoUrl3 === null) {
+                        videoUrl3 = "";
+                    }
                     $.sendMessage(rows[i].Title + '\r\n' + rows[i].VideoURL1 + '\r\n' + videoUrl2 + '\r\n' + videoUrl3);
                 }
             }
@@ -40,12 +40,12 @@ tg.controller('TeamController', ($) => {
                 for (var i = 0; i < rows.length; i++) {
                     var videoUrl2 = rows[i].VideoURL2;
                     var videoUrl3 = rows[i].VideoURL3;
-                     if(videoUrl2 === null || videoUrl2 === 'null'){
+                    if (videoUrl2 === null || videoUrl2 === 'null') {
                         videoUrl2 = "";
-                     }
-                     if(videoUrl3 === 'null' || videoUrl3 === null){
+                    }
+                    if (videoUrl3 === 'null' || videoUrl3 === null) {
                         videoUrl3 = "";
-                     }
+                    }
                     $.sendMessage(rows[i].Title + '\r\n' + rows[i].VideoURL1 + '\r\n' + videoUrl2 + '\r\n' + videoUrl3);
                 };
             }
