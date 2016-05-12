@@ -34,20 +34,29 @@ tg.controller('TeamController', ($) => {
     tg.for('/fh :team', () => {
         db.getHighLightByTeam($.query.team, function(err, rows) {
             if (err) {
-                $.sendMessage(err);
+                $.sendMessage($.query.team + ' có đá đéo đâu mà có. ngu');
             }
             else {
-                for (var i = 0; i < rows.length; i++) {
-                    var videoUrl2 = rows[i].VideoURL2;
-                    var videoUrl3 = rows[i].VideoURL3;
-                    if (videoUrl2 === null || videoUrl2 === 'null') {
-                        videoUrl2 = "";
+                if (rows.length === 0) {
+                    $.sendMessage($.query.team + ' có đá đéo đâu mà có. ngu');
+                }
+                else {
+                    for (var i = 0; i < rows.length; i++) {
+                        var videoUrl2 = rows[i].VideoURL2;
+                        var videoUrl3 = rows[i].VideoURL3;
+                        if (videoUrl2 === null || videoUrl2 === 'null') {
+                            videoUrl2 = "";
+                        }
+                        if (videoUrl3 === 'null' || videoUrl3 === null) {
+                            videoUrl3 = "";
+                        }
+                        var message = rows[i].Title + '\r\n' + rows[i].VideoURL1 + '\r\n' + videoUrl2 + '\r\n' + videoUrl3;
+                        if ($.query.team.indexOf('chelsea') > -1 || $.query.team.indexOf('Chelsea') > -1) {
+                            message = message + '\r\n' + 'Chelsea vô đối';
+                        }
+                        $.sendMessage(message);
                     }
-                    if (videoUrl3 === 'null' || videoUrl3 === null) {
-                        videoUrl3 = "";
-                    }
-                    $.sendMessage(rows[i].Title + '\r\n' + rows[i].VideoURL1 + '\r\n' + videoUrl2 + '\r\n' + videoUrl3);
-                };
+                }
             }
         });
     })

@@ -51,13 +51,13 @@ checkExist = function(title, callback) {
 };
 
 getAllHighlight = function(offset, limit, callback) {
-	connection.query("SELECT * From highlight LIMIT " + limit + " OFFSET " + offset, function(err, rows) {
+	connection.query("SELECT * From highlight WHERE TimeAdded >= NOW() - INTERVAL 2 DAY LIMIT " + limit + " OFFSET " + offset, function(err, rows) {
 		callback(err, rows);
 	});
 }
 
 getHighLightByTeam = function(team, callback) {
-	connection.query("SELECT * From highlight WHERE Title LIKE " + "'%" + team + "%'", function(err, rows) {
+	connection.query("SELECT * From highlight WHERE TimeAdded >= NOW() - INTERVAL 2 DAY AND Title LIKE " + "'%" + team + "%'", function(err, rows) {
 		callback(err, rows);
 	});
 }
