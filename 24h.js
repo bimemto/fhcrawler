@@ -77,9 +77,16 @@ var c = new Crawler({
 });
 
 crawl = function() {
-    db.connectDB();
+    db.connectDB(function(error, result) {
+        if (error) {
+            console.log(error);
+        }
+        else {
+            c.queue('http://www.24h.com.vn/video-ban-thang-c297.html');
+        }
+    });
     // Queue just one URL, with default callback
-    c.queue('http://www.24h.com.vn/video-ban-thang-c297.html');
+
 };
 
 module.exports.crawl = crawl;

@@ -78,4 +78,4 @@ var c = new Crawler({
     }
 });
 
-    c.queue('http://www.24h.com.vn/video-ban-thang-c297.html');
+c.queue('http://www.24h.com.vn/video-ban-thang-c297.html');

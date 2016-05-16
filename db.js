@@ -12,13 +12,9 @@ var connection = mysql.createConnection({
 
 //var deleteRecord = 'DELETE FROM highlight WHERE title=?';
 
-connectDB = function() {
-	connection.connect(function(err) {
-		if (err) {
-			console.error('error connecting: ' + err.stack);
-			return;
-		}
-		console.log('connected as id ' + connection.threadId);
+connectDB = function(callback) {
+	connection.connect(function(error, result){
+		callback(error, result);
 	});
 };
 
@@ -30,7 +26,8 @@ insertHighlight = function(Title, Date, Desc, Thumb, VideoURL1, VideoURL2, Video
 		Thumb: Thumb,
 		VideoURL1: VideoURL1,
 		VideoURL2: VideoURL2,
-		VideoURL3: VideoURL3
+		VideoURL3: VideoURL3,
+		TimeAdded: getDateTime()
 	};
 	connection.query("SELECT * From highlight WHERE Title='" + Title + "'", function(err, res) {
 		if (res.length === 0) {
@@ -65,6 +62,22 @@ getHighLightByTeam = function(team, callback) {
 closeDB = function() {
 	connection.end();
 };
+
+function getDateTime() {
+
+    var date = new Date();
+
+    var year = date.getFullYear();
+
+    var month = date.getMonth() + 1;
+    month = (month < 10 ? "0" : "") + month;
+
+    var day  = date.getDate();
+    day = (day < 10 ? "0" : "") + day;
+
+    return year + "-" + month + "-" + day;
+
+}
 
 module.exports.connectDB = connectDB;
 module.exports.insertHighlight = insertHighlight;
