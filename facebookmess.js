@@ -30,7 +30,8 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-var filters = ["duy", "gamota", "android", "salem", "app", "native", "họp"];
+var filters = ["duy ", "gamota", "android", "salem", "app", "native", "họp"];
+var blockGroups = ['945316938871705', '127905330720913']
 
 login({
   email: "duydkny@gmail.com",
@@ -65,19 +66,23 @@ login({
                   console.log(error);
                 }
                 else {
+                  console.log(info);
                   groupName = info.name;
-                  api.getUserInfo(event.senderID, function(error, info) {
-                    if (error) {
-                      console.log(error);
-                    }
-                    else {
-                      var from = 'Ahihi';
-                      for (var prop in info) {
-                        from = info[prop].name;
+                  var isGroup = event.isGroup;
+                  if (isGroup && blockGroups.indexOf(event.threadID) < 0) {
+                    api.getUserInfo(event.senderID, function(error, info) {
+                      if (error) {
+                        console.log(error);
                       }
-                      bot.sendMessage('-41541244', groupName + '\r\n' + from + ': ' + event.body);
-                    }
-                  })
+                      else {
+                        var from = 'Ahihi';
+                        for (var prop in info) {
+                          from = info[prop].name;
+                        }
+                        bot.sendMessage('-41541244', groupName + '\r\n' + from + ': ' + event.body);
+                      }
+                    })
+                  }
                 }
               });
 
