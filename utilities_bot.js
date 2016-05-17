@@ -125,6 +125,9 @@ login({
                     }
                 }
                 else if(event.body.indexOf('/tt') > -1){
+                    api.markAsRead(event.threadID, function(err) {
+                        if (err) console.log(err);
+                    });
                     var timestamp = Math.floor(Date.now() / 1000);
                     var opts = {
                         mode: 'save',
