@@ -1,7 +1,6 @@
 var login = require("facebook-chat-api");
 var banquo = require('banquo');
 var fs = require("fs");
-var format = require('string-format')
 
 login({
     email: "+841656123802",
