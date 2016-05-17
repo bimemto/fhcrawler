@@ -4,6 +4,8 @@ var login = require("facebook-chat-api");
 var http = require('http');
 var cheerio = require('cheerio');
 var TelegramBot = require('node-telegram-bot-api');
+var banquo = require('banquo');
+var fs = require("fs");
 
 var token = '208861476:AAFkV6kx6rjKOOyNQudcZ88YrTH6ZATCRIo';
 // Setup polling way
@@ -55,6 +57,30 @@ login({
           api.sendMessage("Goodbye...", event.threadID);
           return stopListening();
         }
+        else if (event.body === '/kq') {
+          api.markAsRead(event.threadID, function(err) {
+            if (err) console.log(err);
+          });
+          var opts = {
+            mode: 'save',
+            url: 'http://ketqua.net/xo-so-truyen-thong.php?ngay=' + getDateTime(),
+            viewport_width: 1440,
+            delay: 1000,
+            selector: '#result_tab_mb',
+            scrape: true
+          };
+
+          banquo.capture(opts, function(err, bodyMarkup) {
+            if (err) {
+              console.log(err)
+            }
+            var msg = {
+              body: "Kết quả",
+              attachment: fs.createReadStream('kqxs.png')
+            }
+            api.sendMessage(msg, event.threadID);
+          });
+        }
         else {
           for (var i = 0; i < filters.length; i++) {
             if (wordInString(event.body, filters[i])) {
@@ -97,6 +123,22 @@ login({
   });
 
 });
+
+function getDateTime() {
+
+  var date = new Date();
+
+  var year = date.getFullYear();
+
+  var month = date.getMonth() + 1;
+  month = (month < 10 ? "0" : "") + month;
+
+  var day = date.getDate();
+  day = (day < 10 ? "0" : "") + day;
+
+  return day + "-" + month + "-" + year;
+
+}
 
 function wordInString(s, word) {
   return new RegExp('\\b' + word + '\\b', 'i').test(s);
