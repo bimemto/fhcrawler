@@ -3,7 +3,7 @@ var express = require('express');
 var app = express();
 
 app.get('/videos', function(req, res) {
-    db.getAllVideos(0, 20, function(err, rows) {
+    db.getAllVideos(req.query.offset, req.query.limit, function(err, rows) {
         if (err) {
             res.sendStatus(500);
         }
