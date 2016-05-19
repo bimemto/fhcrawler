@@ -2,7 +2,7 @@ var db = require("./db.js");
 var express = require('express');
 var app = express();
 
-app.get('/videos', function(req, res) {
+app.get('/euro/api/videos', function(req, res) {
     db.getAllVideos(req.query.offset, req.query.limit, function(err, rows) {
         if (err) {
             res.sendStatus(500);
