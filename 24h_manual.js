@@ -3,7 +3,8 @@ var url = require('url');
 var db = require("./db.js");
 var trim = require("trim");
 
-db.connectDB();
+db.connectDB(function(err, res){
+});
 
 var c = new Crawler({
     maxConnections: 10,
