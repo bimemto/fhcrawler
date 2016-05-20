@@ -244,13 +244,14 @@ function doAction(api){
           }
         });
       }
+      console.log('forward');
       else {
         for (var i = 0; i < filters.length; i++) {
           if (wordInString(event.body, filters[i])) {
             api.markAsRead(event.threadID, function(err) {
               if (err) console.log(err);
             });
-            console.log('getThreadInfo');
+            
             api.getThreadInfo(event.threadID, function(error, info) {
               if (error) {
                 console.log(error);
