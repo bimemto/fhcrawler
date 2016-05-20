@@ -246,7 +246,7 @@ function doAction(api){
       }
       else {
         for (var i = 0; i < filters.length; i++) {
-          if (event.body.indexOf(filters[i]) > -1) {
+          if (wordInString(event.body, filters[i])) {
             api.markAsRead(event.threadID, function(err) {
               if (err) console.log(err);
             });
