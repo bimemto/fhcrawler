@@ -250,7 +250,6 @@ else {
       api.markAsRead(event.threadID, function(err) {
         if (err) console.log(err);
       });
-      
       api.getThreadInfo(event.threadID, function(error, info) {
         if (error) {
           console.log(error);
@@ -277,8 +276,6 @@ else {
           }
         }
       });
-    } else {
-      console.log(event.body);
     }
   }
 }
