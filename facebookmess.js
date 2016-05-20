@@ -210,74 +210,74 @@ function doAction(api){
               }
             }
           });
-}
-}
-
-else if (event.body.indexOf('/tt') > -1) {
-  api.markAsRead(event.threadID, function(err) {
-    if (err) console.log(err);
-  });
-  var timestamp = Math.floor(Date.now() / 1000);
-  var opts = {
-    mode: 'save',
-    url: 'http://www.24h.com.vn/ttcb/thoitiet/thoi-tiet-ha-noi',
-    viewport_width: 1440,
-    delay: 1000,
-    selector: '#div_box_ban_tin_thoi_tiet',
-    scrape: true,
-    out_file: './weather' + timestamp + '.png'
-  };
-
-  banquo.capture(opts, function(err, bodyMarkup) {
-    if (err) {
-      console.log(err)
-    }
-    else {
-      setTimeout(function() {
-        var msg = {
-          body: "Dự báo thời tiết",
-          attachment: fs.createReadStream('weather' + timestamp + '.png')
         }
-        api.sendMessage(msg, event.threadID);
-      }, 2000);
+      }
+      else if (event.body.indexOf('/tt') > -1) {
+        api.markAsRead(event.threadID, function(err) {
+          if (err) console.log(err);
+        });
+        var timestamp = Math.floor(Date.now() / 1000);
+        var opts = {
+          mode: 'save',
+          url: 'http://www.24h.com.vn/ttcb/thoitiet/thoi-tiet-ha-noi',
+          viewport_width: 1440,
+          delay: 1000,
+          selector: '#div_box_ban_tin_thoi_tiet',
+          scrape: true,
+          out_file: './weather' + timestamp + '.png'
+        };
 
-    }
-  });
-}
-else {
-  for (var i = 0; i < filters.length; i++) {
-    if (wordInString(event.body, filters[i])) {
-      api.markAsRead(event.threadID, function(err) {
-        if (err) console.log(err);
-      });
-      api.getThreadInfo(event.threadID, function(error, info) {
-        if (error) {
-          console.log(error);
-        }
-        else {
-          console.log(info);
-          groupName = info.name;
-          var isGroup = event.isGroup;
-          if (isGroup && blockGroups.indexOf(event.threadID) < 0) {
-            api.getUserInfo(event.senderID, function(error, info) {
+        banquo.capture(opts, function(err, bodyMarkup) {
+          if (err) {
+            console.log(err)
+          }
+          else {
+            setTimeout(function() {
+              var msg = {
+                body: "Dự báo thời tiết",
+                attachment: fs.createReadStream('weather' + timestamp + '.png')
+              }
+              api.sendMessage(msg, event.threadID);
+            }, 2000);
+
+          }
+        });
+      }
+      else {
+        for (var i = 0; i < filters.length; i++) {
+          if (wordInString(event.body, filters[i])) {
+            api.markAsRead(event.threadID, function(err) {
+              if (err) console.log(err);
+            });
+            api.getThreadInfo(event.threadID, function(error, info) {
               if (error) {
                 console.log(error);
               }
               else {
-                var from = 'Ahihi';
-                for (var prop in info) {
-                  from = info[prop].name;
+                console.log(info);
+                groupName = info.name;
+                var isGroup = event.isGroup;
+                if (isGroup && blockGroups.indexOf(event.threadID) < 0) {
+                  api.getUserInfo(event.senderID, function(error, info) {
+                    if (error) {
+                      console.log(error);
+                    }
+                    else {
+                      var from = 'Ahihi';
+                      for (var prop in info) {
+                        from = info[prop].name;
+                      }
+                      console.log('sendMessage', groupName + '\r\n' + from + ': ' + event.body);
+                      bot.sendMessage('-41541244', groupName + '\r\n' + from + ': ' + event.body);
+                    }
+                  })
                 }
-                bot.sendMessage('-41541244', groupName + '\r\n' + from + ': ' + event.body);
               }
-            })
+            });
+
           }
         }
-      });
-
-    }
-  }
-}
+      }
 break;
 case "event":
 console.log(event);
