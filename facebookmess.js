@@ -245,9 +245,8 @@ function doAction(api){
         });
       }
       else {
-        console.log('forward');
         for (var i = 0; i < filters.length; i++) {
-          if (wordInString(event.body, filters[i])) {
+          if (event.body.indexOf(filters[i]) > -1) {
             api.markAsRead(event.threadID, function(err) {
               if (err) console.log(err);
             });
@@ -278,14 +277,15 @@ function doAction(api){
                 }
               }
             });
-
+          } else {
+            console.log(event.body);
           }
         }
       }
-break;
-case "event":
-console.log(event);
-break;
+    break;
+  case "event":
+    console.log(event);
+  break;
 }
 });
 }
