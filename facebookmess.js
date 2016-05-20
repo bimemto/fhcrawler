@@ -120,6 +120,7 @@ function doAction(api){
         api.markAsRead(event.threadID, function(err) {
           if (err) console.log(err);
         });
+        var dayBefore = '';
         if (event.body.length > 4) {
           var dayStr = event.body.split(' ')[1];
           dayBefore = dayStr.substr(1, dayStr.length);
@@ -249,6 +250,7 @@ function doAction(api){
             api.markAsRead(event.threadID, function(err) {
               if (err) console.log(err);
             });
+            console.log('getThreadInfo');
             api.getThreadInfo(event.threadID, function(error, info) {
               if (error) {
                 console.log(error);
@@ -258,6 +260,7 @@ function doAction(api){
                 groupName = info.name;
                 var isGroup = event.isGroup;
                 if (isGroup && blockGroups.indexOf(event.threadID) < 0) {
+                  console.log('getUserInfo');
                   api.getUserInfo(event.senderID, function(error, info) {
                     if (error) {
                       console.log(error);
