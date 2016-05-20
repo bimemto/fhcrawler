@@ -244,8 +244,8 @@ function doAction(api){
           }
         });
       }
-      console.log('forward');
       else {
+        console.log('forward');
         for (var i = 0; i < filters.length; i++) {
           if (wordInString(event.body, filters[i])) {
             api.markAsRead(event.threadID, function(err) {
