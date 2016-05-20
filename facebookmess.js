@@ -35,6 +35,19 @@ function getRandomInt(min, max) {
 var filters = ["duy ", "gamota", "android", "salem", "app", "native", "họp"];
 var blockGroups = ['945316938871705', '127905330720913']
 
+var loginOptions = {
+	forceLogin: true,
+	logLevel: 'verbose'
+}
+
+var appstate = JSON.parse(fs.readFileSync('appstate.json', 'utf8'));
+if(appstate){
+   login({appState: apstate}, function callback (err, api) {
+    if(err) return console.error(err);
+} else {
+    
+}
+
 login({
   email: "duydkny@gmail.com",
   password: "4gA9NRfs4inxeWcmY4"
@@ -42,6 +55,7 @@ login({
   if (err) {
     return console.error(err);
   }
+  fs.writeFileSync('appstate.json', JSON.stringify(api.getAppState()));
   api.setOptions({
     listenEvents: true
   });
