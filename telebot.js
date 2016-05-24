@@ -72,6 +72,9 @@ tg.controller('PesFController', ($) => {
 
 tg.controller('PesFundController', ($) => {
     tg.for('/pes :daysAgo', () => {
+        if(daysAgo > 10){
+            daysAgo = 10;
+        }
         db.getPesFund($.query.daysAgo, function(err, rows) {
             if (err) {
                 $.sendMessage('ko có gì nha');
