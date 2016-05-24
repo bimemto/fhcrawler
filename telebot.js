@@ -14,7 +14,7 @@ tg.router.when(['/pes'], 'PesFController')
 
 tg.controller('PesFController', ($) => {
     tg.for('/pes', () => {
-        db.getPesFund(0, function(err, rows) {
+        db.getPesFund(1, function(err, rows) {
             if (err) {
                 $.sendMessage('ko có gì nha');
             }
@@ -42,26 +42,26 @@ tg.controller('PesFController', ($) => {
                             changes = '';
                         }
                         if(duynk !== '0'){
-                            duynk = 'DuyNK: đã đóng ' + rows[i].DuyNK;
+                            duynk = 'DuyNK: đã đóng ' + rows[i].DuyNK + '\r\n';
                         } else {
                             duynk = '';
                         }
                         if(diepdh !== '0'){
-                            diepdh = 'DiepDH: đã đóng ' + rows[i].DiepDH;
+                            diepdh = 'DiepDH: đã đóng ' + rows[i].DiepDH + '\r\n';
                         } else {
                             diepdh = '';
                         }
                         if(khanhpt !== '0'){
-                            khanhpt = 'KhanhPT: đã đóng ' + rows[i].KhanhPT;
+                            khanhpt = 'KhanhPT: đã đóng ' + rows[i].KhanhPT + '\r\n';
                         } else {
                             khanhpt = '';
                         }
                         if(duypb !== '0'){
-                            duypb = 'DuyPB: đã đóng ' + rows[i].DuyPB;
+                            duypb = 'DuyPB: đã đóng ' + rows[i].DuyPB + '\r\n';
                         } else {
                             duypb = '';
                         }
-                        var message = date + ':' + '\r\n\r\n' + changes + '\r\n' + duynk + '\r\n' + diepdh + '\r\n' + khanhpt + '\r\n' + duypb + '\r\n' + total + '\r\n' + note + '\r\n';
+                        var message = date + ':' + '\r\n\r\n' + changes + '\r\n' + duynk + diepdh + khanhpt + duypb + total + '\r\n' + note + '\r\n';
                         $.sendMessage(message);
                     }
                 }
@@ -72,8 +72,8 @@ tg.controller('PesFController', ($) => {
 
 tg.controller('PesFundController', ($) => {
     tg.for('/pes :daysAgo', () => {
-        if(daysAgo > 10){
-            daysAgo = 10;
+        if($.query.daysAgo > 10){
+            $.query.daysAgo = 10;
         }
         db.getPesFund($.query.daysAgo, function(err, rows) {
             if (err) {
@@ -103,26 +103,26 @@ tg.controller('PesFundController', ($) => {
                             changes = '';
                         }
                         if(duynk !== '0'){
-                            duynk = 'DuyNK: đã đóng ' + rows[i].DuyNK;
+                            duynk = 'DuyNK: đã đóng ' + rows[i].DuyNK + '\r\n';
                         } else {
                             duynk = '';
                         }
                         if(diepdh !== '0'){
-                            diepdh = 'DiepDH: đã đóng ' + rows[i].DiepDH;
+                            diepdh = 'DiepDH: đã đóng ' + rows[i].DiepDH + '\r\n';
                         } else {
                             diepdh = '';
                         }
                         if(khanhpt !== '0'){
-                            khanhpt = 'KhanhPT: đã đóng ' + rows[i].KhanhPT;
+                            khanhpt = 'KhanhPT: đã đóng ' + rows[i].KhanhPT + '\r\n';
                         } else {
                             khanhpt = '';
                         }
                         if(duypb !== '0'){
-                            duypb = 'DuyPB: đã đóng ' + rows[i].DuyPB;
+                            duypb = 'DuyPB: đã đóng ' + rows[i].DuyPB + '\r\n';
                         } else {
                             duypb = '';
                         }
-                        var message = date + ':' + '\r\n\r\n' + changes + '\r\n' + duynk + '\r\n' + diepdh + '\r\n' + khanhpt + '\r\n' + duypb + '\r\n' + total + '\r\n' + note + '\r\n';
+                        var message = date + ':' + '\r\n\r\n' + changes + '\r\n' + duynk + diepdh + khanhpt + duypb + total + '\r\n' + note + '\r\n';
                         $.sendMessage(message);
                     }
                 }
