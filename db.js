@@ -65,23 +65,35 @@ getHighLightByTeam = function(team, callback) {
 	});
 }
 
+getPesFund = function(daysAgo, callback) {
+	var query;
+	if(daysAgo === 0){
+		query = "SELECT * FROM PesFund";
+	} else {
+		query = "SELECT * From PesFund LIMIT " + daysAgo;
+	}
+	connection.query(query, function(err, rows) {
+		callback(err, rows);
+	});
+}
+
 closeDB = function() {
 	connection.end();
 };
 
 function getDateTime() {
 
-    var date = new Date();
+	var date = new Date();
 
-    var year = date.getFullYear();
+	var year = date.getFullYear();
 
-    var month = date.getMonth() + 1;
-    month = (month < 10 ? "0" : "") + month;
+	var month = date.getMonth() + 1;
+	month = (month < 10 ? "0" : "") + month;
 
-    var day  = date.getDate();
-    day = (day < 10 ? "0" : "") + day;
+	var day  = date.getDate();
+	day = (day < 10 ? "0" : "") + day;
 
-    return year + "-" + month + "-" + day;
+	return year + "-" + month + "-" + day;
 
 }
 
@@ -92,3 +104,4 @@ module.exports.checkExist = checkExist;
 module.exports.getAllHighlight = getAllHighlight;
 module.exports.getAllVideos = getAllVideos;
 module.exports.getHighLightByTeam = getHighLightByTeam;
+module.exports.getPesFund = getPesFund;

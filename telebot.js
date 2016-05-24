@@ -2,10 +2,131 @@
 
 var tg = require('telegram-node-bot')('208861476:AAFkV6kx6rjKOOyNQudcZ88YrTH6ZATCRIo')
 var db = require("./db.js");
+var dateFormat = require("dateformat");
 
 tg.router.when(['/fh'], 'PingController')
 
 tg.router.when(['/fh :team'], 'TeamController')
+
+tg.router.when(['/pes :daysAgo'], 'PesFundController')
+
+tg.router.when(['/pes'], 'PesFController')
+
+tg.controller('PesFController', ($) => {
+    tg.for('/pes', () => {
+        db.getPesFund(0, function(err, rows) {
+            if (err) {
+                $.sendMessage('ko có gì nha');
+            }
+            else {
+                if (rows.length === 0) {
+                    $.sendMessage('ko có gì nha');
+                }
+                else {
+                    for (var i = 0; i < rows.length; i++) {
+                        var changes = rows[i].Changes;
+                        var duynk = rows[i].DuyNK;
+                        var diepdh = rows[i].DiepDH;
+                        var khanhpt = rows[i].KhanhPT;
+                        var duypb = rows[i].DuyPB;
+                        var total = 'Quỹ còn: ' + rows[i].Total;
+                        var note = 'Note: ' + rows[i].Note;
+                        var date = dateFormat(rows[i].TimeAdded, "dddd dd-mm-yyyy");
+                        if(changes !== '0'){
+                            if(changes.indexOf('-') > -1){
+                                changes = 'Chơi hết: ' + rows[i].Changes;
+                            } else {
+                                changes = 'Thêm quỹ: ' + rows[i].Changes;
+                            }
+                        } else {
+                            changes = '';
+                        }
+                        if(duynk !== '0'){
+                            duynk = 'DuyNK: đã đóng ' + rows[i].DuyNK;
+                        } else {
+                            duynk = '';
+                        }
+                        if(diepdh !== '0'){
+                            diepdh = 'DiepDH: đã đóng ' + rows[i].DiepDH;
+                        } else {
+                            diepdh = '';
+                        }
+                        if(khanhpt !== '0'){
+                            khanhpt = 'KhanhPT: đã đóng ' + rows[i].KhanhPT;
+                        } else {
+                            khanhpt = '';
+                        }
+                        if(duypb !== '0'){
+                            duypb = 'DuyPB: đã đóng ' + rows[i].DuyPB;
+                        } else {
+                            duypb = '';
+                        }
+                        var message = date + ':' + '\r\n\r\n' + changes + '\r\n' + duynk + '\r\n' + diepdh + '\r\n' + khanhpt + '\r\n' + duypb + '\r\n' + total + '\r\n' + note + '\r\n';
+                        $.sendMessage(message);
+                    }
+                }
+            }
+        });
+})
+})
+
+tg.controller('PesFundController', ($) => {
+    tg.for('/pes :daysAgo', () => {
+        db.getPesFund($.query.daysAgo, function(err, rows) {
+            if (err) {
+                $.sendMessage('ko có gì nha');
+            }
+            else {
+                if (rows.length === 0) {
+                    $.sendMessage('ko có gì nha');
+                }
+                else {
+                    for (var i = 0; i < rows.length; i++) {
+                        var changes = rows[i].Changes;
+                        var duynk = rows[i].DuyNK;
+                        var diepdh = rows[i].DiepDH;
+                        var khanhpt = rows[i].KhanhPT;
+                        var duypb = rows[i].DuyPB;
+                        var total = 'Quỹ còn: ' + rows[i].Total;
+                        var note = 'Note: ' + rows[i].Note;
+                        var date = dateFormat(rows[i].TimeAdded, "dddd dd-mm-yyyy");
+                        if(changes !== '0'){
+                            if(changes.indexOf('-') > -1){
+                                changes = 'Chơi hết: ' + rows[i].Changes;
+                            } else {
+                                changes = 'Thêm quỹ: ' + rows[i].Changes;
+                            }
+                        } else {
+                            changes = '';
+                        }
+                        if(duynk !== '0'){
+                            duynk = 'DuyNK: đã đóng ' + rows[i].DuyNK;
+                        } else {
+                            duynk = '';
+                        }
+                        if(diepdh !== '0'){
+                            diepdh = 'DiepDH: đã đóng ' + rows[i].DiepDH;
+                        } else {
+                            diepdh = '';
+                        }
+                        if(khanhpt !== '0'){
+                            khanhpt = 'KhanhPT: đã đóng ' + rows[i].KhanhPT;
+                        } else {
+                            khanhpt = '';
+                        }
+                        if(duypb !== '0'){
+                            duypb = 'DuyPB: đã đóng ' + rows[i].DuyPB;
+                        } else {
+                            duypb = '';
+                        }
+                        var message = date + ':' + '\r\n\r\n' + changes + '\r\n' + duynk + '\r\n' + diepdh + '\r\n' + khanhpt + '\r\n' + duypb + '\r\n' + total + '\r\n' + note + '\r\n';
+                        $.sendMessage(message);
+                    }
+                }
+            }
+        });
+})
+})
 
 tg.controller('PingController', ($) => {
     tg.for('/fh', () => {
@@ -59,5 +180,5 @@ tg.controller('TeamController', ($) => {
                 }
             }
         });
-    })
+})
 })
