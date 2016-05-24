@@ -107,7 +107,7 @@ function doAction(api){
   });
   var stopListening = api.listen(function(err, event) {
     if (err) {
-      console.error(err);
+      console.log(err);
     }
     if(event.body){
       var groupName, from;
