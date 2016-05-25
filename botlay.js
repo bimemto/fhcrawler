@@ -412,7 +412,7 @@ bot.on('message', function(message) {
             } else {
               duypb = '';
             }
-            var msg = date + ':' + '\r\n\r\n' + changes + '\r\n' + duynk + diepdh + khanhpt + duypb + total + '\r\n' + note + '\r\n';
+            var msg = rows[i].STT + '. ' + date + ':' + '\r\n\r\n' + changes + '\r\n' + duynk + diepdh + khanhpt + duypb + total + '\r\n' + note + '\r\n';
             bot.sendMessage(message.chat.id, msg);
           }
         }

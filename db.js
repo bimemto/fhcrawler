@@ -68,9 +68,9 @@ getHighLightByTeam = function(team, callback) {
 getPesFund = function(daysAgo, callback) {
 	var query;
 	if(daysAgo === 0){
-		query = "SELECT * FROM PesFund";
+		query = "SELECT * FROM PesFund ORDER BY STT DESC";
 	} else {
-		query = "SELECT * From PesFund LIMIT " + daysAgo;
+		query = "SELECT * From PesFund ORDER BY STT DESC LIMIT " + daysAgo;
 	}
 	connection.query(query, function(err, rows) {
 		callback(err, rows);
