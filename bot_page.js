@@ -83,9 +83,9 @@ function doAction(api){
                         return stopListening();
                     }
                     else if (event.body.indexOf('/kq') > -1) {
-                        api.markAsRead(event.threadID, function(err) {
-                            if (err) console.log(err);
-                        });
+                        // api.markAsRead(event.threadID, function(err) {
+                        //     if (err) console.log(err);
+                        // });
                         if (event.body.length > 4) {
                             var dayStr = event.body.split(' ')[1];
                             dayBefore = dayStr.substr(1, dayStr.length);
@@ -115,15 +115,15 @@ function doAction(api){
                                         attachment: fs.createReadStream('kqxs' + timestamp + '.png')
                                     }
                                     api.sendMessage(msg, event.threadID);
-                                }, 2000);
+                                }, 1500);
 
                             }
                         });
                     }
                     else if (event.body.indexOf('/bd') > -1) {
-                        api.markAsRead(event.threadID, function(err) {
-                            if (err) console.log(err);
-                        });
+                        // api.markAsRead(event.threadID, function(err) {
+                        //     if (err) console.log(err);
+                        // });
                         var team = '';
                         if (event.body.length > 4) {
                             team = event.body.split(' ')[1];
@@ -179,9 +179,9 @@ else {
 }
 }
 else if (event.body.indexOf('/tt') > -1) {
-    api.markAsRead(event.threadID, function(err) {
-        if (err) console.log(err);
-    });
+    // api.markAsRead(event.threadID, function(err) {
+    //     if (err) console.log(err);
+    // });
     var timestamp = Math.floor(Date.now() / 1000);
     var opts = {
         mode: 'save',
@@ -204,7 +204,7 @@ else if (event.body.indexOf('/tt') > -1) {
                     attachment: fs.createReadStream('weather' + timestamp + '.png')
                 }
                 api.sendMessage(msg, event.threadID);
-            }, 2000);
+            }, 1500);
 
         }
     });
