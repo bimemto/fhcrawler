@@ -76,6 +76,7 @@ fs.exists('appstate.json', function(exists) {
             break;
           }
         }
+        fs.writeFileSync('appstate.json', JSON.stringify(api.getAppState()));
         doAction(api);
       });
     }
@@ -95,13 +96,13 @@ fs.exists('appstate.json', function(exists) {
           break;
         }
       }
+      fs.writeFileSync('appstate.json', JSON.stringify(api.getAppState()));
       doAction(api);
     });
   }
 });
 
 function doAction(api){
-  fs.writeFileSync('appstate.json', JSON.stringify(api.getAppState()));
   api.setOptions({
     listenEvents: true
   });
