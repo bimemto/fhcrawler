@@ -15,6 +15,9 @@ var bot = new TelegramBot(token, {
   polling: true
 });
 
+var webshot = require('webshot');
+
+
 function download(url, callback) {
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
   http.get(url, function(res) {
@@ -34,7 +37,7 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-var filters = ["duy ", "gamota", "android", "salem", "app", "native", "họp"];
+var filters = ["duy ", "Duy ", "gamota", "android", "salem", "app", "native", "họp"];
 var blockGroups = ['945316938871705', '127905330720913']
 
 var readline = require("readline");
@@ -131,30 +134,37 @@ function doAction(api){
             dayBefore = 0;
           }
           var timestamp = Math.floor(Date.now() / 1000);
-          var opts = {
-            mode: 'save',
-            url: 'http://ketqua.vn/in-ve-so/22/1/' + getDateTime(dayBefore) + '/1',
-            viewport_width: 640,
-            delay: 1000,
-            scrape: true,
-            out_file: './kqxs' + timestamp + '.png'
-          };
-
-          banquo.capture(opts, function(err, bodyMarkup) {
-            if (err) {
-              console.log(err)
-            }
-            else {
-              setTimeout(function() {
-                var msg = {
+          webshot('http://ketqua.vn/in-ve-so/22/1/' + getDateTime(dayBefore) + '/1', 'kqxs' + timestamp + '.png', function(err) {
+              var msg = {
                   body: "Kết quả",
                   attachment: fs.createReadStream('kqxs' + timestamp + '.png')
                 }
                 api.sendMessage(msg, event.threadID);
-              }, 1200);
-
-            }
           });
+          // var opts = {
+          //   mode: 'save',
+          //   url: 'http://ketqua.vn/in-ve-so/22/1/' + getDateTime(dayBefore) + '/1',
+          //   viewport_width: 640,
+          //   delay: 1000,
+          //   scrape: true,
+          //   out_file: './kqxs' + timestamp + '.png'
+          // };
+
+          // banquo.capture(opts, function(err, bodyMarkup) {
+          //   if (err) {
+          //     console.log(err)
+          //   }
+          //   else {
+          //     setTimeout(function() {
+          //       var msg = {
+          //         body: "Kết quả",
+          //         attachment: fs.createReadStream('kqxs' + timestamp + '.png')
+          //       }
+          //       api.sendMessage(msg, event.threadID);
+          //     }, 1200);
+
+          //   }
+          // });
         }
         else if (event.body.indexOf('/bd') > -1) {
           api.markAsRead(event.threadID, function(err) {
@@ -270,7 +280,6 @@ else {
                 for (var prop in info) {
                   from = info[prop].name;
                 }
-                console.log('sendMessage', groupName + '\r\n' + from + ': ' + event.body);
                 bot.sendMessage('-41541244', groupName + '\r\n' + from + ': ' + event.body);
               }
             })

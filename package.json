@@ -13,6 +13,7 @@
     "facebook-chat-api": "^1.1.0",
     "node-phantom": "^0.2.5",
     "node-telegram-bot-api": "^0.21.1",
-    "socket.io": "~0.9.14"
+    "socket.io": "~0.9.14",
+    "webshot": "^0.18.0"
   }
 }
