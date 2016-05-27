@@ -134,7 +134,7 @@ function doAction(api){
           var opts = {
             mode: 'save',
             url: 'http://ketqua.vn/in-ve-so/22/1/' + getDateTime(dayBefore) + '/1',
-            viewport_width: 1440,
+            viewport_width: 640,
             delay: 1000,
             scrape: true,
             out_file: './kqxs' + timestamp + '.png'
