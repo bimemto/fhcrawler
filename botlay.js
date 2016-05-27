@@ -136,7 +136,6 @@ function doAction(api){
             url: 'http://ketqua.vn/in-ve-so/22/1/' + getDateTime(dayBefore) + '/1',
             viewport_width: 1440,
             delay: 1000,
-            selector: '#ketquavn-print',
             scrape: true,
             out_file: './kqxs' + timestamp + '.png'
           };
