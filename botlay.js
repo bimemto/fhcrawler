@@ -135,11 +135,16 @@ function doAction(api){
           }
           var timestamp = Math.floor(Date.now() / 1000);
           webshot('http://ketqua.vn/in-ve-so/22/1/' + getDateTime(dayBefore) + '/1', 'kqxs' + timestamp + '.png', function(err) {
+            if(err){
+              console.log(err);
+            } else {
               var msg = {
-                  body: "Kết quả",
-                  attachment: fs.createReadStream('kqxs' + timestamp + '.png')
-                }
-                api.sendMessage(msg, event.threadID);
+                body: "Kết quả",
+                attachment: fs.createReadStream('kqxs' + timestamp + '.png')
+              }
+              api.sendMessage(msg, event.threadID);
+            }
+            
           });
           // var opts = {
           //   mode: 'save',
@@ -165,64 +170,64 @@ function doAction(api){
 
           //   }
           // });
-        }
-        else if (event.body.indexOf('/bd') > -1) {
-          api.markAsRead(event.threadID, function(err) {
-            if (err) console.log(err);
-          });
-          var team = '';
-          if (event.body.length > 4) {
-            team = event.body.split(' ')[1];
-          }
-          if (team === '') {
-            db.getAllHighlight(0, 20, function(err, rows) {
-              if (err) {
-                console.log(err);
-              }
-              else {
-                for (var i = 0; i < rows.length; i++) {
-                  var videoUrl2 = rows[i].VideoURL2;
-                  var videoUrl3 = rows[i].VideoURL3;
-                  if (videoUrl2 === null || videoUrl2 === 'null') {
-                    videoUrl2 = "";
-                  }
-                  if (videoUrl3 === 'null' || videoUrl3 === null) {
-                    videoUrl3 = "";
-                  }
-                  api.sendMessage(rows[i].Title + '\r\n' + rows[i].VideoURL1 + '\r\n' + videoUrl2 + '\r\n' + videoUrl3, event.threadID);
-                }
-              }
-            });
-          }
-          else {
-            db.getHighLightByTeam(team, function(err, rows) {
-              if (err) {
-                api.sendMessage(team + ' có đá đéo đâu mà có. ngu', event.threadID);
-              }
-              else {
-                if (rows.length === 0) {
-                  api.sendMessage(team + ' có đá đéo đâu mà có. ngu', event.threadID);
-                }
-                else {
-                  for (var i = 0; i < rows.length; i++) {
-                    var videoUrl2 = rows[i].VideoURL2;
-                    var videoUrl3 = rows[i].VideoURL3;
-                    if (videoUrl2 === null || videoUrl2 === 'null') {
-                      videoUrl2 = "";
-                    }
-                    if (videoUrl3 === 'null' || videoUrl3 === null) {
-                      videoUrl3 = "";
-                    }
-                    var message = rows[i].Title + '\r\n' + rows[i].VideoURL1 + '\r\n' + videoUrl2 + '\r\n' + videoUrl3;
-                    if (team.indexOf('mu') > -1 || team.indexOf('Mu') > -1) {
-                      message = message + '\r\n' + 'MU vô đối';
-                    }
-                    api.sendMessage(message, event.threadID);
-                  }
-                }
-              }
-            });
 }
+else if (event.body.indexOf('/bd') > -1) {
+  api.markAsRead(event.threadID, function(err) {
+    if (err) console.log(err);
+  });
+  var team = '';
+  if (event.body.length > 4) {
+    team = event.body.split(' ')[1];
+  }
+  if (team === '') {
+    db.getAllHighlight(0, 20, function(err, rows) {
+      if (err) {
+        console.log(err);
+      }
+      else {
+        for (var i = 0; i < rows.length; i++) {
+          var videoUrl2 = rows[i].VideoURL2;
+          var videoUrl3 = rows[i].VideoURL3;
+          if (videoUrl2 === null || videoUrl2 === 'null') {
+            videoUrl2 = "";
+          }
+          if (videoUrl3 === 'null' || videoUrl3 === null) {
+            videoUrl3 = "";
+          }
+          api.sendMessage(rows[i].Title + '\r\n' + rows[i].VideoURL1 + '\r\n' + videoUrl2 + '\r\n' + videoUrl3, event.threadID);
+        }
+      }
+    });
+  }
+  else {
+    db.getHighLightByTeam(team, function(err, rows) {
+      if (err) {
+        api.sendMessage(team + ' có đá đéo đâu mà có. ngu', event.threadID);
+      }
+      else {
+        if (rows.length === 0) {
+          api.sendMessage(team + ' có đá đéo đâu mà có. ngu', event.threadID);
+        }
+        else {
+          for (var i = 0; i < rows.length; i++) {
+            var videoUrl2 = rows[i].VideoURL2;
+            var videoUrl3 = rows[i].VideoURL3;
+            if (videoUrl2 === null || videoUrl2 === 'null') {
+              videoUrl2 = "";
+            }
+            if (videoUrl3 === 'null' || videoUrl3 === null) {
+              videoUrl3 = "";
+            }
+            var message = rows[i].Title + '\r\n' + rows[i].VideoURL1 + '\r\n' + videoUrl2 + '\r\n' + videoUrl3;
+            if (team.indexOf('mu') > -1 || team.indexOf('Mu') > -1) {
+              message = message + '\r\n' + 'MU vô đối';
+            }
+            api.sendMessage(message, event.threadID);
+          }
+        }
+      }
+    });
+  }
 }
 else if (event.body.indexOf('/tt') > -1) {
   api.markAsRead(event.threadID, function(err) {
