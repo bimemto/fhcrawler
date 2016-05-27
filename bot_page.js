@@ -7,39 +7,39 @@ fs.exists('botpage.json', function(exists) {
   if (exists) {
     var appstate = JSON.parse(fs.readFileSync('botpage.json', 'utf8'));
     if(appstate){
-       login({appState: appstate}, function callback (err, api) {
-          if(err){
-            switch (err.error) {
-              case 'login-approval':
-              console.log('Enter code > ');
-              rl.on('line', function(line){
-                err.continue(line);
-                rl.close();
-            });
-              break;
-          }
+     login({appState: appstate}, function callback (err, api) {
+      if(err){
+        switch (err.error) {
+          case 'login-approval':
+          console.log('Enter code > ');
+          rl.on('line', function(line){
+            err.continue(line);
+            rl.close();
+        });
+          break;
       }
-      doAction(api);
-  })} else {
-          login({
-            email: "+841656123802",
-            password: "CG7U8rdbB7maAE"
-        }, function callback(err, api) {
-            if(err){
-              switch (err.error) {
-                case 'login-approval':
-                console.log('Enter code > ');
-                rl.on('line', function(line){
-                  err.continue(line);
-                  rl.close();
-              });
-                break;
-            }
+  }
+  doAction(api);
+})} else {
+      login({
+        email: "+841656123802",
+        password: "CG7U8rdbB7maAE"
+    }, function callback(err, api) {
+        if(err){
+          switch (err.error) {
+            case 'login-approval':
+            console.log('Enter code > ');
+            rl.on('line', function(line){
+              err.continue(line);
+              rl.close();
+          });
+            break;
         }
-        doAction(api);
-    });
-      }
-  } else {
+    }
+    doAction(api);
+});
+  }
+} else {
     login({
       email: "+841656123802",
       password: "CG7U8rdbB7maAE"
@@ -83,9 +83,9 @@ function doAction(api){
                         return stopListening();
                     }
                     else if (event.body.indexOf('/kq') > -1) {
-                        // api.markAsRead(event.threadID, function(err) {
-                        //     if (err) console.log(err);
-                        // });
+                        api.markAsRead(event.threadID, function(err) {
+                            if (err) console.log(err);
+                        });
                         if (event.body.length > 4) {
                             var dayStr = event.body.split(' ')[1];
                             dayBefore = dayStr.substr(1, dayStr.length);
@@ -124,29 +124,29 @@ function doAction(api){
                         // api.markAsRead(event.threadID, function(err) {
                         //     if (err) console.log(err);
                         // });
-                        var team = '';
-                        if (event.body.length > 4) {
-                            team = event.body.split(' ')[1];
-                        }
-                        if (team === '') {
-                            db.getAllHighlight(0, 20, function(err, rows) {
-                                if (err) {
-                                    console.log(err);
-                                }
-                                else {
-                                    for (var i = 0; i < rows.length; i++) {
-                                        var videoUrl2 = rows[i].VideoURL2;
-                                        var videoUrl3 = rows[i].VideoURL3;
-                                        if (videoUrl2 === null || videoUrl2 === 'null') {
-                                            videoUrl2 = "";
-                                        }
-                                        if (videoUrl3 === 'null' || videoUrl3 === null) {
-                                            videoUrl3 = "";
-                                        }
-                                        api.sendMessage(rows[i].Title + '\r\n' + rows[i].VideoURL1 + '\r\n' + videoUrl2 + '\r\n' + videoUrl3, event.threadID);
-                                    }
-                                }
-                            });
+var team = '';
+if (event.body.length > 4) {
+    team = event.body.split(' ')[1];
+}
+if (team === '') {
+    db.getAllHighlight(0, 20, function(err, rows) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            for (var i = 0; i < rows.length; i++) {
+                var videoUrl2 = rows[i].VideoURL2;
+                var videoUrl3 = rows[i].VideoURL3;
+                if (videoUrl2 === null || videoUrl2 === 'null') {
+                    videoUrl2 = "";
+                }
+                if (videoUrl3 === 'null' || videoUrl3 === null) {
+                    videoUrl3 = "";
+                }
+                api.sendMessage(rows[i].Title + '\r\n' + rows[i].VideoURL1 + '\r\n' + videoUrl2 + '\r\n' + videoUrl3, event.threadID);
+            }
+        }
+    });
 }
 else {
     db.getHighLightByTeam(team, function(err, rows) {
@@ -182,32 +182,32 @@ else if (event.body.indexOf('/tt') > -1) {
     // api.markAsRead(event.threadID, function(err) {
     //     if (err) console.log(err);
     // });
-    var timestamp = Math.floor(Date.now() / 1000);
-    var opts = {
-        mode: 'save',
-        url: 'http://www.24h.com.vn/ttcb/thoitiet/thoi-tiet-ha-noi',
-        viewport_width: 1440,
-        delay: 1000,
-        selector: '#div_box_ban_tin_thoi_tiet',
-        scrape: true,
-        out_file: './weather' + timestamp + '.png'
-    };
+var timestamp = Math.floor(Date.now() / 1000);
+var opts = {
+    mode: 'save',
+    url: 'http://www.24h.com.vn/ttcb/thoitiet/thoi-tiet-ha-noi',
+    viewport_width: 1440,
+    delay: 1000,
+    selector: '#div_box_ban_tin_thoi_tiet',
+    scrape: true,
+    out_file: './weather' + timestamp + '.png'
+};
 
-    banquo.capture(opts, function(err, bodyMarkup) {
-        if (err) {
-            console.log(err)
-        }
-        else {
-            setTimeout(function() {
-                var msg = {
-                    body: "Dự báo thời tiết",
-                    attachment: fs.createReadStream('weather' + timestamp + '.png')
-                }
-                api.sendMessage(msg, event.threadID);
-            }, 1500);
+banquo.capture(opts, function(err, bodyMarkup) {
+    if (err) {
+        console.log(err)
+    }
+    else {
+        setTimeout(function() {
+            var msg = {
+                body: "Dự báo thời tiết",
+                attachment: fs.createReadStream('weather' + timestamp + '.png')
+            }
+            api.sendMessage(msg, event.threadID);
+        }, 1500);
 
-        }
-    });
+    }
+});
 }
 }
 

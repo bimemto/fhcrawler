@@ -133,10 +133,10 @@ function doAction(api){
           var timestamp = Math.floor(Date.now() / 1000);
           var opts = {
             mode: 'save',
-            url: 'http://ketqua.net/xo-so-truyen-thong.php?ngay=' + getDateTime(dayBefore),
+            url: 'http://ketqua.vn/in-ve-so/22/1/' + getDateTime(dayBefore) + '/1',
             viewport_width: 1440,
             delay: 1000,
-            selector: '#result_tab_mb',
+            selector: '#ketquavn-print',
             scrape: true,
             out_file: './kqxs' + timestamp + '.png'
           };
@@ -302,7 +302,7 @@ function getDateTime() {
   var day = date.getDate();
   day = (day < 10 ? "0" : "") + day;
 
-  return day + "-" + month + "-" + year;
+  return year + "-" + month + "-" + day;
 
 }
 
