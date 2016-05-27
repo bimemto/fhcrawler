@@ -290,7 +290,7 @@ break;
 });
 }
 
-function getDateTime() {
+function getDateTime(dayBefore) {
 
   var date = new Date();
 
@@ -299,7 +299,7 @@ function getDateTime() {
   var month = date.getMonth() + 1;
   month = (month < 10 ? "0" : "") + month;
 
-  var day = date.getDate();
+  var day = date.getDate() - dayBefore;
   day = (day < 10 ? "0" : "") + day;
 
   return year + "-" + month + "-" + day;
