@@ -291,7 +291,7 @@ else if (event.body.indexOf('/tt') > -1) {
     if(error) {
       console.log(error);
     } else {
-        $ = cheerio.load(body, { decodeEntities: false });
+        var $ = cheerio.load(body, { decodeEntities: false });
         var tho = $('font').attr('color', 'Blue').html().split('<br>').join('\r\n');
         api.sendMessage(tho, event.threadID);
     }
