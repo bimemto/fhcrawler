@@ -145,32 +145,32 @@ function doAction(api){
               }
               api.sendMessage(msg, event.threadID);
             }
-            
+
           });
-          // var opts = {
-          //   mode: 'save',
-          //   url: 'http://ketqua.vn/in-ve-so/22/1/' + getDateTime(dayBefore) + '/1',
-          //   viewport_width: 640,
-          //   delay: 1000,
-          //   scrape: true,
-          //   out_file: './kqxs' + timestamp + '.png'
-          // };
+        // var opts = {
+        //   mode: 'save',
+        //   url: 'http://ketqua.vn/in-ve-so/22/1/' + getDateTime(dayBefore) + '/1',
+        //   viewport_width: 640,
+        //   delay: 1000,
+        //   scrape: true,
+        //   out_file: './kqxs' + timestamp + '.png'
+        // };
 
-          // banquo.capture(opts, function(err, bodyMarkup) {
-          //   if (err) {
-          //     console.log(err)
-          //   }
-          //   else {
-          //     setTimeout(function() {
-          //       var msg = {
-          //         body: "Kết quả",
-          //         attachment: fs.createReadStream('kqxs' + timestamp + '.png')
-          //       }
-          //       api.sendMessage(msg, event.threadID);
-          //     }, 1200);
+        // banquo.capture(opts, function(err, bodyMarkup) {
+        //   if (err) {
+        //     console.log(err)
+        //   }
+        //   else {
+        //     setTimeout(function() {
+        //       var msg = {
+        //         body: "Kết quả",
+        //         attachment: fs.createReadStream('kqxs' + timestamp + '.png')
+        //       }
+        //       api.sendMessage(msg, event.threadID);
+        //     }, 1200);
 
-          //   }
-          // });
+        //   }
+        // });
 }
 else if (event.body.indexOf('/bd') > -1) {
   api.markAsRead(event.threadID, function(err) {
@@ -291,9 +291,9 @@ else if (event.body.indexOf('/tt') > -1) {
     if(error) {
       console.log(error);
     } else {
-        var $ = cheerio.load(body, { decodeEntities: false });
-        var tho = $('font').attr('color', 'Blue').html().split('<br>').join('\r\n');
-        api.sendMessage(tho, event.threadID);
+      var $ = cheerio.load(body, { decodeEntities: false });
+      var tho = $('font').attr('color', 'Blue').html().split('<br>').join('\r\n');
+      api.sendMessage(tho, event.threadID);
     }
   });
 }
@@ -469,5 +469,19 @@ bot.on('message', function(message) {
         }
       }
     });
+} else if(message.text.indexOf('/fc') > -1){
+  var degree = 1;
+  if (message.text.length > 4) {
+    degree = message.text.split(' ')[1];
+  }
+  var converted = (degree - 32) * (5/9);
+  bot.sendMessage(message.chat.id, converted);
+} else if(message.text.indexOf('/cf') > -1){
+  var degree = 1;
+  if (message.text.length > 4) {
+    degree = message.text.split(' ')[1];
+  }
+  var converted = degree * 9/5 + 32;
+  bot.sendMessage(message.chat.id, converted);
 }
 });
