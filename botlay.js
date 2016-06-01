@@ -475,13 +475,13 @@ bot.on('message', function(message) {
     degree = message.text.split(' ')[1];
   }
   var converted = (degree - 32) * (5/9);
-  bot.sendMessage(message.chat.id, converted);
+  bot.sendMessage(message.chat.id, degree + ' độ ép = ' + converted + ' độ xê');
 } else if(message.text.indexOf('/cf') > -1){
   var degree = 1;
   if (message.text.length > 4) {
     degree = message.text.split(' ')[1];
   }
   var converted = degree * 9/5 + 32;
-  bot.sendMessage(message.chat.id, converted);
+  bot.sendMessage(message.chat.id, degree + ' độ xê = ' + converted + ' độ ép');
 }
 });
