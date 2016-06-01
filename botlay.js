@@ -266,7 +266,7 @@ else if (event.body.indexOf('/tt') > -1) {
   });
   var words = '';
   if (event.body.length > 5) {
-    words = event.body.split(' ')[1];
+    words = event.body.substring(event.body.indexOf(' ') + 1);
   }
   request.post('http://thomay.vn/index.php?q=tutaochude2', 
     {form: {
