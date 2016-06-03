@@ -77,6 +77,20 @@ getPesFund = function(daysAgo, callback) {
 	});
 }
 
+getSentence1 = function(callback) {
+	var query = "SELECT * FROM DanhNgon WHERE id = 6";
+	connection.query(query, function(err, rows) {
+		callback(err, rows);
+	});
+}
+
+getSentence2 = function(callback) {
+	var query = "SELECT * FROM DanhNgon WHERE id = 4";
+	connection.query(query, function(err, rows) {
+		callback(err, rows);
+	});
+}
+
 closeDB = function() {
 	connection.end();
 };
@@ -105,3 +119,5 @@ module.exports.getAllHighlight = getAllHighlight;
 module.exports.getAllVideos = getAllVideos;
 module.exports.getHighLightByTeam = getHighLightByTeam;
 module.exports.getPesFund = getPesFund;
+module.exports.getSentence1 = getSentence1;
+module.exports.getSentence2 = getSentence2;

@@ -488,13 +488,16 @@ bot.on('message', function(message) {
 });
 
 var job = new CronJob({
-  cronTime: '00 30 07 * * 0-6',
+  cronTime: '00 05 18 * * 0-6',
   onTick: function() {
-      var message = '- Điều khó nhất là gì? Là vay tiền.' + '\r\n' + '
-Người sẵn sàng cho bạn vay tiền, là quí nhân của bạn.
-Không những cho bạn vay tiền, họ còn không đặt ra bất kì điều kiện gì cho bạn. Chắc chắn là quí nhân của các quí nhân.
-Ngày nay, người như vậy không còn nhiều. Nếu gặp được, nhất định bạn phải trân trọng.';
-      bot.sendMessage('-41541244', message);
+    db.getSentence1(function(error, rows){
+      if (error) {
+        console.log(error);
+      } else {
+        var message = rows[0].Text;
+        bot.sendMessage('-41541244', message);  
+      }
+    });
   },
   start: true,
 });
@@ -503,10 +506,14 @@ job.start();
 var job1 = new CronJob({
   cronTime: '00 31 07 * * 0-6',
   onTick: function() {
-      var message = 'Người cho bạn vay tiền khi bạn gặp khó khăn, không phải vì người ta lắm tiền. Mà vì người ta muốn Giúp Bạn Một Tay.
-Thứ người ta cho bạn vay, không phải là tiền, mà là Lòng tin, sự khích lệ, sự tin tưởng, là đánh cược vào con người bạn
-của-ngày-mai.';
-      bot.sendMessage('-41541244', message);
+    db.getSentence2(function(error, rows){
+      if (error) {
+        console.log(error);
+      } else {
+        var message = rows[0].Text;
+        bot.sendMessage('-41541244', message);  
+      }
+    });
   },
   start: true,
 });
