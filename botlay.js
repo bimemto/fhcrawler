@@ -488,7 +488,7 @@ bot.on('message', function(message) {
 });
 
 var job = new CronJob({
-  cronTime: '00 05 18 * * 0-6',
+  cronTime: '00 30 07 * * 0-6',
   onTick: function() {
     db.getSentence1(function(error, rows){
       if (error) {
