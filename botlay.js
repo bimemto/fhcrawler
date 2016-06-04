@@ -1,5 +1,6 @@
 'use strict'
 
+var YQL = require("yql");
 var login = require("facebook-chat-api");
 var http = require('http');
 var cheerio = require('cheerio');
@@ -235,31 +236,22 @@ else if (event.body.indexOf('/tt') > -1) {
   api.markAsRead(event.threadID, function(err) {
     if (err) console.log(err);
   });
-  var timestamp = Math.floor(Date.now() / 1000);
-  var opts = {
-    mode: 'save',
-    url: 'http://www.24h.com.vn/ttcb/thoitiet/thoi-tiet-ha-noi',
-    viewport_width: 1440,
-    delay: 1000,
-    selector: '#div_box_ban_tin_thoi_tiet',
-    scrape: true,
-    out_file: './weather' + timestamp + '.png'
-  };
+  var query = new YQL("select * from weather.forecast where (woeid = 2347727) and u='c'");
 
-  banquo.capture(opts, function(err, bodyMarkup) {
-    if (err) {
-      console.log(err)
-    }
-    else {
-      setTimeout(function() {
-        var msg = {
-          body: "Dự báo thời tiết",
-          attachment: fs.createReadStream('weather' + timestamp + '.png')
-        }
-        api.sendMessage(msg, event.threadID);
-      }, 1200);
-
-    }
+  query.exec(function(err, data) {
+    var location = data.query.results.channel.location;
+    var wind = data.query.results.channel.wind;
+    var condition = data.query.results.channel.item.condition;
+    var forecast = data.query.results.channel.item.forecast;
+    var forecastMsg = '';
+    forecastMsg = 'Mai:' + '\r\n' + 'Cao: ' + forecast[0].high + ' độ xê' + '\r\n' + 'Thấp: ' + forecast[0].low + ' độ xê' + '\r\n' + forecast[0].text + '\r\n' + '\r\n'
+    + 'Ngày kia:' + '\r\n' + 'Cao: ' + forecast[1].high + ' độ xê' + '\r\n' + 'Thấp: ' + forecast[1].low + ' độ xê' + '\r\n' + forecast[1].text + '\r\n' + '\r\n'
+    + 'Ngày kìa:' + '\r\n' + 'Cao: ' + forecast[2].high + ' độ xê' + '\r\n' + 'Thấp: ' + forecast[2].low + ' độ xê' + '\r\n' + forecast[2].text + '\r\n';
+    var weatherMsg = 'Hôm nay:' + '\r\n'
+    + condition.temp + ' độ xê' + '\r\n'
+    + 'Gió ' + degToCompass(wind.direction) + ' ' + wind.speed + ' km/h' + '\r\n'
+    + condition.text + '\r\n';
+    api.sendMessage(weatherMsg + '\r\n' + forecastMsg, event.threadID);
   });
 } else if(event.body.indexOf('/tho') > -1){
   api.markAsRead(event.threadID, function(err) {
@@ -488,7 +480,7 @@ bot.on('message', function(message) {
 });
 
 var job = new CronJob({
-  cronTime: '00 30 07 * * 0-6',
+  cronTime: '00 00 07 * * 0-6',
   onTick: function() {
     db.getSentence1(function(error, rows){
       if (error) {
@@ -504,7 +496,7 @@ var job = new CronJob({
 job.start();
 
 var job1 = new CronJob({
-  cronTime: '00 31 07 * * 0-6',
+  cronTime: '00 01 07 * * 0-6',
   onTick: function() {
     db.getSentence2(function(error, rows){
       if (error) {
@@ -518,3 +510,9 @@ var job1 = new CronJob({
   start: true,
 });
 job1.start();
+
+function degToCompass(num) {
+  var val = Math.floor((num / 22.5) + 0.5);
+  var arr = ["Bắc", "Bắc Bắc Đông", "Đông Bắc", "Đông Đông Bắc", "Đông", "Đông Đông Nam", "Đông Nam", "Nam Nam Đông", "Nam", "Nam Nam Tây", "Tây Nam", "Tây Tây Nam", "Tây", "Tây Tây Bắc", "Tây Bắc", "Bắc Bắc Tây"];
+  return arr[(val % 16)];
+}
