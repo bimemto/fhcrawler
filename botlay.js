@@ -285,8 +285,10 @@ else if (event.body.indexOf('/tt') > -1) {
       console.log(error);
     } else {
       var $ = cheerio.load(body, { decodeEntities: false });
-      var tho = $('font').attr('color', 'Blue').html().split('<br>').join('\r\n');
-      api.sendMessage(tho, event.threadID);
+      if($('font').attr('color', 'Blue').html()){
+        var tho = $('font').attr('color', 'Blue').html().split('<br>').join('\r\n');
+        api.sendMessage(tho, event.threadID);
+      }
     }
   });
 }
