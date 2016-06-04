@@ -288,6 +288,8 @@ else if (event.body.indexOf('/tt') > -1) {
       if($('font').attr('color', 'Blue').html()){
         var tho = $('font').attr('color', 'Blue').html().split('<br>').join('\r\n');
         api.sendMessage(tho, event.threadID);
+      } else {
+         api.sendMessage('Khó thế éo làm đc', event.threadID);
       }
     }
   });
