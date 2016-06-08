@@ -12,7 +12,7 @@ api.use({
   client_secret: '0e285377af0843be8d2af6cba0286eb3'
 });
 
-var redirect_uri = 'http://bu.1ly.co/handleauth';
+var redirect_uri = 'http://bu.1ly.co:8080/handleauth';
 
 exports.authorize_user = function(req, res) {
   res.redirect(api.get_authorization_url(redirect_uri, { scope: ['likes'], state: 'a state' }));
