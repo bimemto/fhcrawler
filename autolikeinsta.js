@@ -3,9 +3,9 @@ var express = require('express');
 var api = require('instagram-node').instagram();
 var app = express();
 
-app.configure(function() {
-  // The usual...
-});
+// app.configure(function() {
+//   // The usual...
+// });
 
 api.use({
   client_id: '36dd65558ed94677b70a9ad071b01de0',
@@ -35,6 +35,15 @@ app.get('/authorize_user', exports.authorize_user);
 // This is your redirect URI
 app.get('/handleauth', exports.handleauth);
 
-http.createServer(app).listen(app.get('port'), function(){
-  console.log("Express server listening on port " + app.get('port'));
-});
+var server = app.listen(8080, function() {
+
+    var host = server.address().address
+    var port = server.address().port
+
+    console.log("Example app listening at http://%s:%s", host, port)
+
+})
+
+// http.createServer(app).listen(app.get('port'), function(){
+//   console.log("Express server listening on port " + app.get('port'));
+// });
