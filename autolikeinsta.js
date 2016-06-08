@@ -21,7 +21,7 @@ api.use({
 var redirect_uri = 'http://bu.1ly.co:8080/handleauth';
 
 exports.authorize_user = function(req, res) {
-  res.redirect(api.get_authorization_url(redirect_uri, { scope: ['likes', 'basic', 'comments'], state: 'a state' }));
+  res.redirect(api.get_authorization_url(redirect_uri, { scope: ['likes+basic'], state: 'test' }));
 };
 
 exports.handleauth = function(req, res) {
