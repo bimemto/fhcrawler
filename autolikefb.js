@@ -33,7 +33,7 @@ function run(){
 });
 }
 
-new CronJob('03 * * * * *', function() {
+new CronJob('*/5 * * * * *', function() {
   run();
 }, null, true);
 
