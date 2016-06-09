@@ -289,10 +289,10 @@ else if (event.body.indexOf('/tt') > -1) {
         var tho = $('font').attr('color', 'Blue').html().split('<br>').join('\r\n');
         api.sendMessage(tho, event.threadID);
       } else {
-         api.sendMessage('Khó thế éo làm đc', event.threadID);
-      }
-    }
-  });
+       api.sendMessage('Khó thế éo làm đc', event.threadID);
+     }
+   }
+ });
 }
 else {
   for (var i = 0; i < filters.length; i++) {
@@ -360,16 +360,38 @@ function wordInString(s, word) {
 bot.on('message', function(message) {
   var chat_id = message.chat.id;
   console.log(message);
-  if(message.text.indexOf('/fh') > -1){
-    var team = '';
-    if (message.text.length > 4) {
-      team = message.text.split(' ')[1];
-      db.getHighLightByTeam(team, function(err, rows) {
-        if (err) {
-          bot.sendMessage(message.chat.id, team + ' có đá đéo đâu mà có. ngu');
-        }
-        else {
-          if (rows.length === 0) {
+  if(message.text){
+    if(message.text.indexOf('/fh') > -1){
+      var team = '';
+      if (message.text.length > 4) {
+        team = message.text.split(' ')[1];
+        db.getHighLightByTeam(team, function(err, rows) {
+          if (err) {
+            bot.sendMessage(message.chat.id, team + ' có đá đéo đâu mà có. ngu');
+          }
+          else {
+            if (rows.length === 0) {
+              bot.sendMessage(message.chat.id, team + ' có đá đéo đâu mà có. ngu');
+            }
+            else {
+              for (var i = 0; i < rows.length; i++) {
+                var videoUrl2 = rows[i].VideoURL2;
+                var videoUrl3 = rows[i].VideoURL3;
+                if (videoUrl2 === null || videoUrl2 === 'null') {
+                  videoUrl2 = "";
+                }
+                if (videoUrl3 === 'null' || videoUrl3 === null) {
+                  videoUrl3 = "";
+                }
+                var msg = rows[i].Title + '\r\n' + rows[i].VideoURL1 + '\r\n' + videoUrl2 + '\r\n' + videoUrl3;
+                bot.sendMessage(message.chat.id, msg);
+              }
+            }
+          }
+        });
+      } else {
+        db.getAllHighlight(0, 20, function(err, rows) {
+          if (err) {
             bot.sendMessage(message.chat.id, team + ' có đá đéo đâu mà có. ngu');
           }
           else {
@@ -382,90 +404,69 @@ bot.on('message', function(message) {
               if (videoUrl3 === 'null' || videoUrl3 === null) {
                 videoUrl3 = "";
               }
-              var msg = rows[i].Title + '\r\n' + rows[i].VideoURL1 + '\r\n' + videoUrl2 + '\r\n' + videoUrl3;
+              bot.sendMessage(message.chat.id, rows[i].Title + '\r\n' + rows[i].VideoURL1 + '\r\n' + videoUrl2 + '\r\n' + videoUrl3);
+            }
+          }
+        });
+      }
+    } else if(message.text.indexOf('/pes') > -1){
+      var number = 1;
+      if (message.text.length > 4) {
+        number = message.text.split(' ')[1];
+      }
+      db.getPesFund(number, function(err, rows) {
+        if (err) {
+          bot.sendMessage(message.chat.id, 'ko có gì nha');
+        }
+        else {
+          if (rows.length === 0) {
+            bot.sendMessage(message.chat.id, 'ko có gì nha');
+          }
+          else {
+            for (var i = 0; i < rows.length; i++) {
+              var changes = rows[i].Changes;
+              var duynk = rows[i].DuyNK;
+              var diepdh = rows[i].DiepDH;
+              var khanhpt = rows[i].KhanhPT;
+              var duypb = rows[i].DuyPB;
+              var total = 'Quỹ còn: ' + rows[i].Total;
+              var note = 'Note: ' + rows[i].Note;
+              var date = dateFormat(rows[i].TimeAdded, "dddd dd-mm-yyyy");
+              if(changes !== '0'){
+                if(changes.indexOf('-') > -1){
+                  changes = 'Chơi hết: ' + rows[i].Changes;
+                } else {
+                  changes = 'Thêm quỹ: ' + rows[i].Changes;
+                }
+              } else {
+                changes = '';
+              }
+              if(duynk !== '0'){
+                duynk = 'DuyNK: đã đóng ' + rows[i].DuyNK + '\r\n';
+              } else {
+                duynk = '';
+              }
+              if(diepdh !== '0'){
+                diepdh = 'DiepDH: đã đóng ' + rows[i].DiepDH + '\r\n';
+              } else {
+                diepdh = '';
+              }
+              if(khanhpt !== '0'){
+                khanhpt = 'KhanhPT: đã đóng ' + rows[i].KhanhPT + '\r\n';
+              } else {
+                khanhpt = '';
+              }
+              if(duypb !== '0'){
+                duypb = 'DuyPB: đã đóng ' + rows[i].DuyPB + '\r\n';
+              } else {
+                duypb = '';
+              }
+              var msg = rows[i].STT + '. ' + date + ':' + '\r\n\r\n' + changes + '\r\n' + duynk + diepdh + khanhpt + duypb + total + '\r\n' + note + '\r\n';
               bot.sendMessage(message.chat.id, msg);
             }
           }
         }
       });
-    } else {
-      db.getAllHighlight(0, 20, function(err, rows) {
-        if (err) {
-          bot.sendMessage(message.chat.id, team + ' có đá đéo đâu mà có. ngu');
-        }
-        else {
-          for (var i = 0; i < rows.length; i++) {
-            var videoUrl2 = rows[i].VideoURL2;
-            var videoUrl3 = rows[i].VideoURL3;
-            if (videoUrl2 === null || videoUrl2 === 'null') {
-              videoUrl2 = "";
-            }
-            if (videoUrl3 === 'null' || videoUrl3 === null) {
-              videoUrl3 = "";
-            }
-            bot.sendMessage(message.chat.id, rows[i].Title + '\r\n' + rows[i].VideoURL1 + '\r\n' + videoUrl2 + '\r\n' + videoUrl3);
-          }
-        }
-      });
-    }
-  } else if(message.text.indexOf('/pes') > -1){
-    var number = 1;
-    if (message.text.length > 4) {
-      number = message.text.split(' ')[1];
-    }
-    db.getPesFund(number, function(err, rows) {
-      if (err) {
-        bot.sendMessage(message.chat.id, 'ko có gì nha');
-      }
-      else {
-        if (rows.length === 0) {
-          bot.sendMessage(message.chat.id, 'ko có gì nha');
-        }
-        else {
-          for (var i = 0; i < rows.length; i++) {
-            var changes = rows[i].Changes;
-            var duynk = rows[i].DuyNK;
-            var diepdh = rows[i].DiepDH;
-            var khanhpt = rows[i].KhanhPT;
-            var duypb = rows[i].DuyPB;
-            var total = 'Quỹ còn: ' + rows[i].Total;
-            var note = 'Note: ' + rows[i].Note;
-            var date = dateFormat(rows[i].TimeAdded, "dddd dd-mm-yyyy");
-            if(changes !== '0'){
-              if(changes.indexOf('-') > -1){
-                changes = 'Chơi hết: ' + rows[i].Changes;
-              } else {
-                changes = 'Thêm quỹ: ' + rows[i].Changes;
-              }
-            } else {
-              changes = '';
-            }
-            if(duynk !== '0'){
-              duynk = 'DuyNK: đã đóng ' + rows[i].DuyNK + '\r\n';
-            } else {
-              duynk = '';
-            }
-            if(diepdh !== '0'){
-              diepdh = 'DiepDH: đã đóng ' + rows[i].DiepDH + '\r\n';
-            } else {
-              diepdh = '';
-            }
-            if(khanhpt !== '0'){
-              khanhpt = 'KhanhPT: đã đóng ' + rows[i].KhanhPT + '\r\n';
-            } else {
-              khanhpt = '';
-            }
-            if(duypb !== '0'){
-              duypb = 'DuyPB: đã đóng ' + rows[i].DuyPB + '\r\n';
-            } else {
-              duypb = '';
-            }
-            var msg = rows[i].STT + '. ' + date + ':' + '\r\n\r\n' + changes + '\r\n' + duynk + diepdh + khanhpt + duypb + total + '\r\n' + note + '\r\n';
-            bot.sendMessage(message.chat.id, msg);
-          }
-        }
-      }
-    });
 } else if(message.text.indexOf('/fc') > -1){
   var degree = 1;
   if (message.text.length > 4) {
@@ -480,6 +481,7 @@ bot.on('message', function(message) {
   }
   var converted = degree * 9/5 + 32;
   bot.sendMessage(message.chat.id, degree + ' độ xê = ' + converted + ' độ ép');
+}
 }
 });
 
