@@ -40,22 +40,27 @@ app.get('/euro/api/get_live_url', function(req, res){
                     callback: function(error, result, $){
                         if($){
                             var iframe2Url = $('iframe').attr('src');
-                            if(iframe2Url.indexOf('youtube.com') > -1  || iframe2Url.indexOf('http://tv.keonhacai.com/talk.php') > -1){
-                                var data = {live_url: iframe2Url};
-                                res.send(data);  
-                            } else {
-                                if(iframe2Url.indexOf('http://tv.keonhacai.com/hot') > -1){
-                                    iframe2Url = 'http://tv.keonhacai.com/hot/k1_' + server + ".php";
+                            if(iframe2Url){
+                                if(iframe2Url.indexOf('youtube.com') > -1  || iframe2Url.indexOf('http://tv.keonhacai.com/talk.php') > -1){
+                                    var data = {live_url: iframe2Url};
+                                    res.send(data);  
+                                } else {
+                                    if(iframe2Url.indexOf('http://tv.keonhacai.com/hot') > -1){
+                                        iframe2Url = 'http://tv.keonhacai.com/hot/k1_' + server + ".php";
+                                    }
+                                    link_crawler.queue(iframe2Url);    
                                 }
-                                link_crawler.queue(iframe2Url);    
+                            } else {
+                                var data = {live_url: ''};
+                                res.send(data);
                             }
                         }
                     }
                 });
-                link_crawler.queue(iframe1Url);
-            }
-        }
-    }).queue(details_url);
+link_crawler.queue(iframe1Url);
+}
+}
+}).queue(details_url);
 })
 
 app.get('/euro/api/run_crawler', function(req, res){
