@@ -17,7 +17,7 @@ var link_crawler = new Crawler({
     callback: function(error, result, $){
         if($){
             var iframe2Url = $('iframe').attr('src');
-            if(iframe2Url.indexOf('youtube.com') > -1){
+            if(iframe2Url.indexOf('youtube.com') > -1 || iframe2Url.indexOf('tv.keonhacai.com') > -1){
                 console.log('Link: ', iframe2Url);   
             } else {
                 link_crawler.queue(iframe2Url);    
@@ -105,6 +105,15 @@ var c = new Crawler({
 }
 }
 });
+
+db.connectDB(function(error, result) {
+        if (error) {
+            console.log(error);
+        }
+        else {
+            c.queue('http://keonhacai.com');
+        }
+    });
 
 crawl = function() {
     db.connectDB(function(error, result) {
