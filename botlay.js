@@ -40,7 +40,7 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-var filters = ["duy ", "gamota", "android", "salem", "app", "native", "họp"];
+var filters = ["duy", "gamota", "android", "salem", "app", "native", "họp"];
 var blockGroups = ['945316938871705', '127905330720913']
 
 var readline = require("readline");
