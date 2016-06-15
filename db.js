@@ -41,6 +41,33 @@ insertHighlight = function(Title, Date, Desc, Thumb, VideoURL1, VideoURL2, Video
 	});
 };
 
+insertLiveMatch = function(team_home, team_away, logo_home, logo_away, time, league, details_url, live_stream_url) {
+	var data = {
+		team_home: team_home,
+		team_away: team_away,
+		logo_home: logo_home,
+		logo_away: logo_away,
+		time: time,
+		league: league,
+		details_url: details_url,
+		live_stream_url: live_stream_url
+	};
+	connection.query("DELETE From live_stream", function(err, res) {
+		if(err){
+			console.log(err);
+		} else {
+			connection.query('INSERT INTO live_stream SET ?', data, function(err, res) {
+				if (err){
+					console.log(err);
+				}
+				else {
+					console.log('A new entity has been added.');
+				}
+			});
+		}
+	});
+};
+
 checkExist = function(title, callback) {
 	connection.query("SELECT * From highlight WHERE Title='" + title + "'", function(err, res) {
 		callback(res.length);
@@ -55,6 +82,12 @@ getAllHighlight = function(offset, limit, callback) {
 
 getAllVideos = function(offset, limit, callback) {
 	connection.query("SELECT * From highlight LIMIT " + limit + " OFFSET " + offset, function(err, rows) {
+		callback(err, rows);
+	});
+}
+
+getMatchList = function(callback) {
+	connection.query("SELECT * From live_stream", function(err, rows) {
 		callback(err, rows);
 	});
 }
@@ -113,10 +146,12 @@ function getDateTime() {
 
 module.exports.connectDB = connectDB;
 module.exports.insertHighlight = insertHighlight;
+module.exports.insertLiveMatch = insertLiveMatch;
 module.exports.closeDB = closeDB;
 module.exports.checkExist = checkExist;
 module.exports.getAllHighlight = getAllHighlight;
 module.exports.getAllVideos = getAllVideos;
+module.exports.getMatchList = getMatchList;
 module.exports.getHighLightByTeam = getHighLightByTeam;
 module.exports.getPesFund = getPesFund;
 module.exports.getSentence1 = getSentence1;
