@@ -2,6 +2,7 @@ var db = require("./db.js");
 var express = require('express');
 var app = express();
 var Crawler = require("crawler");
+var liveCrawler = require("./live_football.js");
 
 app.get('/euro/api/match_list', function(req, res) {
     db.getMatchList(function(err, rows) {
@@ -55,6 +56,10 @@ app.get('/euro/api/get_live_url', function(req, res){
             }
         }
     }).queue(details_url);
+})
+
+app.get('/euro/api/run_crawler', function(req, res){
+    liveCrawler.crawl();
 })
 
 var server = app.listen(6868, function() {
