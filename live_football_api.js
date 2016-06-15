@@ -60,7 +60,7 @@ app.get('/euro/api/get_live_url', function(req, res){
 
 app.get('/euro/api/run_crawler', function(req, res){
     liveCrawler.crawl();
-    res.sendStatus(200);
+    res.send('OK');
 })
 
 var server = app.listen(6868, function() {
