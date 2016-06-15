@@ -27,7 +27,8 @@ app.get('/euro/api/match_list', function(req, res) {
 
 app.get('/euro/api/get_live_url', function(req, res){
     var details_url = req.param('details_url');
-    console.log('Request: ', details_url);
+    var server = req.param('server');
+    //http://tv.keonhacai.com/hot/k1_1.php
     new Crawler({
         maxConnections: 10,
         callback: function(error, result, $){
@@ -42,6 +43,9 @@ app.get('/euro/api/get_live_url', function(req, res){
                                 var data = {live_url: iframe2Url};
                                 res.send(data);  
                             } else {
+                                if(iframe2Url.indexOf('http://tv.keonhacai.com/hot') > -1){
+                                    iframe2Url = 'http://tv.keonhacai.com/hot/k1_' + server + ".php";
+                                }
                                 link_crawler.queue(iframe2Url);    
                             }
                         }
