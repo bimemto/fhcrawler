@@ -106,15 +106,6 @@ var c = new Crawler({
 }
 });
 
-// db.connectDB(function(error, result) {
-//         if (error) {
-//             console.log(error);
-//         }
-//         else {
-//             c.queue('http://keonhacai.com');
-//         }
-//     });
-
 crawl = function() {
     db.connectDB(function(error, result) {
         if (error) {
