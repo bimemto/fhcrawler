@@ -63,10 +63,10 @@ link_crawler.queue(iframe1Url);
 }).queue(details_url);
 })
 
-app.get('/euro/api/run_crawler', function(req, res){
-    liveCrawler.crawl();
-    res.send('OK');
-})
+// app.get('/euro/api/run_crawler', function(req, res){
+//     liveCrawler.crawl();
+//     res.send('OK');
+// })
 
 var server = app.listen(6868, function() {
 
