@@ -3,10 +3,6 @@ var express = require('express');
 var app = express();
 var Crawler = require("crawler");
 var liveCrawler = require("./live_football.js");
-var bodyParser     =         require("body-parser");
-
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
 
 app.get('/euro/api/match_list', function(req, res) {
     db.getMatchList(function(err, rows) {
@@ -33,7 +29,7 @@ app.get('/euro/api/match_list', function(req, res) {
 app.get('/euro/api/get_live_url', function(req, res){
     var details_url = req.param('details_url');
     var server = req.param('server');
-    //http://tv.keonhacai.com/hot/k1_1.php
+    console.log('server: ' + server);
     new Crawler({
         maxConnections: 10,
         callback: function(error, result, $){
