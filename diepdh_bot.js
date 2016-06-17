@@ -15,7 +15,7 @@ var bodyParser = require("body-parser");
 var express = require('express');
 var app = express();
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 var token = '221326717:AAFywbKelgnmUOigfDpRbCCCyrX_HfTbzK4';
@@ -34,6 +34,7 @@ app.post('/bot',function(req, res){
   if(messenger === 'telegram'){
     bot.sendMessage(group_id, content);
   }
+  res.send('OK');
 });
 
 var server = app.listen(6996, function() {
