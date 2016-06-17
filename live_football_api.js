@@ -29,6 +29,9 @@ app.get('/euro/api/match_list', function(req, res) {
 app.get('/euro/api/get_live_url', function(req, res){
     var details_url = req.param('details_url');
     var server = req.param('server');
+    if(server === undefined || server === 'undefined'){
+        server = 1;
+    }
     console.log('server: ' + server);
     new Crawler({
         maxConnections: 10,
