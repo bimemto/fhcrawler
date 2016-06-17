@@ -3,6 +3,10 @@ var express = require('express');
 var app = express();
 var Crawler = require("crawler");
 var liveCrawler = require("./live_football.js");
+var bodyParser     =         require("body-parser");
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 app.get('/euro/api/match_list', function(req, res) {
     db.getMatchList(function(err, rows) {
@@ -62,11 +66,6 @@ link_crawler.queue(iframe1Url);
 }
 }).queue(details_url);
 })
-
-// app.get('/euro/api/run_crawler', function(req, res){
-//     liveCrawler.crawl();
-//     res.send('OK');
-// })
 
 var server = app.listen(6868, function() {
 

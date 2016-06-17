@@ -11,6 +11,12 @@ var db = require("./db.js")
 var dateFormat = require("dateformat");
 var request = require('request');
 var CronJob = require('cron').CronJob;
+var bodyParser = require("body-parser");
+var express = require('express');
+var app = express();
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 var token = '221326717:AAFywbKelgnmUOigfDpRbCCCyrX_HfTbzK4';
 // Setup polling way
@@ -20,21 +26,22 @@ var bot = new TelegramBot(token, {
 
 var webshot = require('webshot');
 
+app.post('/bot',function(req, res){
+  var messenger = req.body.messenger;
+  var group_id = req.body.group_id;
+  var content = req.body.content;
+  console.log("messenger: = "+messenger+", group_id: "+group_id + ", content: " + content);
+  if(messenger === 'telegram'){
+    bot.sendMessage(group_id, content);
+  }
+});
 
-function download(url, callback) {
-  process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-  http.get(url, function(res) {
-    var data = "";
-    res.on('data', function(chunk) {
-      data += chunk;
-    });
-    res.on("end", function() {
-      callback(data);
-    });
-  }).on("error", function() {
-    callback(null);
-  });
-}
+var server = app.listen(6996, function() {
+  var host = server.address().address
+  var port = server.address().port
+  console.log("Example app listening at http://%s:%s", host, port)
+
+})
 
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -78,41 +85,87 @@ bot.on('message', function(message) {
     }
     var converted = degree * 9/5 + 32;
     bot.sendMessage(message.chat.id, degree + ' độ xê = ' + converted + ' độ ép');
+  } else if (message.text.indexOf('/kq') > -1) {
+    var dayBefore = '';
+    if (message.text.length > 4) {
+      var dayStr = message.text.split(' ')[1];
+      dayBefore = dayStr.substr(1, dayStr.length);
+    }
+    else {
+      dayBefore = 0;
+    }
+    var timestamp = Math.floor(Date.now() / 1000);
+    webshot('http://ketqua.vn/in-ve-so/22/1/' + getDateTime(dayBefore) + '/1', 'kqxs' + timestamp + '.png', function(err) {
+      if(err){
+        console.log(err);
+      } else {
+        // var msg = {
+        //   body: "Kết quả",
+        //   attachment: fs.createReadStream('kqxs' + timestamp + '.png')
+        // }
+        var photo = 'kqxs' + timestamp + '.png';
+        bot.sendPhoto(message.chat.id, photo, {caption: 'Kết quả'});
+      }
+
+    });
+  } else if (message.text.indexOf('/tt') > -1) {
+    var query = new YQL("select * from weather.forecast where (woeid = 2347727) and u='c'");
+
+    query.exec(function(err, data) {
+      var location = data.query.results.channel.location;
+      var wind = data.query.results.channel.wind;
+      var condition = data.query.results.channel.item.condition;
+      var forecast = data.query.results.channel.item.forecast;
+      var forecastMsg = '';
+      forecastMsg = 'Mai:' + '\r\n' + 'Cao: ' + forecast[0].high + ' độ xê' + '\r\n' + 'Thấp: ' + forecast[0].low + ' độ xê' + '\r\n' + forecast[0].text + '\r\n' + '\r\n'
+      + 'Ngày kia:' + '\r\n' + 'Cao: ' + forecast[1].high + ' độ xê' + '\r\n' + 'Thấp: ' + forecast[1].low + ' độ xê' + '\r\n' + forecast[1].text + '\r\n' + '\r\n'
+      + 'Ngày kìa:' + '\r\n' + 'Cao: ' + forecast[2].high + ' độ xê' + '\r\n' + 'Thấp: ' + forecast[2].low + ' độ xê' + '\r\n' + forecast[2].text + '\r\n';
+      var weatherMsg = 'Bây giờ:' + '\r\n'
+      + condition.temp + ' độ xê' + '\r\n'
+      + 'Gió ' + degToCompass(wind.direction) + ' ' + wind.speed + ' km/h' + '\r\n'
+      + condition.text + '\r\n';
+      bot.sendMessage(message.chat.id, weatherMsg + '\r\n' + forecastMsg);
+    });
+} else if(message.text.indexOf('/poem') > -1){
+  var words = '';
+  if (message.text.length > 5) {
+    words = message.text.substring(message.text.indexOf(' ') + 1);
   }
+  request.post('http://thomay.vn/index.php?q=tutaochude2', 
+    {form: {
+      'dieukien_tu': '',
+      'dieukien_tu_last': '',
+      'fullbaitho': 'Thêm một khổ',
+      'last': '',
+      'order': '0',
+      'order_cu': '0',
+      'poem': '',
+      'poemSubject_tutao': '1',
+      'poemType': 'Lục bát',
+      'theloai': 'tho',
+      'tulap[cu]': '',
+      'tulap[moi]': '',
+      'tungcau_kho': '',
+      'tunhap_chude': words,
+      'van[cu]': '',
+      'van[moi]': '',
+    }
+  }, function(error, response, body){
+    if(error) {
+      console.log(error);
+    } else {
+      var $ = cheerio.load(body, { decodeEntities: false });
+      if($('font').attr('color', 'Blue').html()){
+        var tho = $('font').attr('color', 'Blue').html().split('<br>').join('\r\n');
+        bot.sendMessage(message.chat.id, tho);
+      } else {
+        bot.sendMessage(message.chat.id, 'Khó thế éo làm đc');
+      }
+    }
+  });
+}
 }
 });
-
-var job = new CronJob({
-  cronTime: '00 00 07 * * 0-6',
-  onTick: function() {
-    db.getSentence1(function(error, rows){
-      if (error) {
-        console.log(error);
-      } else {
-        var message = rows[0].Text;
-        bot.sendMessage('-41541244', message);  
-      }
-    });
-  },
-  start: true,
-});
-job.start();
-
-var job1 = new CronJob({
-  cronTime: '00 01 07 * * 0-6',
-  onTick: function() {
-    db.getSentence2(function(error, rows){
-      if (error) {
-        console.log(error);
-      } else {
-        var message = rows[0].Text;
-        bot.sendMessage('-41541244', message);  
-      }
-    });
-  },
-  start: true,
-});
-job1.start();
 
 function degToCompass(num) {
   var val = Math.floor((num / 22.5) + 0.5);
