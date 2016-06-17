@@ -26,10 +26,10 @@ var bot = new TelegramBot(token, {
 
 var webshot = require('webshot');
 
-app.post('/bot',function(req, res){
-  var messenger = req.body.messenger;
-  var group_id = req.body.group_id;
-  var content = req.body.content;
+app.post('/get',function(req, res){
+  var messenger = req.param('messenger');
+  var group_id = req.param('group_id');
+  var content = req.param('content');
   console.log("messenger: = "+messenger+", group_id: "+group_id + ", content: " + content);
   if(messenger === 'telegram'){
     bot.sendMessage(group_id, content);
