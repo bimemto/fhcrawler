@@ -43,6 +43,7 @@ app.get('/euro/api/get_live_url', function(req, res){
                     callback: function(error, result, $){
                         if($){
                             var iframe2Url = $('iframe').attr('src');
+                            console.log('ahihi', iframe2Url);
                             if(iframe2Url){
                                 if(iframe2Url.indexOf('youtube.com') > -1  || iframe2Url.indexOf('http://tv.keonhacai.com/talk.php') > -1){
                                     var data = {live_url: iframe2Url};
