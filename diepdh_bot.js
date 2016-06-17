@@ -26,10 +26,10 @@ var bot = new TelegramBot(token, {
 
 var webshot = require('webshot');
 
-app.post('/get',function(req, res){
-  var messenger = req.param('messenger');
-  var group_id = req.param('group_id');
-  var content = req.param('content');
+app.post('/bot',function(req, res){
+  var messenger = req.body.messenger;
+  var group_id = req.body.group_id;
+  var content = req.body.content;
   console.log("messenger: = "+messenger+", group_id: "+group_id + ", content: " + content);
   if(messenger === 'telegram'){
     bot.sendMessage(group_id, content);
@@ -104,7 +104,7 @@ bot.on('message', function(message) {
         //   attachment: fs.createReadStream('kqxs' + timestamp + '.png')
         // }
         var photo = 'kqxs' + timestamp + '.png';
-        bot.sendPhoto(message.chat.id, photo, {caption: 'Kết quả'});
+        bot.sendMessage(message.chat.id, photo, {caption: 'Kết quả'});
       }
 
     });
