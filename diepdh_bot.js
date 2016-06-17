@@ -100,12 +100,8 @@ bot.on('message', function(message) {
       if(err){
         console.log(err);
       } else {
-        // var msg = {
-        //   body: "Kết quả",
-        //   attachment: fs.createReadStream('kqxs' + timestamp + '.png')
-        // }
         var photo = 'kqxs' + timestamp + '.png';
-        bot.sendMessage(message.chat.id, photo, {caption: 'Kết quả'});
+        bot.sendPhoto(message.chat.id, photo, {caption: 'Kết quả'});
       }
 
     });
