@@ -57,13 +57,19 @@ app.get('/euro/api/get_live_url', function(req, res){
                                 var data = {live_url: ''};
                                 res.send(data);
                             }
+                        } else {
+                            var data = {live_url: ''};
+                            res.send(data);
                         }
                     }
                 });
-link_crawler.queue(iframe1Url);
-}
-}
-}).queue(details_url);
+                link_crawler.queue(iframe1Url);
+            } else {
+                var data = {live_url: ''};
+                res.send(data);
+            }
+        }
+    }).queue(details_url);
 })
 
 var server = app.listen(6868, function() {
