@@ -38,7 +38,8 @@ app.get('/euro/api/get_live_url', function(req, res){
         callback: function(error, result, $){
             if($){
                 var iframe1Url = $('iframe').attr('src');
-                var link_crawler = new Crawler({
+                if(iframe1Url){
+                    var link_crawler = new Crawler({
                     maxConnections: 10,
                     callback: function(error, result, $){
                         if($){
@@ -63,8 +64,12 @@ app.get('/euro/api/get_live_url', function(req, res){
                             res.send(data);
                         }
                     }
-                });
-                link_crawler.queue(iframe1Url);
+                    });
+                    link_crawler.queue(iframe1Url);
+                } else {
+                    var data = {live_url: ''};
+                    res.send(data);
+                }
             } else {
                 var data = {live_url: ''};
                 res.send(data);
