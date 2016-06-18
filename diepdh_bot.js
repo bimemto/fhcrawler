@@ -166,14 +166,15 @@ bot.on('message', function(message) {
     app_name = message.text.split(' ')[1];
   }
   if(app_name === 'beatvn'){
-    var ccuMsg = '';
-    request.get('http://nhayau.com/GA/BeatAnalytics.php', function(error, response){
+    request.get('http://nhayau.com/GA/BeatAnalytics.php', {json: true}, function(error, response){
       if(error){
         console.log(error);
       } else {
-        for(var i = 0; i < response.length; i++){
-          var name = response[i].name;
-          var ccu = response[i].ccu;
+        console.log(response.body);
+        var ccuMsg = '';
+        for(var i = 0; i < response.body.length; i++){
+          var name = response.body[i].name;
+          var ccu = response.body[i].ccu;
           ccuMsg = ccuMsg + name + ': ' + ccu + '\r\n';
         }
         bot.sendMessage(message.chat.id, ccuMsg);
