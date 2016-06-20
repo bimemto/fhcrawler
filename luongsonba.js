@@ -7,6 +7,7 @@ var fs = require("fs");
 var db = require("./db.js")
 var dateFormat = require("dateformat");
 var request = require('request');
+var Crawler = require("crawler");
 
 fs.exists('luongsonba.json', function(exists) {
 	if (exists) {
