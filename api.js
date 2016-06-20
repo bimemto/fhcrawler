@@ -1,35 +1,21 @@
-var db = require("./db.js");
-var express = require('express');
-var app = express();
+var Crawler = require("crawler");
 
-app.get('/euro/api/videos', function(req, res) {
-    db.getAllVideos(req.query.offset, req.query.limit, function(err, rows) {
-        if (err) {
-            res.sendStatus(500);
+var c = new Crawler({
+    maxConnections: 10,
+    userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
+    callback: function(error, result, $) {
+        if($){
+            $('p').each(function(index, p){
+				//var p = $(span).find('p:not([class!=""])').each(function(index, p){
+					var sentense = $(p).text();
+					console.log(sentense);
+					// if(sentence.indexOf('69') < 0){
+					// 	sentences.push(sentense);	
+					// }
+				})
+			//})
         }
-        else {
-            var data = [];
-            for (var i = 0; i < rows.length; i++) {
-                var videoUrl2 = rows[i].VideoURL2;
-                var videoUrl3 = rows[i].VideoURL3;
-                if (videoUrl2 === null || videoUrl2 === 'null') {
-                    videoUrl2 = "";
-                }
-                if (videoUrl3 === 'null' || videoUrl3 === null) {
-                    videoUrl3 = "";
-                }
-                data[i] = {title: rows[i].Title, thumb: rows[i].Thumb, date: rows[i].Date, desc: rows[i].Desc, video1: rows[i].VideoURL1, video2: videoUrl2, video3: videoUrl3};
-            }
-            res.send(data);
-        }
-    });
-})
+    }
+});
 
-var server = app.listen(8080, function() {
-
-    var host = server.address().address
-    var port = server.address().port
-
-    console.log("Example app listening at http://%s:%s", host, port)
-
-})
+c.queue('http://danhngon.net/69-cau-noi-hay-trong-nhung-tieu-thuyet-ngon-tinh/');
