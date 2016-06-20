@@ -19,7 +19,7 @@ var bot = new TelegramBot(token, {
 });
 
 var webshot = require('webshot');
-
+var tinh_nguoi = true;
 
 function download(url, callback) {
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
@@ -124,28 +124,48 @@ function doAction(api){
         if (event.body === '/stop') {
           api.sendMessage("Goodbye...", event.threadID);
           return stopListening();
+        } else if(event.body === '/chuyen'){
+          tinh_nguoi = true;
+        } else if(event.body === '/dung'){
+          tinh_nguoi = false;
         } else if(event.threadID === '127905330720913'){
-          if(wordInString(event.body, 'thắng')){
-            api.getThreadInfo(event.threadID, function(error, info) {
+          if(tinh_nguoi === false){
+            if(wordInString(event.body, 'thắng')){
+              api.getThreadInfo(event.threadID, function(error, info) {
+                if (error) {
+                  console.log(error);
+                }
+                else {
+                  api.getUserInfo(event.senderID, function(error, info) {
+                    if (error) {
+                      console.log(error);
+                    }
+                    else {
+                      var from = 'Ahihi';
+                      for (var prop in info) {
+                        from = info[prop].name;
+                      }
+                      api.sendMessage(from + ': ' + event.body, '100001447309106');
+                    }
+                  })
+                }
+              });
+            }
+          } else {
+            api.getUserInfo(event.senderID, function(error, info) {
               if (error) {
                 console.log(error);
               }
               else {
-                api.getUserInfo(event.senderID, function(error, info) {
-                  if (error) {
-                    console.log(error);
-                  }
-                  else {
-                    var from = 'Ahihi';
-                    for (var prop in info) {
-                      from = info[prop].name;
-                    }
-                    api.sendMessage(from + ': ' + event.body, '100001447309106');
-                  }
-                })
+                var from = 'Ahihi';
+                for (var prop in info) {
+                  from = info[prop].name;
+                }
+                api.sendMessage(from + ': ' + event.body, '100001447309106');
               }
-            });
+            })
           }
+          
         } else if(event.threadID === '100001447309106'){
           if(event.body.indexOf('/dm') > -1){
             api.markAsRead(event.threadID, function(err) {
