@@ -117,6 +117,7 @@ function doAction(api){
       console.log(err);
     }
     if(event.body){
+      console.log(event.body);
       var groupName, from;
       switch (event.type) {
         case "message":
