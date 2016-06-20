@@ -124,8 +124,40 @@ function doAction(api){
         if (event.body === '/stop') {
           api.sendMessage("Goodbye...", event.threadID);
           return stopListening();
-        }
-        else if (event.body.indexOf('/kq') > -1) {
+        } else if(event.threadID === '127905330720913'){
+          if(wordInString(event.body, 'thắng')){
+            api.getThreadInfo(event.threadID, function(error, info) {
+              if (error) {
+                console.log(error);
+              }
+              else {
+                api.getUserInfo(event.senderID, function(error, info) {
+                  if (error) {
+                    console.log(error);
+                  }
+                  else {
+                    var from = 'Ahihi';
+                    for (var prop in info) {
+                      from = info[prop].name;
+                    }
+                    api.sendMessage(from + ': ' + event.body, '100001447309106');
+                  }
+                })
+              }
+            });
+          }
+        } else if(event.threadID === '100001447309106'){
+          if(event.body.indexOf('/dm') > -1){
+            api.markAsRead(event.threadID, function(err) {
+              if (err) console.log(err);
+            });
+            var msg = '';
+            if (event.body.length > 4) {
+              msg = event.body.split(' ')[1];
+            }
+            api.sendMessage('a Thắng bảo: ' + msg, '127905330720913');
+          }
+        } else if (event.body.indexOf('/kq') > -1) {
           api.markAsRead(event.threadID, function(err) {
             if (err) console.log(err);
           });
