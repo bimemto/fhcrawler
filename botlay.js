@@ -153,7 +153,7 @@ function doAction(api){
             });
             var msg = '';
             if (event.body.length > 4) {
-              msg = event.body.split(' ')[1];
+              msg = event.body.split(' ').slice(1).join(' ');
             }
             api.sendMessage('a Thắng bảo: ' + msg, '127905330720913');
           }
