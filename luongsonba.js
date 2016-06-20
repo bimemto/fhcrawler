@@ -1,9 +1,12 @@
+var YQL = require("yql");
 var login = require("facebook-chat-api");
 var http = require('http');
 var cheerio = require('cheerio');
+var banquo = require('banquo');
 var fs = require("fs");
+var db = require("./db.js")
+var dateFormat = require("dateformat");
 var request = require('request');
-var Crawler = require("crawler");
 
 fs.exists('luongsonba.json', function(exists) {
 	if (exists) {
@@ -100,14 +103,100 @@ function doAction(api){
 							api.sendMessage(msg, event.threadID);
 						}
 					}
-				}
-				break;
-				case "event":
-				console.log(event);
-				break;
+				} else if (event.body.indexOf('/kq') > -1) {
+					api.markAsRead(event.threadID, function(err) {
+						if (err) console.log(err);
+					});
+					var dayBefore = '';
+					if (event.body.length > 4) {
+						var dayStr = event.body.split(' ')[1];
+						dayBefore = dayStr.substr(1, dayStr.length);
+					}
+					else {
+						dayBefore = 0;
+					}
+					var timestamp = Math.floor(Date.now() / 1000);
+					webshot('http://ketqua.vn/in-ve-so/22/1/' + getDateTime(dayBefore) + '/1', 'kqxs' + timestamp + '.png', function(err) {
+						if(err){
+							console.log(err);
+						} else {
+							var msg = {
+								body: "Kết quả",
+								attachment: fs.createReadStream('kqxs' + timestamp + '.png')
+							}
+							api.sendMessage(msg, event.threadID);
+						}
+
+					});
+				} else if (event.body.indexOf('/tt') > -1) {
+					api.markAsRead(event.threadID, function(err) {
+						if (err) console.log(err);
+					});
+					var query = new YQL("select * from weather.forecast where (woeid = 2347727) and u='c'");
+
+					query.exec(function(err, data) {
+						var location = data.query.results.channel.location;
+						var wind = data.query.results.channel.wind;
+						var condition = data.query.results.channel.item.condition;
+						var forecast = data.query.results.channel.item.forecast;
+						var forecastMsg = '';
+						forecastMsg = 'Mai:' + '\r\n' + 'Cao: ' + forecast[0].high + ' độ xê' + '\r\n' + 'Thấp: ' + forecast[0].low + ' độ xê' + '\r\n' + forecast[0].text + '\r\n' + '\r\n'
+						+ 'Ngày kia:' + '\r\n' + 'Cao: ' + forecast[1].high + ' độ xê' + '\r\n' + 'Thấp: ' + forecast[1].low + ' độ xê' + '\r\n' + forecast[1].text + '\r\n' + '\r\n'
+						+ 'Ngày kìa:' + '\r\n' + 'Cao: ' + forecast[2].high + ' độ xê' + '\r\n' + 'Thấp: ' + forecast[2].low + ' độ xê' + '\r\n' + forecast[2].text + '\r\n';
+						var weatherMsg = 'Bây giờ:' + '\r\n'
+						+ condition.temp + ' độ xê' + '\r\n'
+						+ 'Gió ' + degToCompass(wind.direction) + ' ' + wind.speed + ' km/h' + '\r\n'
+						+ condition.text + '\r\n';
+						api.sendMessage(weatherMsg + '\r\n' + forecastMsg, event.threadID);
+					});
+} else if(event.body.indexOf('/tho') > -1){
+	api.markAsRead(event.threadID, function(err) {
+		if (err) console.log(err);
+	});
+	var words = '';
+	if (event.body.length > 5) {
+		words = event.body.substring(event.body.indexOf(' ') + 1);
+	}
+	request.post('http://thomay.vn/index.php?q=tutaochude2', 
+		{form: {
+			'dieukien_tu': '',
+			'dieukien_tu_last': '',
+			'fullbaitho': 'Thêm một khổ',
+			'last': '',
+			'order': '0',
+			'order_cu': '0',
+			'poem': '',
+			'poemSubject_tutao': '1',
+			'poemType': 'Lục bát',
+			'theloai': 'tho',
+			'tulap[cu]': '',
+			'tulap[moi]': '',
+			'tungcau_kho': '',
+			'tunhap_chude': words,
+			'van[cu]': '',
+			'van[moi]': '',
+		}
+	}, function(error, response, body){
+		if(error) {
+			console.log(error);
+		} else {
+			var $ = cheerio.load(body, { decodeEntities: false });
+			if($('font').attr('color', 'Blue').html()){
+				var tho = $('font').attr('color', 'Blue').html().split('<br>').join('\r\n');
+				api.sendMessage(tho, event.threadID);
+			} else {
+				api.sendMessage('Khó thế éo làm đc', event.threadID);
 			}
 		}
 	});
+}
+break;
+case "event":
+console.log(event);
+break;
+}
+}
+});
 }
 
 var c = new Crawler({
