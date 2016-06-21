@@ -170,14 +170,18 @@ bot.on('message', function(message) {
       if(error){
         console.log(error);
       } else {
-        console.log(response.body);
-        var ccuMsg = '';
-        for(var i = 0; i < response.body.length; i++){
-          var name = response.body[i].name;
-          var ccu = response.body[i].ccu;
-          ccuMsg = ccuMsg + name + ': ' + ccu + '\r\n';
+        if(response){
+          if(response.body){
+            console.log(response.body);
+            var ccuMsg = '';
+            for(var i = 0; i < response.body.length; i++){
+              var name = response.body[i].name;
+              var ccu = response.body[i].ccu;
+              ccuMsg = ccuMsg + name + ': ' + ccu + '\r\n';
+            }
+            bot.sendMessage(message.chat.id, ccuMsg);
+          }
         }
-        bot.sendMessage(message.chat.id, ccuMsg);
       }
     })
   }
