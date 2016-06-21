@@ -268,3 +268,19 @@ function degToCompass(num) {
 	var arr = ["Bắc", "Bắc Bắc Đông", "Đông Bắc", "Đông Đông Bắc", "Đông", "Đông Đông Nam", "Đông Nam", "Nam Nam Đông", "Nam", "Nam Nam Tây", "Tây Nam", "Tây Tây Nam", "Tây", "Tây Tây Bắc", "Tây Bắc", "Bắc Bắc Tây"];
 	return arr[(val % 16)];
 }
+
+function getDateTime(dayBefore) {
+
+  var date = new Date();
+
+  var year = date.getFullYear();
+
+  var month = date.getMonth() + 1;
+  month = (month < 10 ? "0" : "") + month;
+
+  var day = date.getDate() - dayBefore;
+  day = (day < 10 ? "0" : "") + day;
+
+  return year + "-" + month + "-" + day;
+
+}
