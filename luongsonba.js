@@ -78,78 +78,79 @@ function doAction(api){
 		if (err) {
 			console.log(err);
 		}
-		if(event.body){
-			console.log(event);
-			var groupName, from;
-			switch (event.type) {
-				case "message":
-				if (event.body === '/stop') {
-					api.sendMessage("Goodbye...", event.threadID);
-					return stopListening();
-				} else if(event.body.indexOf('/nt') > -1){
-					console.log(sentences.length);
-					api.markAsRead(event.threadID, function(err) {
-						if (err) console.log(err);
-					});
-					var msg = sentences[getRandomInt(0, sentences.length)];
-					if(msg){
-						console.log(msg);
-						if(msg.indexOf('.') === 2){
-							msg = msg.substring(3, msg.length);
-							api.sendMessage(msg, event.threadID);	
-						} else if(msg.indexOf('.') === 1){
-							msg = msg.substring(2, msg.length);
-							api.sendMessage(msg, event.threadID);
-						} else {
-							api.sendMessage(msg, event.threadID);
-						}
-					}
-				} else if (event.body.indexOf('/kq') > -1) {
-					api.markAsRead(event.threadID, function(err) {
-						if (err) console.log(err);
-					});
-					var dayBefore = '';
-					if (event.body.length > 4) {
-						var dayStr = event.body.split(' ')[1];
-						dayBefore = dayStr.substr(1, dayStr.length);
-					}
-					else {
-						dayBefore = 0;
-					}
-					var timestamp = Math.floor(Date.now() / 1000);
-					webshot('http://ketqua.vn/in-ve-so/22/1/' + getDateTime(dayBefore) + '/1', 'kqxs' + timestamp + '.png', function(err) {
-						if(err){
-							console.log(err);
-						} else {
-							var msg = {
-								body: "Kết quả",
-								attachment: fs.createReadStream('kqxs' + timestamp + '.png')
+		if(event){
+			if(event.body){
+				console.log(event);
+				var groupName, from;
+				switch (event.type) {
+					case "message":
+					if (event.body === '/stop') {
+						api.sendMessage("Goodbye...", event.threadID);
+						return stopListening();
+					} else if(event.body.indexOf('/nt') > -1){
+						console.log(sentences.length);
+						api.markAsRead(event.threadID, function(err) {
+							if (err) console.log(err);
+						});
+						var msg = sentences[getRandomInt(0, sentences.length)];
+						if(msg){
+							console.log(msg);
+							if(msg.indexOf('.') === 2){
+								msg = msg.substring(3, msg.length);
+								api.sendMessage(msg, event.threadID);	
+							} else if(msg.indexOf('.') === 1){
+								msg = msg.substring(2, msg.length);
+								api.sendMessage(msg, event.threadID);
+							} else {
+								api.sendMessage(msg, event.threadID);
 							}
-							api.sendMessage(msg, event.threadID);
 						}
+					} else if (event.body.indexOf('/kq') > -1) {
+						api.markAsRead(event.threadID, function(err) {
+							if (err) console.log(err);
+						});
+						var dayBefore = '';
+						if (event.body.length > 4) {
+							var dayStr = event.body.split(' ')[1];
+							dayBefore = dayStr.substr(1, dayStr.length);
+						}
+						else {
+							dayBefore = 0;
+						}
+						var timestamp = Math.floor(Date.now() / 1000);
+						webshot('http://ketqua.vn/in-ve-so/22/1/' + getDateTime(dayBefore) + '/1', 'kqxs' + timestamp + '.png', function(err) {
+							if(err){
+								console.log(err);
+							} else {
+								var msg = {
+									body: "Kết quả",
+									attachment: fs.createReadStream('kqxs' + timestamp + '.png')
+								}
+								api.sendMessage(msg, event.threadID);
+							}
 
-					});
-				} else if (event.body.indexOf('/tt') > -1) {
-					api.markAsRead(event.threadID, function(err) {
-						if (err) console.log(err);
-					});
-					var query = new YQL("select * from weather.forecast where (woeid = 2347727) and u='c'");
+						});
+					} else if (event.body.indexOf('/tt') > -1) {
+						api.markAsRead(event.threadID, function(err) {
+							if (err) console.log(err);
+						});
+						var query = new YQL("select * from weather.forecast where (woeid = 2347727) and u='c'");
 
-					query.exec(function(err, data) {
-						var location = data.query.results.channel.location;
-						var wind = data.query.results.channel.wind;
-						var condition = data.query.results.channel.item.condition;
-						var forecast = data.query.results.channel.item.forecast;
-						var forecastMsg = '';
-						forecastMsg = 'Mai:' + '\r\n' + 'Cao: ' + forecast[0].high + ' độ xê' + '\r\n' + 'Thấp: ' + forecast[0].low + ' độ xê' + '\r\n' + forecast[0].text + '\r\n' + '\r\n'
-						+ 'Ngày kia:' + '\r\n' + 'Cao: ' + forecast[1].high + ' độ xê' + '\r\n' + 'Thấp: ' + forecast[1].low + ' độ xê' + '\r\n' + forecast[1].text + '\r\n' + '\r\n'
-						+ 'Ngày kìa:' + '\r\n' + 'Cao: ' + forecast[2].high + ' độ xê' + '\r\n' + 'Thấp: ' + forecast[2].low + ' độ xê' + '\r\n' + forecast[2].text + '\r\n';
-						var weatherMsg = 'Bây giờ:' + '\r\n'
-						+ condition.temp + ' độ xê' + '\r\n'
-						+ 'Gió ' + degToCompass(wind.direction) + ' ' + wind.speed + ' km/h' + '\r\n'
-						+ condition.text + '\r\n';
-						api.sendMessage(weatherMsg + '\r\n' + forecastMsg, event.threadID);
-					});
+						query.exec(function(err, data) {
+							var location = data.query.results.channel.location;
+							var wind = data.query.results.channel.wind;
+							var condition = data.query.results.channel.item.condition;
+							var forecast = data.query.results.channel.item.forecast;
+							var forecastMsg = '';
+							forecastMsg = 'Mai:' + '\r\n' + 'Cao: ' + forecast[0].high + ' độ xê' + '\r\n' + 'Thấp: ' + forecast[0].low + ' độ xê' + '\r\n' + forecast[0].text + '\r\n' + '\r\n'
+							+ 'Ngày kia:' + '\r\n' + 'Cao: ' + forecast[1].high + ' độ xê' + '\r\n' + 'Thấp: ' + forecast[1].low + ' độ xê' + '\r\n' + forecast[1].text + '\r\n' + '\r\n'
+							+ 'Ngày kìa:' + '\r\n' + 'Cao: ' + forecast[2].high + ' độ xê' + '\r\n' + 'Thấp: ' + forecast[2].low + ' độ xê' + '\r\n' + forecast[2].text + '\r\n';
+							var weatherMsg = 'Bây giờ:' + '\r\n'
+							+ condition.temp + ' độ xê' + '\r\n'
+							+ 'Gió ' + degToCompass(wind.direction) + ' ' + wind.speed + ' km/h' + '\r\n'
+							+ condition.text + '\r\n';
+							api.sendMessage(weatherMsg + '\r\n' + forecastMsg, event.threadID);
+						});
 } else if(event.body.indexOf('/tho') > -1){
 	api.markAsRead(event.threadID, function(err) {
 		if (err) console.log(err);
@@ -197,6 +198,8 @@ console.log(event);
 break;
 }
 }
+}
+
 });
 }
 
@@ -260,7 +263,7 @@ function getRandomInt(min, max) {
 }
 
 function degToCompass(num) {
-  var val = Math.floor((num / 22.5) + 0.5);
-  var arr = ["Bắc", "Bắc Bắc Đông", "Đông Bắc", "Đông Đông Bắc", "Đông", "Đông Đông Nam", "Đông Nam", "Nam Nam Đông", "Nam", "Nam Nam Tây", "Tây Nam", "Tây Tây Nam", "Tây", "Tây Tây Bắc", "Tây Bắc", "Bắc Bắc Tây"];
-  return arr[(val % 16)];
+	var val = Math.floor((num / 22.5) + 0.5);
+	var arr = ["Bắc", "Bắc Bắc Đông", "Đông Bắc", "Đông Đông Bắc", "Đông", "Đông Đông Nam", "Đông Nam", "Nam Nam Đông", "Nam", "Nam Nam Tây", "Tây Nam", "Tây Tây Nam", "Tây", "Tây Tây Bắc", "Tây Bắc", "Bắc Bắc Tây"];
+	return arr[(val % 16)];
 }
