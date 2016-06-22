@@ -194,3 +194,115 @@ function degToCompass(num) {
   var arr = ["Bắc", "Bắc Bắc Đông", "Đông Bắc", "Đông Đông Bắc", "Đông", "Đông Đông Nam", "Đông Nam", "Nam Nam Đông", "Nam", "Nam Nam Tây", "Tây Nam", "Tây Tây Nam", "Tây", "Tây Tây Bắc", "Tây Bắc", "Bắc Bắc Tây"];
   return arr[(val % 16)];
 }
+
+fs.exists('diepdj.json', function(exists) {
+  if (exists) {
+    var appstate = JSON.parse(fs.readFileSync('diepdj.json', 'utf8'));
+    if(appstate){
+      login({appState: appstate}, function callback (err, api) {
+        if(err){
+          switch (err.error) {
+            case 'login-approval':
+            console.log('Enter code > ');
+            rl.on('line', function(line){
+              err.continue(line);
+              rl.close();
+            });
+            break;
+          }
+        }
+        doAction(api);
+      })} else {
+        login({
+          email: "johnnie.dip@gmail.com",
+          password: "g&&[4(T$\4#Uu7nN3y#dMK.qK29J3c"
+        }, function callback(err, api) {
+          if(err){
+            switch (err.error) {
+              case 'login-approval':
+              console.log('Enter code > ');
+              rl.on('line', function(line){
+                err.continue(line);
+                rl.close();
+              });
+              break;
+            }
+          }
+          fs.writeFileSync('diepdj.json', JSON.stringify(api.getAppState()));
+          doAction(api);
+        });
+      }
+    } else {
+      login({
+        email: "johnnie.dip@gmail.com",
+        password: "g&&[4(T$\4#Uu7nN3y#dMK.qK29J3c"
+      }, function callback(err, api) {
+        if(err){
+          switch (err.error) {
+            case 'login-approval':
+            console.log('Enter code > ');
+            rl.on('line', function(line){
+              err.continue(line);
+              rl.close();
+            });
+            break;
+          }
+        }
+        fs.writeFileSync('diepdj.json', JSON.stringify(api.getAppState()));
+        doAction(api);
+      });
+    }
+  });
+
+function doAction(api){
+  api.setOptions({
+    listenEvents: true
+  });
+  var stopListening = api.listen(function(err, event) {
+    if (err) {
+      console.log(err);
+    }
+    if(event){
+      if(event.body){
+        console.log(event);
+        switch (event.type) {
+          case "message":
+          if (event.body === '/stop') {
+            api.sendMessage("Goodbye...", event.threadID);
+            return stopListening();
+          } else if(event.body.indexOf('/ga') > -1){
+            var app_name = '';
+            if (message.text.length > 4) {
+              app_name = message.text.split(' ')[1];
+            }
+            if(app_name === 'beatvn'){
+              request.get('http://nhayau.com/GA/BeatAnalytics.php', {json: true}, function(error, response){
+                if(error){
+                  console.log(error);
+                } else {
+                  if(response){
+                    if(response.body){
+                      console.log(response.body);
+                      var ccuMsg = '';
+                      for(var i = 0; i < response.body.length; i++){
+                        var name = response.body[i].name;
+                        var ccu = response.body[i].ccu;
+                        ccuMsg = ccuMsg + name + ': ' + ccu + '\r\n';
+                      }
+                      api.sendMessage(ccuMsg, event.threadID);
+                    }
+                  }
+                }
+              })
+            }
+          }
+          break;
+          case "event":
+          console.log(event);
+          break;
+        }
+      }
+    }
+
+  });
+}
