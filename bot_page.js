@@ -101,7 +101,6 @@ function doAction(api){
                                 response.pipe(file);
                                 file.on('finish', function(){
                                     var msg = {
-                                      body: "Gái",
                                       attachment: fs.createReadStream('img.jpg')
                                   }
                                   api.sendMessage(msg, event.threadID);
