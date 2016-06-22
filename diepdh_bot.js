@@ -300,8 +300,8 @@ function doAction(api){
             }
           } else if(event.body.indexOf('/tho') > -1){
             var words = '';
-            if (message.text.length > 5) {
-              words = message.text.substring(message.text.indexOf(' ') + 1);
+            if (event.body.length > 5) {
+              words = event.body.substring(event.body.indexOf(' ') + 1);
             }
             request.post('http://thomay.vn/index.php?q=tutaochude2', 
               {form: {
