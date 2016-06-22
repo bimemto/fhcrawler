@@ -374,6 +374,7 @@
   }
   
   var download = function(uri, filename, callback){
+    console.log('download: ', uri);
     request.head(uri, function(err, res, body){
       console.log('content-type:', res.headers['content-type']);
       console.log('content-length:', res.headers['content-length']);
@@ -580,7 +581,6 @@
         $('div.posts.sub-gallery.br5.first-child').find('div.post').each(function(index, div){
           var id = $(div).attr('id');
           var details_url = 'http://imgur.com/r/nsfw/' + id;
-          console.log('details', details_url);
           new Crawler({
             maxConnections: 10,
             userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
@@ -641,7 +641,6 @@
         $('span[itemprop=articleBody]').each(function(index, span){
           var p = $(span).find('p:not([class!=""])').each(function(index, p){
             var sentense = $(p).text();
-            console.log(sentense);
             if(sentense.indexOf('69') < 0){
               sentences.push(sentense); 
             }
