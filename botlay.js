@@ -12,7 +12,6 @@ var dateFormat = require("dateformat");
 var request = require('request');
 var CronJob = require('cron').CronJob;
 var Crawler = require("crawler");
-var httpGet = require('http-get');
 
 var token = '208861476:AAFkV6kx6rjKOOyNQudcZ88YrTH6ZATCRIo';
 // Setup polling way
@@ -323,16 +322,12 @@ else if (event.body.indexOf('/tt') > -1) {
    }
  });
 } else if(event.body.indexOf('/img') > -1){
-  httpGet.get(imgs[getRandomInt(0, imgs.length)], 'sexy.jpg', function (error, result) {
-    if (error) {
-      console.error(error);
-    } else {
-      var msg = {
-        body: "img",
-        attachment: fs.createReadStream('sexy.jpg')
-      }
-      api.sendMessage(msg, event.threadID);
+  download(imgs[getRandomInt(0, imgs.length)], 'sexy.jpg', function(){
+    var msg = {
+      body: "img",
+      attachment: fs.createReadStream('sexy.jpg')
     }
+    api.sendMessage(msg, event.threadID);
   });
 }
 else {
@@ -377,6 +372,15 @@ break;
 }
 });
 }
+
+var download = function(uri, filename, callback){
+  request.head(uri, function(err, res, body){
+    console.log('content-type:', res.headers['content-type']);
+    console.log('content-length:', res.headers['content-length']);
+
+    request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
+  });
+};
 
 function getDateTime(dayBefore) {
 
