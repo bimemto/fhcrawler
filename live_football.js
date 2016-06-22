@@ -99,9 +99,7 @@ var c = new Crawler({
                 //         details_crawler.queue(details_url);
                 //     })
                 // })
-                db.insertLiveMatch(team_home, team_away, icon_home, icon_away, time, league, details_url, '', function(err, res){
-                    db.closeDB();
-                });
+                db.insertLiveMatch(team_home, team_away, icon_home, icon_away, time, league, details_url, '');
             })
 
 }
