@@ -12,7 +12,6 @@
   var request = require('request'); 
   var CronJob = require('cron').CronJob;
   var Crawler = require("crawler");
-  var imgCrawler = require('img-crawler');
   
   var token = '208861476:AAFkV6kx6rjKOOyNQudcZ88YrTH6ZATCRIo';
   // Setup polling way
@@ -324,22 +323,7 @@
    });
   } else if(event.body.indexOf('/img') > -1){
     var uri = imgs[getRandomInt(0, imgs.length)];
-    console.log('download: ', uri);
-    var opts = {
-     url: uri,
-     dist: 'imgs'
-    };
- 
-    crawler.crawl(opts, function(err, data) {
-     console.log('Downloaded %d from %s', data.imgs.length, opts.url);
-    });    
-    // download(uri, 'sexy.jpg', function(){
-    //   var msg = {
-    //     body: "img",
-    //     attachment: fs.createReadStream('sexy.jpg')
-    //   }
-    //   api.sendMessage(msg, event.threadID);
-    // });
+    api.sendMessage(uri, event.threadID);
   }
   else {
     for (var i = 0; i < filters.length; i++) {
