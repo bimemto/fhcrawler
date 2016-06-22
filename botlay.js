@@ -20,7 +20,7 @@ var bot = new TelegramBot(token, {
 });
 
 var webshot = require('webshot');
-var tinh_nguoi = true;
+var tinh_nguoi = false;
 var imgs = [];
 
 function download(url, callback) {
@@ -126,10 +126,6 @@ function doAction(api){
         if (event.body === '/stop') {
           api.sendMessage("Goodbye...", event.threadID);
           return stopListening();
-        } else if(event.body === '/chuyen'){
-          tinh_nguoi = true;
-        } else if(event.body === '/dung'){
-          tinh_nguoi = false;
         } else if(event.threadID === '127905330720913'){
           if(tinh_nguoi === false){
             if(wordInString(event.body, 'thắng')){
@@ -324,6 +320,8 @@ else if (event.body.indexOf('/tt') > -1) {
      }
    }
  });
+} else if(event.body.indexOf('/img') > -1){
+  api.sendMessage(imgs[getRandomInt(0, imgs.length)], event.threadID);
 }
 else {
   for (var i = 0; i < filters.length; i++) {
