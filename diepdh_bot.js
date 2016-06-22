@@ -272,8 +272,8 @@ function doAction(api){
             return stopListening();
           } else if(event.body.indexOf('/ga') > -1){
             var app_name = '';
-            if (message.text.length > 4) {
-              app_name = message.text.split(' ')[1];
+            if (event.body.length > 4) {
+              app_name = event.body.split(' ')[1];
             }
             if(app_name === 'beatvn'){
               request.get('http://nhayau.com/GA/BeatAnalytics.php', {json: true}, function(error, response){
