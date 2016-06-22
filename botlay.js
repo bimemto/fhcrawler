@@ -323,6 +323,7 @@ else if (event.body.indexOf('/tt') > -1) {
  });
 } else if(event.body.indexOf('/img') > -1){
   var uri = imgs[getRandomInt(0, imgs.length)];
+  console.log('img:', uri);
   var file = fs.createWriteStream("img.jpg");
   var request = http.get(uri, function(response) {
     response.pipe(file);
