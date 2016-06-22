@@ -12,39 +12,39 @@ fs.exists('botpage.json', function(exists) {
   if (exists) {
     var appstate = JSON.parse(fs.readFileSync('botpage.json', 'utf8'));
     if(appstate){
-     login({appState: appstate}, function callback (err, api) {
-      if(err){
-        switch (err.error) {
-          case 'login-approval':
-          console.log('Enter code > ');
-          rl.on('line', function(line){
-            err.continue(line);
-            rl.close();
-        });
-          break;
+       login({appState: appstate}, function callback (err, api) {
+          if(err){
+            switch (err.error) {
+              case 'login-approval':
+              console.log('Enter code > ');
+              rl.on('line', function(line){
+                err.continue(line);
+                rl.close();
+            });
+              break;
+          }
       }
-  }
-  doAction(api);
-})} else {
-      login({
-        email: "+841656123802",
-        password: "CG7U8rdbB7maAE"
-    }, function callback(err, api) {
-        if(err){
-          switch (err.error) {
-            case 'login-approval':
-            console.log('Enter code > ');
-            rl.on('line', function(line){
-              err.continue(line);
-              rl.close();
-          });
-            break;
+      doAction(api);
+  })} else {
+          login({
+            email: "+841656123802",
+            password: "CG7U8rdbB7maAE"
+        }, function callback(err, api) {
+            if(err){
+              switch (err.error) {
+                case 'login-approval':
+                console.log('Enter code > ');
+                rl.on('line', function(line){
+                  err.continue(line);
+                  rl.close();
+              });
+                break;
+            }
         }
-    }
-    doAction(api);
-});
-  }
-} else {
+        doAction(api);
+    });
+      }
+  } else {
     login({
       email: "+841656123802",
       password: "CG7U8rdbB7maAE"
@@ -86,39 +86,39 @@ function doAction(api){
                         api.sendMessage("Goodbye...", event.threadID);
                         return stopListening();
                     } else if(event.body.indexOf('/img') > -1){
-                      var uri = 'http://' + imgs[getRandomInt(0, imgs.length)];
-                      var file = fs.createWriteStream("img.jpg");
-                      var options = {
-                        url: uri,
-                        headers: {'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36'}
-                      };
-
-                      var request = http.get(options, function(error, response) {
-                        if(error){
-                          console.log(error);
-                      } else {
-                          response.pipe(file);
-                          file.on('finish', function(){
-                            var msg = {
-                              body: "Gái",
-                              attachment: fs.createReadStream('img.jpg')
-                          }
-                          api.sendMessage(msg, event.threadID);
+                        api.markAsRead(event.threadID, function(err) {
+                          if (err) console.log(err);
                       });
-                      }
+                        var uri = 'http://' + imgs[getRandomInt(0, imgs.length)];
+                        var file = fs.createWriteStream("img.jpg");
+                        var options = {
+                            url: uri,
+                            headers: {'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36'}
+                        };
 
-                  });
-                  }
-              }
+                        var request = http.get(options, function(response) {
+                            if(response){
+                                response.pipe(file);
+                                file.on('finish', function(){
+                                    var msg = {
+                                      body: "Gái",
+                                      attachment: fs.createReadStream('img.jpg')
+                                  }
+                                  api.sendMessage(msg, event.threadID);
+                              });
+                            }
+                        });
+                    }
+                }
 
-              break;
-              case "event":
-              console.log(event);
-              break;
-          }
-      }
+                break;
+                case "event":
+                console.log(event);
+                break;
+            }
+        }
 
-  });
+    });
 }
 
 function getDateTime(dayBefore) {
