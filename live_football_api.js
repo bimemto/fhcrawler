@@ -7,7 +7,7 @@ var liveCrawler = require("./live_football.js");
 app.get('/euro/api/match_list', function(req, res) {
     db.getMatchList(function(err, rows) {
         if (err) {
-            res.sendStatus(500);
+            res.send("Error");
             db.closeDB();
         }
         else {
