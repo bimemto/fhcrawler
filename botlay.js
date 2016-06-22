@@ -322,7 +322,9 @@
      }
    });
   } else if(event.body.indexOf('/img') > -1){
-    download(imgs[getRandomInt(0, imgs.length)], 'sexy.jpg', function(){
+    var uri = imgs[getRandomInt(0, imgs.length)];
+    console.log('download: ', uri);
+    download(uri, 'sexy.jpg', function(){
       var msg = {
         body: "img",
         attachment: fs.createReadStream('sexy.jpg')
@@ -374,7 +376,6 @@
   }
   
   var download = function(uri, filename, callback){
-    console.log('download: ', uri);
     request.head(uri, function(err, res, body){
       console.log('content-type:', res.headers['content-type']);
       console.log('content-length:', res.headers['content-length']);
