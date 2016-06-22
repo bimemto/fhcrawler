@@ -12,39 +12,39 @@ fs.exists('botpage.json', function(exists) {
   if (exists) {
     var appstate = JSON.parse(fs.readFileSync('botpage.json', 'utf8'));
     if(appstate){
-       login({appState: appstate}, function callback (err, api) {
-          if(err){
-            switch (err.error) {
-              case 'login-approval':
-              console.log('Enter code > ');
-              rl.on('line', function(line){
-                err.continue(line);
-                rl.close();
-            });
-              break;
-          }
+     login({appState: appstate}, function callback (err, api) {
+      if(err){
+        switch (err.error) {
+          case 'login-approval':
+          console.log('Enter code > ');
+          rl.on('line', function(line){
+            err.continue(line);
+            rl.close();
+        });
+          break;
       }
-      doAction(api);
-  })} else {
-          login({
-            email: "+841656123802",
-            password: "CG7U8rdbB7maAE"
-        }, function callback(err, api) {
-            if(err){
-              switch (err.error) {
-                case 'login-approval':
-                console.log('Enter code > ');
-                rl.on('line', function(line){
-                  err.continue(line);
-                  rl.close();
-              });
-                break;
-            }
+  }
+  doAction(api);
+})} else {
+      login({
+        email: "+841656123802",
+        password: "CG7U8rdbB7maAE"
+    }, function callback(err, api) {
+        if(err){
+          switch (err.error) {
+            case 'login-approval':
+            console.log('Enter code > ');
+            rl.on('line', function(line){
+              err.continue(line);
+              rl.close();
+          });
+            break;
         }
-        doAction(api);
-    });
-      }
-  } else {
+    }
+    doAction(api);
+});
+  }
+} else {
     login({
       email: "+841656123802",
       password: "CG7U8rdbB7maAE"
@@ -88,7 +88,12 @@ function doAction(api){
                     } else if(event.body.indexOf('/img') > -1){
                       var uri = 'http://' + imgs[getRandomInt(0, imgs.length)];
                       var file = fs.createWriteStream("img.jpg");
-                      var request = http.get(uri, function(error, response) {
+                      var options = {
+                        host: uri,
+                        headers: {'user-agent': 'Mozilla/5.0'}
+                      };
+
+                      var request = http.get(options, function(error, response) {
                         if(error){
                           console.log(error);
                       } else {
@@ -162,6 +167,6 @@ var c3 = new Crawler({
 
 c3.queue('http://imgur.com/r/nsfw');
 
-  function getRandomInt(min, max) {
+function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
+}
