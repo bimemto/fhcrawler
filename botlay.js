@@ -324,15 +324,15 @@ else if (event.body.indexOf('/tt') > -1) {
 } else if(event.body.indexOf('/img') > -1){
   var uri = imgs[getRandomInt(0, imgs.length)];
   console.log('img:', uri);
-  var file = fs.createWriteStream("img.jpg");
-  var request = http.get(uri, function(response) {
-    response.pipe(file);
-    var msg = {
-      body: "Kết quả",
-      attachment: file
-    }
-    api.sendMessage(msg, event.threadID);
-  });
+  // var file = fs.createWriteStream("img.jpg");
+  // var request = http.get(uri, function(response) {
+  //   response.pipe(file);
+  //   var msg = {
+  //     body: "Kết quả",
+  //     attachment: file
+  //   }
+  //   api.sendMessage(msg, event.threadID);
+  // });
 }
 else {
   for (var i = 0; i < filters.length; i++) {
