@@ -11,6 +11,7 @@ var db = require("./db.js")
 var dateFormat = require("dateformat");
 var request = require('request');
 var CronJob = require('cron').CronJob;
+var Crawler = require("crawler");
 
 var token = '208861476:AAFkV6kx6rjKOOyNQudcZ88YrTH6ZATCRIo';
 // Setup polling way
@@ -510,6 +511,33 @@ bot.on('message', function(message) {
   }
   var converted = degree * 9/5 + 32;
   bot.sendMessage(message.chat.id, degree + ' độ xê = ' + converted + ' độ ép');
+} else if(message.text.indexOf('/img') > -1){
+  new Crawler({
+    maxConnections: 10,
+    userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
+    callback: function(error, result, $) {
+      if($){
+        $('div.posts.sub-gallery.br5.first-child').find('div.post').each(function(index, div){
+          var id = $(div).attr('id');
+          var details_url = 'http://imgur.com/r/nsfw/' + id;
+          console.log('details', details_url);
+          new Crawler({
+            maxConnections: 10,
+            userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
+            callback: function(error, result, $) {
+              if($){
+                var img = $('div.post-image').find('img').attr('src');
+                if(img !== undefined || img !== 'undefined'){
+                  img = img.substring(2, img.length);
+                  bot.sendMessage(message.chat.id, img);
+                }
+              }
+            }
+          }).queue(details_url);
+        })
+      }
+    }
+  }).queue('http://imgur.com/r/nsfw');
 }
 }
 });
