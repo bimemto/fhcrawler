@@ -10,7 +10,7 @@ var db = require("./db.js")
 var dateFormat = require("dateformat");
 var request = require('request');
 var CronJob = require('cron').CronJob;
-
+var Crawler = require("crawler");
 var webshot = require('webshot');
 
 var imgs = [];
