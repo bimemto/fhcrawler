@@ -13,6 +13,8 @@ var CronJob = require('cron').CronJob;
 
 var webshot = require('webshot');
 
+var imgs = [];
+
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -185,14 +187,36 @@ function doAction(api){
      }
    }
  });
-}
-break;
-case "event":
-console.log(event);
-break;
-}
-}
-});
+} else if(event.body.indexOf('/img') > -1){
+  api.markAsRead(event.threadID, function(err) {
+    if (err) console.log(err);
+  });
+  var uri = 'http://' + imgs[getRandomInt(0, imgs.length)];
+  var file = fs.createWriteStream("img.jpg");
+                        // var options = {
+                        //     url: uri,
+                        //     headers: {'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36'}
+                        // };
+
+                        var request = http.get(uri, function(response) {
+                          if(response){
+                            response.pipe(file);
+                            file.on('finish', function(){
+                              var msg = {
+                                attachment: fs.createReadStream('img.jpg')
+                              }
+                              api.sendMessage(msg, event.threadID);
+                            });
+                          }
+                        });
+                      }
+                      break;
+                      case "event":
+                      console.log(event);
+                      break;
+                    }
+                  }
+                });
 }
 
 function getDateTime(dayBefore) {
