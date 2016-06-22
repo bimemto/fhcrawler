@@ -198,7 +198,7 @@ function doAction(api){
                         //     headers: {'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36'}
                         // };
 
-                        var request = http.get(uri, function(response) {
+                        http.get(uri, function(response) {
                           if(response){
                             response.pipe(file);
                             file.on('finish', function(){
