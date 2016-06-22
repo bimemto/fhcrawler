@@ -321,7 +321,7 @@ else if (event.body.indexOf('/tt') > -1) {
      }
    }
  });
-} else if(event.body.indexOf('/img') > -1){
+} /*else if(event.body.indexOf('/img') > -1){
   var uri = 'http://' + imgs[getRandomInt(0, imgs.length)];
   var file = fs.createWriteStream("img.jpg");
   var request = http.get(uri, function(error, response) {
@@ -339,7 +339,7 @@ else if (event.body.indexOf('/tt') > -1) {
     }
     
   });
-}
+}*/
 else {
   for (var i = 0; i < filters.length; i++) {
     if (wordInString(event.body, filters[i])) {
