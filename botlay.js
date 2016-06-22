@@ -324,15 +324,20 @@ else if (event.body.indexOf('/tt') > -1) {
 } else if(event.body.indexOf('/img') > -1){
   var uri = 'http://' + imgs[getRandomInt(0, imgs.length)];
   var file = fs.createWriteStream("img.jpg");
-  var request = http.get(uri, function(response) {
-    response.pipe(file);
-    file.on('finish', function(){
-      var msg = {
-        body: "Gái",
-        attachment: fs.createReadStream('img.jpg')
-      }
-      api.sendMessage(msg, event.threadID);
-    });
+  var request = http.get(uri, function(error, response) {
+    if(error){
+      console.log(error);
+    } else {
+      response.pipe(file);
+      file.on('finish', function(){
+        var msg = {
+          body: "Gái",
+          attachment: fs.createReadStream('img.jpg')
+        }
+        api.sendMessage(msg, event.threadID);
+      });
+    }
+    
   });
 }
 else {
