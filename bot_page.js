@@ -6,6 +6,7 @@ var request = require('request');
 var Crawler = require("crawler");
 var http = require('http');
 
+var imgs = [];
 
 fs.exists('botpage.json', function(exists) {
   if (exists) {
