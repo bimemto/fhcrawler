@@ -92,7 +92,7 @@ function doAction(api){
     if (err) {
       console.log(err);
     }
-    if(event.body){
+    if(event && event.body){
       console.log(event);
       var groupName, from;
       switch (event.type) {
