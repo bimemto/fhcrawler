@@ -271,6 +271,9 @@ function doAction(api){
             api.sendMessage("Goodbye...", event.threadID);
             return stopListening();
           } else if(event.body.indexOf('/ga') > -1){
+            api.markAsRead(event.threadID, function(err) {
+              if (err) console.log(err);
+            });
             var app_name = '';
             if (event.body.length > 4) {
               app_name = event.body.split(' ')[1];
