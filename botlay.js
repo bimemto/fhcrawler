@@ -22,6 +22,7 @@ var bot = new TelegramBot(token, {
 var webshot = require('webshot');
 var tinh_nguoi = false;
 var imgs = [];
+var sentences = [];
 
 function download(url, callback) {
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
@@ -512,6 +513,8 @@ bot.on('message', function(message) {
   bot.sendMessage(message.chat.id, degree + ' độ xê = ' + converted + ' độ ép');
 } else if(message.text.indexOf('/img') > -1){
   bot.sendMessage(message.chat.id, imgs[getRandomInt(0, imgs.length)]);
+} else if(message.text.indexOf('/nt') > -1){
+  bot.sendMessage(message.chat.id, sentences[getRandomInt(0, sentences.length)]);
 }
 }
 });
@@ -554,7 +557,7 @@ function degToCompass(num) {
   return arr[(val % 16)];
 }
 
-var c = new Crawler({
+var c3 = new Crawler({
     maxConnections: 10,
     userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
     callback: function(error, result, $) {
@@ -583,4 +586,59 @@ var c = new Crawler({
     }
   });
 
-  c.queue('http://imgur.com/r/nsfw');
+  c3.queue('http://imgur.com/r/nsfw');
+
+  var c = new Crawler({
+  maxConnections: 10,
+  callback: function(error, result, $) {
+    if($){
+      $('div.post-content.description').each(function(index, div){
+        var p = $(div).find('p:not([class!=""])').each(function(index, p){
+          var sentense = $(p).text();
+          if(sentense.indexOf('{') < 0){
+            sentences.push(sentense); 
+          }
+        })
+      })
+    }
+  }
+});
+
+var c1 = new Crawler({
+  maxConnections: 10,
+  callback: function(error, result, $) {
+    if($){
+      $('div.entry-content').each(function(index, div){
+        var p = $(div).find('p:not([class!=""])').each(function(index, p){
+          var sentense = $(p).find('em:not([class!=""])').text();
+          sentences.push(sentense); 
+        })
+      })
+    }
+  }
+});
+
+var c2 = new Crawler({
+  maxConnections: 10,
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
+  callback: function(error, result, $) {
+    if($){
+      $('span[itemprop=articleBody]').each(function(index, span){
+        var p = $(span).find('p:not([class!=""])').each(function(index, p){
+          var sentense = $(p).text();
+          console.log(sentense);
+          if(sentense.indexOf('69') < 0){
+            sentences.push(sentense); 
+          }
+        })
+      })
+    }
+  }
+});
+
+c.queue('http://blogtraitim.info/nhung-cau-noi-bat-hu-hay-nhat-trong-tieu-thuyet-ngon-tinh/');
+
+c1.queue('http://chiemtinhhoc.vn/tuyen-tap-nhung-cau-noi-hay-trong-tieu-thuyet-ngon-tinh/');
+c1.queue('https://mannhuocbao.wordpress.com/2013/09/03/mot-so-cau-noi-hay-trong-ngon-tinh-1/');
+
+c2.queue('http://danhngon.net/69-cau-noi-hay-trong-nhung-tieu-thuyet-ngon-tinh/');
