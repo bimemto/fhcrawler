@@ -298,14 +298,51 @@ function doAction(api){
                 }
               })
             }
-          }
-          break;
-          case "event":
-          console.log(event);
-          break;
-        }
-      }
-    }
+          } else if(event.body.indexOf('/tho') > -1){
+            var words = '';
+            if (message.text.length > 5) {
+              words = message.text.substring(message.text.indexOf(' ') + 1);
+            }
+            request.post('http://thomay.vn/index.php?q=tutaochude2', 
+              {form: {
+                'dieukien_tu': '',
+                'dieukien_tu_last': '',
+                'fullbaitho': 'Thêm một khổ',
+                'last': '',
+                'order': '0',
+                'order_cu': '0',
+                'poem': '',
+                'poemSubject_tutao': '1',
+                'poemType': 'Lục bát',
+                'theloai': 'tho',
+                'tulap[cu]': '',
+                'tulap[moi]': '',
+                'tungcau_kho': '',
+                'tunhap_chude': words,
+                'van[cu]': '',
+                'van[moi]': '',
+              }
+            }, function(error, response, body){
+              if(error) {
+                console.log(error);
+              } else {
+                var $ = cheerio.load(body, { decodeEntities: false });
+                if($('font').attr('color', 'Blue').html()){
+                  var tho = $('font').attr('color', 'Blue').html().split('<br>').join('\r\n');
+                  api.sendMessage(tho, event.threadID);
+                } else {
+                  api.sendMessage('Khó thế éo làm đc', event.threadID);
+                }
+              }
+            });
+}
+break;
+case "event":
+console.log(event);
+break;
+}
+}
+}
 
-  });
+});
 }
