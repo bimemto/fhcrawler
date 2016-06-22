@@ -328,7 +328,7 @@ else if (event.body.indexOf('/tt') > -1) {
     response.pipe(file);
     var msg = {
       body: "Kết quả",
-      attachment: file
+      attachment: fs.createReadStream('img.jpg')
     }
     api.sendMessage(msg, event.threadID);
   });
