@@ -214,7 +214,7 @@ fs.exists('diepdj.json', function(exists) {
         doAction(api);
       })} else {
         login({
-          email: "johnnie.dip@gmail.com",
+          email: "johnie.dip@gmail.com",
           password: "Th7NGGx6H8k6gjszYxMGx74cuX7gg6"
         }, function callback(err, api) {
           if(err){
@@ -234,7 +234,7 @@ fs.exists('diepdj.json', function(exists) {
       }
     } else {
       login({
-        email: "johnnie.dip@gmail.com",
+        email: "johnie.dip@gmail.com",
         password: "Th7NGGx6H8k6gjszYxMGx74cuX7gg6"
       }, function callback(err, api) {
         if(err){
