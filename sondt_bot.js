@@ -192,7 +192,7 @@ function doAction(api){
     if (err) console.log(err);
   });
   var uri = 'http://' + imgs[getRandomInt(0, imgs.length)];
-  var file = fs.createWriteStream("img.jpg");
+  var file = fs.createWriteStream("sondt.jpg");
                         // var options = {
                         //     url: uri,
                         //     headers: {'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36'}
@@ -203,7 +203,7 @@ function doAction(api){
                             response.pipe(file);
                             file.on('finish', function(){
                               var msg = {
-                                attachment: fs.createReadStream('img.jpg')
+                                attachment: fs.createReadStream('sondt.jpg')
                               }
                               api.sendMessage(msg, event.threadID);
                             });
@@ -244,3 +244,33 @@ function degToCompass(num) {
   var arr = ["Bắc", "Bắc Bắc Đông", "Đông Bắc", "Đông Đông Bắc", "Đông", "Đông Đông Nam", "Đông Nam", "Nam Nam Đông", "Nam", "Nam Nam Tây", "Tây Nam", "Tây Tây Nam", "Tây", "Tây Tây Bắc", "Tây Bắc", "Bắc Bắc Tây"];
   return arr[(val % 16)];
 }
+
+var c3 = new Crawler({
+    maxConnections: 10,
+    userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
+    callback: function(error, result, $) {
+      if($){
+        $('div.posts.sub-gallery.br5.first-child').find('div.post').each(function(index, div){
+          var id = $(div).attr('id');
+          var details_url = 'http://imgur.com/r/nsfw/' + id;
+          new Crawler({
+            maxConnections: 10,
+            userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
+            callback: function(error, result, $) {
+              if($){
+                var img = $('div.post-image').find('img').attr('src');
+                if(img === undefined || img === 'undefined' || img === ''){
+
+                } else {
+                  img = img.substring(2, img.length);
+                  imgs.push(img);
+              }
+          }
+      }
+  }).queue(details_url);
+      })
+    }
+}
+});
+
+c3.queue('http://imgur.com/r/nsfw');
