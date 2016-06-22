@@ -323,7 +323,10 @@
    });
   } else if(event.body.indexOf('/img') > -1){
     var uri = imgs[getRandomInt(0, imgs.length)];
-    console.log('download: ', uri);
+    download(uri, function(data){
+      console.log('download: ', data);  
+    });
+    
     // download(uri, 'sexy.jpg', function(){
     //   var msg = {
     //     body: "img",
@@ -375,14 +378,14 @@
   });
   }
   
-  var download = function(uri, filename, callback){
-    request.head(uri, function(err, res, body){
-      console.log('content-type:', res.headers['content-type']);
-      console.log('content-length:', res.headers['content-length']);
+  // var download = function(uri, filename, callback){
+  //   request.head(uri, function(err, res, body){
+  //     console.log('content-type:', res.headers['content-type']);
+  //     console.log('content-length:', res.headers['content-length']);
   
-      request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
-    });
-  };
+  //     request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
+  //   });
+  // };
   
   function getDateTime(dayBefore) {
   
