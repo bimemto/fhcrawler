@@ -41,7 +41,7 @@ insertHighlight = function(Title, Date, Desc, Thumb, VideoURL1, VideoURL2, Video
 	});
 };
 
-insertLiveMatch = function(team_home, team_away, logo_home, logo_away, time, league, details_url, live_stream_url) {
+insertLiveMatch = function(team_home, team_away, logo_home, logo_away, time, league, details_url, live_stream_url, callback) {
 	var data = {
 		team_home: team_home,
 		team_away: team_away,
@@ -55,6 +55,7 @@ insertLiveMatch = function(team_home, team_away, logo_home, logo_away, time, lea
 	connection.query("DELETE From live_stream", function(err, res) {
 		if(err){
 			console.log(err);
+			callback(err, res);
 		} else {
 			connection.query('INSERT INTO live_stream SET ?', data, function(err, res) {
 				if (err){
@@ -63,6 +64,7 @@ insertLiveMatch = function(team_home, team_away, logo_home, logo_away, time, lea
 				else {
 					console.log('A new entity has been added.');
 				}
+				callback(err, res);
 			});
 		}
 	});
