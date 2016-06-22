@@ -89,7 +89,7 @@ function doAction(api){
                       var uri = 'http://' + imgs[getRandomInt(0, imgs.length)];
                       var file = fs.createWriteStream("img.jpg");
                       var options = {
-                        host: uri,
+                        url: uri,
                         headers: {'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36'}
                       };
 
