@@ -527,7 +527,9 @@ bot.on('message', function(message) {
             callback: function(error, result, $) {
               if($){
                 var img = $('div.post-image').find('img').attr('src');
-                if(img !== undefined || img !== 'undefined'){
+                if(img === undefined || img === 'undefined'){
+                  
+                } else {
                   img = img.substring(2, img.length);
                   bot.sendMessage(message.chat.id, img);
                 }
