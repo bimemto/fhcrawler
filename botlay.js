@@ -199,7 +199,7 @@
                 }
                 api.sendMessage(msg, event.threadID);
               }
-  
+
             });
           }
           else if (event.body.indexOf('/bd') > -1) {
@@ -258,180 +258,167 @@
                   }
                 }
               });
-  }
-  }
-  else if (event.body.indexOf('/tt') > -1) {
-    api.markAsRead(event.threadID, function(err) {
-      if (err) console.log(err);
-    });
-    var query = new YQL("select * from weather.forecast where (woeid = 2347727) and u='c'");
-  
-    query.exec(function(err, data) {
-      var location = data.query.results.channel.location;
-      var wind = data.query.results.channel.wind;
-      var condition = data.query.results.channel.item.condition;
-      var forecast = data.query.results.channel.item.forecast;
-      var forecastMsg = '';
-      forecastMsg = 'Mai:' + '\r\n' + 'Cao: ' + forecast[0].high + ' độ xê' + '\r\n' + 'Thấp: ' + forecast[0].low + ' độ xê' + '\r\n' + forecast[0].text + '\r\n' + '\r\n'
-      + 'Ngày kia:' + '\r\n' + 'Cao: ' + forecast[1].high + ' độ xê' + '\r\n' + 'Thấp: ' + forecast[1].low + ' độ xê' + '\r\n' + forecast[1].text + '\r\n' + '\r\n'
-      + 'Ngày kìa:' + '\r\n' + 'Cao: ' + forecast[2].high + ' độ xê' + '\r\n' + 'Thấp: ' + forecast[2].low + ' độ xê' + '\r\n' + forecast[2].text + '\r\n';
-      var weatherMsg = 'Bây giờ:' + '\r\n'
-      + condition.temp + ' độ xê' + '\r\n'
-      + 'Gió ' + degToCompass(wind.direction) + ' ' + wind.speed + ' km/h' + '\r\n'
-      + condition.text + '\r\n';
-      api.sendMessage(weatherMsg + '\r\n' + forecastMsg, event.threadID);
-    });
-  } else if(event.body.indexOf('/tho') > -1){
-    api.markAsRead(event.threadID, function(err) {
-      if (err) console.log(err);
-    });
-    var words = '';
-    if (event.body.length > 5) {
-      words = event.body.substring(event.body.indexOf(' ') + 1);
-    }
-    request.post('http://thomay.vn/index.php?q=tutaochude2', 
-      {form: {
-        'dieukien_tu': '',
-        'dieukien_tu_last': '',
-        'fullbaitho': 'Thêm một khổ',
-        'last': '',
-        'order': '0',
-        'order_cu': '0',
-        'poem': '',
-        'poemSubject_tutao': '1',
-        'poemType': 'Lục bát',
-        'theloai': 'tho',
-        'tulap[cu]': '',
-        'tulap[moi]': '',
-        'tungcau_kho': '',
-        'tunhap_chude': words,
-        'van[cu]': '',
-        'van[moi]': '',
-      }
-    }, function(error, response, body){
-      if(error) {
-        console.log(error);
-      } else {
-        var $ = cheerio.load(body, { decodeEntities: false });
-        if($('font').attr('color', 'Blue').html()){
-          var tho = $('font').attr('color', 'Blue').html().split('<br>').join('\r\n');
-          api.sendMessage(tho, event.threadID);
-        } else {
-         api.sendMessage('Khó thế éo làm đc', event.threadID);
-       }
-     }
-   });
-  } else if(event.body.indexOf('/img') > -1){
-    var uri = imgs[getRandomInt(0, imgs.length)];
-    api.sendMessage(uri, event.threadID);
-  }
-  else {
-    for (var i = 0; i < filters.length; i++) {
-      if (wordInString(event.body, filters[i])) {
-        api.markAsRead(event.threadID, function(err) {
-          if (err) console.log(err);
-        });
-        api.getThreadInfo(event.threadID, function(error, info) {
-          if (error) {
-            console.log(error);
-          }
-          else {
-            console.log(info);
-            groupName = info.name;
-            var isGroup = event.isGroup;
-            if (isGroup && blockGroups.indexOf(event.threadID) < 0) {
-              console.log('getUserInfo');
-              api.getUserInfo(event.senderID, function(error, info) {
-                if (error) {
-                  console.log(error);
-                }
-                else {
-                  var from = 'Ahihi';
-                  for (var prop in info) {
-                    from = info[prop].name;
-                  }
-                  bot.sendMessage('-41541244', groupName + '\r\n' + from + ': ' + event.body);
-                }
-              })
-            }
-          }
-        });
-      }
-    }
-  }
-  break;
-  case "event":
-  console.log(event);
-  break;
-  }
-  }
+}
+}
+else if (event.body.indexOf('/tt') > -1) {
+  api.markAsRead(event.threadID, function(err) {
+    if (err) console.log(err);
   });
+  var query = new YQL("select * from weather.forecast where (woeid = 2347727) and u='c'");
+  
+  query.exec(function(err, data) {
+    var location = data.query.results.channel.location;
+    var wind = data.query.results.channel.wind;
+    var condition = data.query.results.channel.item.condition;
+    var forecast = data.query.results.channel.item.forecast;
+    var forecastMsg = '';
+    forecastMsg = 'Mai:' + '\r\n' + 'Cao: ' + forecast[0].high + ' độ xê' + '\r\n' + 'Thấp: ' + forecast[0].low + ' độ xê' + '\r\n' + forecast[0].text + '\r\n' + '\r\n'
+    + 'Ngày kia:' + '\r\n' + 'Cao: ' + forecast[1].high + ' độ xê' + '\r\n' + 'Thấp: ' + forecast[1].low + ' độ xê' + '\r\n' + forecast[1].text + '\r\n' + '\r\n'
+    + 'Ngày kìa:' + '\r\n' + 'Cao: ' + forecast[2].high + ' độ xê' + '\r\n' + 'Thấp: ' + forecast[2].low + ' độ xê' + '\r\n' + forecast[2].text + '\r\n';
+    var weatherMsg = 'Bây giờ:' + '\r\n'
+    + condition.temp + ' độ xê' + '\r\n'
+    + 'Gió ' + degToCompass(wind.direction) + ' ' + wind.speed + ' km/h' + '\r\n'
+    + condition.text + '\r\n';
+    api.sendMessage(weatherMsg + '\r\n' + forecastMsg, event.threadID);
+  });
+} else if(event.body.indexOf('/tho') > -1){
+  api.markAsRead(event.threadID, function(err) {
+    if (err) console.log(err);
+  });
+  var words = '';
+  if (event.body.length > 5) {
+    words = event.body.substring(event.body.indexOf(' ') + 1);
   }
-  
-  var download = function(uri, filename, callback){
-    request.head(uri, function(err, res, body){
-      console.log('content-type:', res.headers['content-type']);
-      console.log('content-length:', res.headers['content-length']);
-  
-      request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
-    });
-  };
-  
-  function getDateTime(dayBefore) {
-  
-    var date = new Date();
-  
-    var year = date.getFullYear();
-  
-    var month = date.getMonth() + 1;
-    month = (month < 10 ? "0" : "") + month;
-  
-    var day = date.getDate() - dayBefore;
-    day = (day < 10 ? "0" : "") + day;
-  
-    return year + "-" + month + "-" + day;
-  
-  }
-  
-  function wordInString(s, word) {
-    return new RegExp('\\b' + word + '\\b', 'i').test(s);
-  }
-  
-  bot.on('message', function(message) {
-    var chat_id = message.chat.id;
-    console.log(message);
-    if(message.text){
-      if(message.text.indexOf('/fh') > -1){
-        var team = '';
-        if (message.text.length > 4) {
-          team = message.text.split(' ')[1];
-          db.getHighLightByTeam(team, function(err, rows) {
-            if (err) {
-              bot.sendMessage(message.chat.id, team + ' có đá đéo đâu mà có. ngu');
-            }
-            else {
-              if (rows.length === 0) {
-                bot.sendMessage(message.chat.id, team + ' có đá đéo đâu mà có. ngu');
+  request.post('http://thomay.vn/index.php?q=tutaochude2', 
+    {form: {
+      'dieukien_tu': '',
+      'dieukien_tu_last': '',
+      'fullbaitho': 'Thêm một khổ',
+      'last': '',
+      'order': '0',
+      'order_cu': '0',
+      'poem': '',
+      'poemSubject_tutao': '1',
+      'poemType': 'Lục bát',
+      'theloai': 'tho',
+      'tulap[cu]': '',
+      'tulap[moi]': '',
+      'tungcau_kho': '',
+      'tunhap_chude': words,
+      'van[cu]': '',
+      'van[moi]': '',
+    }
+  }, function(error, response, body){
+    if(error) {
+      console.log(error);
+    } else {
+      var $ = cheerio.load(body, { decodeEntities: false });
+      if($('font').attr('color', 'Blue').html()){
+        var tho = $('font').attr('color', 'Blue').html().split('<br>').join('\r\n');
+        api.sendMessage(tho, event.threadID);
+      } else {
+       api.sendMessage('Khó thế éo làm đc', event.threadID);
+     }
+   }
+ });
+} else if(event.body.indexOf('/img') > -1){
+  var uri = imgs[getRandomInt(0, imgs.length)];
+  var file = fs.createWriteStream("img.jpg");
+  var request = http.get(uri, function(response) {
+    response.pipe(file);
+    var msg = {
+      body: "Kết quả",
+      attachment: file
+    }
+    api.sendMessage(msg, event.threadID);
+  });
+}
+else {
+  for (var i = 0; i < filters.length; i++) {
+    if (wordInString(event.body, filters[i])) {
+      api.markAsRead(event.threadID, function(err) {
+        if (err) console.log(err);
+      });
+      api.getThreadInfo(event.threadID, function(error, info) {
+        if (error) {
+          console.log(error);
+        }
+        else {
+          console.log(info);
+          groupName = info.name;
+          var isGroup = event.isGroup;
+          if (isGroup && blockGroups.indexOf(event.threadID) < 0) {
+            console.log('getUserInfo');
+            api.getUserInfo(event.senderID, function(error, info) {
+              if (error) {
+                console.log(error);
               }
               else {
-                for (var i = 0; i < rows.length; i++) {
-                  var videoUrl2 = rows[i].VideoURL2;
-                  var videoUrl3 = rows[i].VideoURL3;
-                  if (videoUrl2 === null || videoUrl2 === 'null') {
-                    videoUrl2 = "";
-                  }
-                  if (videoUrl3 === 'null' || videoUrl3 === null) {
-                    videoUrl3 = "";
-                  }
-                  var msg = rows[i].Title + '\r\n' + rows[i].VideoURL1 + '\r\n' + videoUrl2 + '\r\n' + videoUrl3;
-                  bot.sendMessage(message.chat.id, msg);
+                var from = 'Ahihi';
+                for (var prop in info) {
+                  from = info[prop].name;
                 }
+                bot.sendMessage('-41541244', groupName + '\r\n' + from + ': ' + event.body);
               }
-            }
-          });
-        } else {
-          db.getAllHighlight(0, 20, function(err, rows) {
-            if (err) {
+            })
+          }
+        }
+      });
+    }
+  }
+}
+break;
+case "event":
+console.log(event);
+break;
+}
+}
+});
+}
+
+var download = function(uri, filename, callback){
+  request.head(uri, function(err, res, body){
+    console.log('content-type:', res.headers['content-type']);
+    console.log('content-length:', res.headers['content-length']);
+
+    request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
+  });
+};
+
+function getDateTime(dayBefore) {
+
+  var date = new Date();
+  
+  var year = date.getFullYear();
+  
+  var month = date.getMonth() + 1;
+  month = (month < 10 ? "0" : "") + month;
+  
+  var day = date.getDate() - dayBefore;
+  day = (day < 10 ? "0" : "") + day;
+  
+  return year + "-" + month + "-" + day;
+  
+}
+
+function wordInString(s, word) {
+  return new RegExp('\\b' + word + '\\b', 'i').test(s);
+}
+
+bot.on('message', function(message) {
+  var chat_id = message.chat.id;
+  console.log(message);
+  if(message.text){
+    if(message.text.indexOf('/fh') > -1){
+      var team = '';
+      if (message.text.length > 4) {
+        team = message.text.split(' ')[1];
+        db.getHighLightByTeam(team, function(err, rows) {
+          if (err) {
+            bot.sendMessage(message.chat.id, team + ' có đá đéo đâu mà có. ngu');
+          }
+          else {
+            if (rows.length === 0) {
               bot.sendMessage(message.chat.id, team + ' có đá đéo đâu mà có. ngu');
             }
             else {
@@ -444,90 +431,111 @@
                 if (videoUrl3 === 'null' || videoUrl3 === null) {
                   videoUrl3 = "";
                 }
-                bot.sendMessage(message.chat.id, rows[i].Title + '\r\n' + rows[i].VideoURL1 + '\r\n' + videoUrl2 + '\r\n' + videoUrl3);
-              }
-            }
-          });
-        }
-      } else if(message.text.indexOf('/pes') > -1){
-        var number = 1;
-        if (message.text.length > 4) {
-          number = message.text.split(' ')[1];
-        }
-        db.getPesFund(number, function(err, rows) {
-          if (err) {
-            bot.sendMessage(message.chat.id, 'ko có gì nha');
-          }
-          else {
-            if (rows.length === 0) {
-              bot.sendMessage(message.chat.id, 'ko có gì nha');
-            }
-            else {
-              for (var i = 0; i < rows.length; i++) {
-                var changes = rows[i].Changes;
-                var duynk = rows[i].DuyNK;
-                var diepdh = rows[i].DiepDH;
-                var khanhpt = rows[i].KhanhPT;
-                var duypb = rows[i].DuyPB;
-                var total = 'Quỹ còn: ' + rows[i].Total;
-                var note = 'Note: ' + rows[i].Note;
-                var date = dateFormat(rows[i].TimeAdded, "dddd dd-mm-yyyy");
-                if(changes !== '0'){
-                  if(changes.indexOf('-') > -1){
-                    changes = 'Chơi hết: ' + rows[i].Changes;
-                  } else {
-                    changes = 'Thêm quỹ: ' + rows[i].Changes;
-                  }
-                } else {
-                  changes = '';
-                }
-                if(duynk !== '0'){
-                  duynk = 'DuyNK: đã đóng ' + rows[i].DuyNK + '\r\n';
-                } else {
-                  duynk = '';
-                }
-                if(diepdh !== '0'){
-                  diepdh = 'DiepDH: đã đóng ' + rows[i].DiepDH + '\r\n';
-                } else {
-                  diepdh = '';
-                }
-                if(khanhpt !== '0'){
-                  khanhpt = 'KhanhPT: đã đóng ' + rows[i].KhanhPT + '\r\n';
-                } else {
-                  khanhpt = '';
-                }
-                if(duypb !== '0'){
-                  duypb = 'DuyPB: đã đóng ' + rows[i].DuyPB + '\r\n';
-                } else {
-                  duypb = '';
-                }
-                var msg = rows[i].STT + '. ' + date + ':' + '\r\n\r\n' + changes + '\r\n' + duynk + diepdh + khanhpt + duypb + total + '\r\n' + note + '\r\n';
+                var msg = rows[i].Title + '\r\n' + rows[i].VideoURL1 + '\r\n' + videoUrl2 + '\r\n' + videoUrl3;
                 bot.sendMessage(message.chat.id, msg);
               }
             }
           }
         });
-  } else if(message.text.indexOf('/fc') > -1){
-    var degree = 1;
-    if (message.text.length > 4) {
-      degree = message.text.split(' ')[1];
-    }
-    var converted = (degree - 32) * (5/9);
-    bot.sendMessage(message.chat.id, degree + ' độ ép = ' + converted + ' độ xê');
-  } else if(message.text.indexOf('/cf') > -1){
-    var degree = 1;
-    if (message.text.length > 4) {
-      degree = message.text.split(' ')[1];
-    }
-    var converted = degree * 9/5 + 32;
-    bot.sendMessage(message.chat.id, degree + ' độ xê = ' + converted + ' độ ép');
-  } else if(message.text.indexOf('/img') > -1){
-    bot.sendMessage(message.chat.id, imgs[getRandomInt(0, imgs.length)]);
-  } else if(message.text.indexOf('/nt') > -1){
-    bot.sendMessage(message.chat.id, sentences[getRandomInt(0, sentences.length)]);
+      } else {
+        db.getAllHighlight(0, 20, function(err, rows) {
+          if (err) {
+            bot.sendMessage(message.chat.id, team + ' có đá đéo đâu mà có. ngu');
+          }
+          else {
+            for (var i = 0; i < rows.length; i++) {
+              var videoUrl2 = rows[i].VideoURL2;
+              var videoUrl3 = rows[i].VideoURL3;
+              if (videoUrl2 === null || videoUrl2 === 'null') {
+                videoUrl2 = "";
+              }
+              if (videoUrl3 === 'null' || videoUrl3 === null) {
+                videoUrl3 = "";
+              }
+              bot.sendMessage(message.chat.id, rows[i].Title + '\r\n' + rows[i].VideoURL1 + '\r\n' + videoUrl2 + '\r\n' + videoUrl3);
+            }
+          }
+        });
+      }
+    } else if(message.text.indexOf('/pes') > -1){
+      var number = 1;
+      if (message.text.length > 4) {
+        number = message.text.split(' ')[1];
+      }
+      db.getPesFund(number, function(err, rows) {
+        if (err) {
+          bot.sendMessage(message.chat.id, 'ko có gì nha');
+        }
+        else {
+          if (rows.length === 0) {
+            bot.sendMessage(message.chat.id, 'ko có gì nha');
+          }
+          else {
+            for (var i = 0; i < rows.length; i++) {
+              var changes = rows[i].Changes;
+              var duynk = rows[i].DuyNK;
+              var diepdh = rows[i].DiepDH;
+              var khanhpt = rows[i].KhanhPT;
+              var duypb = rows[i].DuyPB;
+              var total = 'Quỹ còn: ' + rows[i].Total;
+              var note = 'Note: ' + rows[i].Note;
+              var date = dateFormat(rows[i].TimeAdded, "dddd dd-mm-yyyy");
+              if(changes !== '0'){
+                if(changes.indexOf('-') > -1){
+                  changes = 'Chơi hết: ' + rows[i].Changes;
+                } else {
+                  changes = 'Thêm quỹ: ' + rows[i].Changes;
+                }
+              } else {
+                changes = '';
+              }
+              if(duynk !== '0'){
+                duynk = 'DuyNK: đã đóng ' + rows[i].DuyNK + '\r\n';
+              } else {
+                duynk = '';
+              }
+              if(diepdh !== '0'){
+                diepdh = 'DiepDH: đã đóng ' + rows[i].DiepDH + '\r\n';
+              } else {
+                diepdh = '';
+              }
+              if(khanhpt !== '0'){
+                khanhpt = 'KhanhPT: đã đóng ' + rows[i].KhanhPT + '\r\n';
+              } else {
+                khanhpt = '';
+              }
+              if(duypb !== '0'){
+                duypb = 'DuyPB: đã đóng ' + rows[i].DuyPB + '\r\n';
+              } else {
+                duypb = '';
+              }
+              var msg = rows[i].STT + '. ' + date + ':' + '\r\n\r\n' + changes + '\r\n' + duynk + diepdh + khanhpt + duypb + total + '\r\n' + note + '\r\n';
+              bot.sendMessage(message.chat.id, msg);
+            }
+          }
+        }
+      });
+} else if(message.text.indexOf('/fc') > -1){
+  var degree = 1;
+  if (message.text.length > 4) {
+    degree = message.text.split(' ')[1];
   }
+  var converted = (degree - 32) * (5/9);
+  bot.sendMessage(message.chat.id, degree + ' độ ép = ' + converted + ' độ xê');
+} else if(message.text.indexOf('/cf') > -1){
+  var degree = 1;
+  if (message.text.length > 4) {
+    degree = message.text.split(' ')[1];
   }
-  });
+  var converted = degree * 9/5 + 32;
+  bot.sendMessage(message.chat.id, degree + ' độ xê = ' + converted + ' độ ép');
+} else if(message.text.indexOf('/img') > -1){
+  bot.sendMessage(message.chat.id, imgs[getRandomInt(0, imgs.length)]);
+} else if(message.text.indexOf('/nt') > -1){
+  bot.sendMessage(message.chat.id, sentences[getRandomInt(0, sentences.length)]);
+}
+}
+});
   
   var job = new CronJob({
     cronTime: '00 00 07 * * 0-6',
@@ -582,7 +590,7 @@
               if($){
                 var img = $('div.post-image').find('img').attr('src');
                 if(img === undefined || img === 'undefined' || img === ''){
-  
+
                 } else {
                   img = img.substring(2, img.length);
                   imgs.push(img);
