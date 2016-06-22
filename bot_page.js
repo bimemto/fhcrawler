@@ -161,3 +161,7 @@ var c3 = new Crawler({
 });
 
 c3.queue('http://imgur.com/r/nsfw');
+
+  function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
