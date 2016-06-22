@@ -126,7 +126,7 @@ function doAction(api){
         if (event.body === '/stop') {
           api.sendMessage("Goodbye...", event.threadID);
           return stopListening();
-        } else if(event.threadID === '127905330720913'){
+        }/* else if(event.threadID === '127905330720913'){
           if(tinh_nguoi === false){
             if(wordInString(event.body, 'thắng')){
               api.getThreadInfo(event.threadID, function(error, info) {
@@ -175,7 +175,7 @@ function doAction(api){
             }
             api.sendMessage('a Thắng bảo: ' + msg, '127905330720913');
           }
-        } else if (event.body.indexOf('/kq') > -1) {
+        }*/ else if (event.body.indexOf('/kq') > -1) {
           api.markAsRead(event.threadID, function(err) {
             if (err) console.log(err);
           });
