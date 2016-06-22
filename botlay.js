@@ -24,20 +24,20 @@
   var imgs = [];
   var sentences = [];
   
-  function download(url, callback) {
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-    http.get(url, function(res) {
-      var data = "";
-      res.on('data', function(chunk) {
-        data += chunk;
-      });
-      res.on("end", function() {
-        callback(data);
-      });
-    }).on("error", function() {
-      callback(null);
-    });
-  }
+  // function download(url, callback) {
+  //   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+  //   http.get(url, function(res) {
+  //     var data = "";
+  //     res.on('data', function(chunk) {
+  //       data += chunk;
+  //     });
+  //     res.on("end", function() {
+  //       callback(data);
+  //     });
+  //   }).on("error", function() {
+  //     callback(null);
+  //   });
+  // }
   
   function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -323,17 +323,14 @@
    });
   } else if(event.body.indexOf('/img') > -1){
     var uri = imgs[getRandomInt(0, imgs.length)];
-    download(uri, function(data){
-      console.log('download: ', data);  
+    console.log('download: ', uri);
+    download(uri, 'sexy.jpg', function(){
+      var msg = {
+        body: "img",
+        attachment: fs.createReadStream('sexy.jpg')
+      }
+      api.sendMessage(msg, event.threadID);
     });
-    
-    // download(uri, 'sexy.jpg', function(){
-    //   var msg = {
-    //     body: "img",
-    //     attachment: fs.createReadStream('sexy.jpg')
-    //   }
-    //   api.sendMessage(msg, event.threadID);
-    // });
   }
   else {
     for (var i = 0; i < filters.length; i++) {
@@ -378,14 +375,14 @@
   });
   }
   
-  // var download = function(uri, filename, callback){
-  //   request.head(uri, function(err, res, body){
-  //     console.log('content-type:', res.headers['content-type']);
-  //     console.log('content-length:', res.headers['content-length']);
+  var download = function(uri, filename, callback){
+    request.head(uri, function(err, res, body){
+      console.log('content-type:', res.headers['content-type']);
+      console.log('content-length:', res.headers['content-length']);
   
-  //     request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
-  //   });
-  // };
+      request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
+    });
+  };
   
   function getDateTime(dayBefore) {
   
