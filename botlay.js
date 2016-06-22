@@ -326,11 +326,13 @@ else if (event.body.indexOf('/tt') > -1) {
   var file = fs.createWriteStream("img.jpg");
   var request = http.get(uri, function(response) {
     response.pipe(file);
-    var msg = {
-      body: "Kết quả",
-      attachment: fs.createReadStream('img.jpg')
-    }
-    api.sendMessage(msg, event.threadID);
+    file.on('finish', function(){
+      var msg = {
+        body: "Gái",
+        attachment: fs.createReadStream('img.jpg')
+      }
+      api.sendMessage(msg, event.threadID);
+    });
   });
 }
 else {
