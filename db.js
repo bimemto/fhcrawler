@@ -41,6 +41,33 @@ insertHighlight = function(Title, Date, Desc, Thumb, VideoURL1, VideoURL2, Video
 	});
 };
 
+insertLiveMatch = function(team_home, team_away, logo_home, logo_away, time, league, details_url, live_stream_url) {
+	var data = {
+		team_home: team_home,
+		team_away: team_away,
+		logo_home: logo_home,
+		logo_away: logo_away,
+		time: time,
+		league: league,
+		details_url: details_url,
+		live_stream_url: live_stream_url
+	};
+	connection.query("DELETE From live_stream", function(err, res) {
+		if(err){
+			console.log(err);
+		} else {
+			connection.query('INSERT INTO live_stream SET ?', data, function(err, res) {
+				if (err){
+					console.log(err);
+				}
+				else {
+					console.log('A new entity has been added.');
+				}
+			});
+		}
+	});
+};
+
 checkExist = function(title, callback) {
 	connection.query("SELECT * From highlight WHERE Title='" + title + "'", function(err, res) {
 		callback(res.length);
@@ -59,8 +86,40 @@ getAllVideos = function(offset, limit, callback) {
 	});
 }
 
+getMatchList = function(callback) {
+	connection.query("SELECT * From live_stream", function(err, rows) {
+		callback(err, rows);
+	});
+}
+
 getHighLightByTeam = function(team, callback) {
 	connection.query("SELECT * From highlight WHERE TimeAdded >= NOW() - INTERVAL 2 DAY AND Title LIKE " + "'%" + team + "%'", function(err, rows) {
+		callback(err, rows);
+	});
+}
+
+getPesFund = function(daysAgo, callback) {
+	var query;
+	if(daysAgo === 0){
+		query = "SELECT * FROM PesFund ORDER BY STT DESC";
+	} else {
+		query = "SELECT * From PesFund ORDER BY STT DESC LIMIT " + daysAgo;
+	}
+	connection.query(query, function(err, rows) {
+		callback(err, rows);
+	});
+}
+
+getSentence1 = function(callback) {
+	var query = "SELECT * FROM DanhNgon WHERE id = 6";
+	connection.query(query, function(err, rows) {
+		callback(err, rows);
+	});
+}
+
+getSentence2 = function(callback) {
+	var query = "SELECT * FROM DanhNgon WHERE id = 4";
+	connection.query(query, function(err, rows) {
 		callback(err, rows);
 	});
 }
@@ -71,24 +130,29 @@ closeDB = function() {
 
 function getDateTime() {
 
-    var date = new Date();
+	var date = new Date();
 
-    var year = date.getFullYear();
+	var year = date.getFullYear();
 
-    var month = date.getMonth() + 1;
-    month = (month < 10 ? "0" : "") + month;
+	var month = date.getMonth() + 1;
+	month = (month < 10 ? "0" : "") + month;
 
-    var day  = date.getDate();
-    day = (day < 10 ? "0" : "") + day;
+	var day  = date.getDate();
+	day = (day < 10 ? "0" : "") + day;
 
-    return year + "-" + month + "-" + day;
+	return year + "-" + month + "-" + day;
 
 }
 
 module.exports.connectDB = connectDB;
 module.exports.insertHighlight = insertHighlight;
+module.exports.insertLiveMatch = insertLiveMatch;
 module.exports.closeDB = closeDB;
 module.exports.checkExist = checkExist;
 module.exports.getAllHighlight = getAllHighlight;
 module.exports.getAllVideos = getAllVideos;
+module.exports.getMatchList = getMatchList;
 module.exports.getHighLightByTeam = getHighLightByTeam;
+module.exports.getPesFund = getPesFund;
+module.exports.getSentence1 = getSentence1;
+module.exports.getSentence2 = getSentence2;
