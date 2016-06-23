@@ -46,6 +46,9 @@ app.get('/euro/api/get_live_url', function(req, res){
                             console.log('ahihi', iframe2Url);
                             if(iframe2Url){
                                 if(iframe2Url.indexOf('youtube.com') > -1  || iframe2Url.indexOf('http://tv.keonhacai.com/talk.php') > -1){
+                                    if(iframe2Url.lastIndexOf('//', 0) === 0){
+                                        iframe2Url = 'http:' + iframe2Url;
+                                    }
                                     var data = {live_url: iframe2Url};
                                     res.send(data); 
                                 } else {
