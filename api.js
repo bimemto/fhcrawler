@@ -26,17 +26,43 @@ var http = require("http");
 // 	}
 // }).queue('http://imgur.com/r/nsfw');
 
-var uri = 'http://i.imgur.com/0u68ITp.jpg';//imgs[getRandomInt(0, imgs.length)];
-var file = fs.createWriteStream("img.jpg");
-var request = http.get(uri, function(response) {
-	response.pipe(file);
-	console.log('done');
-	// var msg = {
-	// 	body: "Kết quả",
-	// 	attachment: file
-	// }
-	// api.sendMessage(msg, event.threadID);
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+var c3 = new Crawler({
+    maxConnections: 10,
+    userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
+    callback: function(error, result, $) {
+      if($){
+        var divPost = $('div.posts.sub-gallery.br5.first-child').find('div.post');
+        var item = divPost[getRandomInt(0, divPost.length - 1)];
+        var id = $(item).attr('id');
+        console.log('hehe: ', id);
+        $('div.posts.sub-gallery.br5.first-child').find('div.post').each(function(index, div){
+    //       var id = $(div).attr('id');
+    //       var details_url = 'http://imgur.com/r/nsfw/' + id;
+    //       new Crawler({
+    //         maxConnections: 10,
+    //         userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
+    //         callback: function(error, result, $) {
+    //           if($){
+    //             var img = $('div.post-image').find('img').attr('src');
+    //             if(img === undefined || img === 'undefined' || img === ''){
+
+    //             } else {
+    //               img = img.substring(2, img.length);
+    //               imgs.push(img);
+    //           }
+    //       }
+    //   	}
+  		// }).queue(details_url);
+      })
+    }
+}
 });
+
+c3.queue('http://imgur.com/r/nsfw');
 
 // var c = new Crawler({
 //     maxConnections: 10,
