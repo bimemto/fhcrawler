@@ -86,5 +86,11 @@ var server = app.listen(6868, function() {
     var port = server.address().port
 
     console.log("Example app listening at http://%s:%s", host, port)
-
+    db.connectDB(function(error, result){
+        if(error){
+            console.log(error);
+        } else {
+            console.log('connected to db');
+        }
+    });
 })
