@@ -321,26 +321,7 @@ else if (event.body.indexOf('/tt') > -1) {
      }
    }
  });
-} /*else if(event.body.indexOf('/img') > -1){
-  var uri = 'http://' + imgs[getRandomInt(0, imgs.length)];
-  var file = fs.createWriteStream("img.jpg");
-  var request = http.get(uri, function(error, response) {
-    if(error){
-      console.log(error);
-    } else {
-      response.pipe(file);
-      file.on('finish', function(){
-        var msg = {
-          body: "Gái",
-          attachment: fs.createReadStream('img.jpg')
-        }
-        api.sendMessage(msg, event.threadID);
-      });
-    }
-    
-  });
-}*/
-else {
+} else {
   for (var i = 0; i < filters.length; i++) {
     if (wordInString(event.body, filters[i])) {
       api.markAsRead(event.threadID, function(err) {
@@ -538,33 +519,33 @@ bot.on('message', function(message) {
   bot.sendMessage(message.chat.id, degree + ' độ xê = ' + converted + ' độ ép');
 } else if(message.text.indexOf('/img') > -1){
   new Crawler({
-              maxConnections: 10,
-              userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
-              callback: function(error, result, $) {
-                if($){
-                  var divPost = $('div.posts.sub-gallery.br5.first-child').find('div.post');
-                  var item = divPost[getRandomInt(0, divPost.length - 1)];
-                  var id = $(item).attr('id');
-                  var details_url = 'http://imgur.com/r/nsfw/' + id;
-                  new Crawler({
-                    maxConnections: 10,
-                    userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
-                    callback: function(error, result, $) {
-                      if($){
-                        var img = $('div.post-image').find('img').attr('src');
-                        if(img === undefined || img === 'undefined' || img === ''){
+    maxConnections: 10,
+    userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
+    callback: function(error, result, $) {
+      if($){
+        var divPost = $('div.posts.sub-gallery.br5.first-child').find('div.post');
+        var item = divPost[getRandomInt(0, divPost.length - 1)];
+        var id = $(item).attr('id');
+        var details_url = 'http://imgur.com/r/nsfw/' + id;
+        new Crawler({
+          maxConnections: 10,
+          userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
+          callback: function(error, result, $) {
+            if($){
+              var img = $('div.post-image').find('img').attr('src');
+              if(img === undefined || img === 'undefined' || img === ''){
 
-                        } else {
-                          var file = fs.createWriteStream("img.jpg");
-                          var url = 'http:' + img;
-                          bot.sendMessage(message.chat.id, url);
-                      }
-                    }
-                  }
-                }).queue(details_url);
+              } else {
+                var file = fs.createWriteStream("img.jpg");
+                var url = 'http:' + img;
+                bot.sendMessage(message.chat.id, url);
               }
             }
-          }).queue('http://imgur.com/r/nsfw');
+          }
+        }).queue(details_url);
+      }
+    }
+  }).queue('http://imgur.com/r/nsfw');
 } else if(message.text.indexOf('/nt') > -1){
   bot.sendMessage(message.chat.id, sentences[getRandomInt(0, sentences.length)]);
 }
