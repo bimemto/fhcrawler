@@ -1,21 +1,33 @@
 var mysql = require('mysql');
-var connection = mysql.createConnection({
+
+var db_config = {
 	host: '103.53.170.173',
 	user: 'duynk',
 	password: 'smilelife',
 	database: 'euro_2016'
-});
+};
 
-//var insertRecord = 'INSERT INTO highlight(Title,Date,Desc,Thumb,VideoURL1,VideoURL2,VideoURL3) VALUE(?,?,?,?,?,?,?)';
-
-//var readTable = 'SELECT * FROM highlight';
-
-//var deleteRecord = 'DELETE FROM highlight WHERE title=?';
+var connection;
 
 connectDB = function(callback) {
+	connection = mysql.createConnection(db_config); // Recreate the connection, since
 	connection.connect(function(error, result){
-		callback(error, result);
+		if(error){
+			console.log('error when connecting to db:', err);
+      		setTimeout(connectDB, 2000);
+		} else {
+			callback(error, result);	
+		}
 	});
+
+	connection.on('error', function(err) {
+    console.log('db error', err);
+    if(err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
+      connectDB();                         // lost due to either server restart, or a
+    } else {                                      // connnection idle timeout (the wait_timeout
+      throw err;                                  // server variable configures this)
+    }
+  });
 };
 
 insertHighlight = function(Title, Date, Desc, Thumb, VideoURL1, VideoURL2, VideoURL3) {
