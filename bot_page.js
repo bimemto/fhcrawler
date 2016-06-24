@@ -125,9 +125,9 @@ function doAction(api){
                     }
                   }
                 }).queue(details_url);
-}
-}
-}).queue('http://imgur.com/r/nsfw');
+              }
+            }
+          }).queue('http://imgur.com/r/nsfw');
 
 
 
