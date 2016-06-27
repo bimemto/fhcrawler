@@ -89,7 +89,6 @@ function doAction(api){
 						api.sendMessage("Goodbye...", event.threadID);
 						return stopListening();
 					} else if(event.body.indexOf('/nt') > -1){
-						console.log(sentences.length);
 						api.markAsRead(event.threadID, function(err) {
 							if (err) console.log(err);
 						});

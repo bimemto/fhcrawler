@@ -44,7 +44,7 @@
   }
   
   var filters = ["duy", "gamota", "android", "salem", "app", "native", "họp"];
-  var blockGroups = ['945316938871705', '127905330720913']
+  var blockGroups = ['945316938871705', '1086254248112194']
   
   var readline = require("readline");
   var rl = readline.createInterface({
