@@ -107,13 +107,8 @@ var c = new Crawler({
 });
 
 crawl = function() {
-    db.connectDB(function(error, result) {
-        if (error) {
-            console.log(error);
-        }
-        else {
-            c.queue('http://keonhacai.com');
-        }
+    db.connectDB(function(result) {
+        c.queue('http://keonhacai.com');
     });
 };
 

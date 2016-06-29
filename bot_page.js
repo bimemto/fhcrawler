@@ -68,7 +68,7 @@ fs.exists('botpage.json', function(exists) {
 
 function doAction(api){
   fs.writeFileSync('botpage.json', JSON.stringify(api.getAppState()));
-  db.connectDB(function(err, res) {
+  db.connectDB(function(res) {
 
   });
   api.setOptions({

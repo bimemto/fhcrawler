@@ -16,7 +16,7 @@ connectDB = function(callback) {
 			console.log('error when connecting to db:', err);
       		setTimeout(connectDB, 2000);
 		} else {
-			callback(error, result);	
+			callback(result);	
 		}
 	});
 
