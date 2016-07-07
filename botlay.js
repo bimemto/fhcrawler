@@ -43,7 +43,7 @@
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
   
-  var filters = ["duy", "gamota", "android", "salem", "app", "native", "họp"];
+  var filters = ["duy", "salem", "họp"];
   var blockGroups = ['945316938871705', '1086254248112194']
   
   var readline = require("readline");
