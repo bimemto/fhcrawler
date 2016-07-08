@@ -321,6 +321,11 @@ else if (event.body.indexOf('/tt') > -1) {
      }
    }
  });
+} else if(event.body.indexOf('/troi') > -1){
+  api.markAsRead(event.threadID, function(err) {
+        if (err) console.log(err);
+      });
+  api.sendMessage('.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n', event.threadID);
 } else {
   for (var i = 0; i < filters.length; i++) {
     if (wordInString(event.body, filters[i])) {
