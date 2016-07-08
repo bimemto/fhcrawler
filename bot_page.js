@@ -90,7 +90,7 @@ function doAction(api){
             api.markAsRead(event.threadID, function(err) {
               if (err) console.log(err);
             });
-            api.sendMessage('.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n', event.threadID);
+            api.sendMessage('.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n', event.threadID);
           }  else if(event.body.indexOf('/img') > -1){
             api.markAsRead(event.threadID, function(err) {
               if (err) console.log(err);
