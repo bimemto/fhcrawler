@@ -86,7 +86,12 @@ function doAction(api){
           if (event.body === '/stop') {
             api.sendMessage("Goodbye...", event.threadID);
             return stopListening();
-          } else if(event.body.indexOf('/img') > -1){
+          }else if(event.body.indexOf('/troi') > -1){
+            api.markAsRead(event.threadID, function(err) {
+              if (err) console.log(err);
+            });
+            api.sendMessage('.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n', event.threadID);
+          }  else if(event.body.indexOf('/img') > -1){
             api.markAsRead(event.threadID, function(err) {
               if (err) console.log(err);
             });
