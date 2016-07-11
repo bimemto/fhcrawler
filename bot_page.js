@@ -220,7 +220,6 @@ var c2 = new Crawler({
       $('span[itemprop=articleBody]').each(function(index, span){
         var p = $(span).find('p:not([class!=""])').each(function(index, p){
           var sentense = $(p).text();
-          console.log(sentense);
           if(sentense.indexOf('69') < 0){
             sentences.push(sentense); 
           }
