@@ -66,6 +66,17 @@ fs.exists('botpage.json', function(exists) {
   }
 });
 
+function callBotApi(command){
+  request.post('http://bu.1ly.co:6868/bot/center?command=' + command, function(error, response, body){
+    if(error) {
+      return '';
+    } else {
+      return body;
+    }
+  }
+});
+}
+
 function doAction(api){
   fs.writeFileSync('botpage.json', JSON.stringify(api.getAppState()));
   db.connectDB(function(res) {
@@ -90,7 +101,8 @@ function doAction(api){
             api.markAsRead(event.threadID, function(err) {
               if (err) console.log(err);
             });
-            api.sendMessage('.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n', event.threadID);
+            var mess = callBotApi('troi');
+            api.sendMessage(mess, event.threadID);
           }  else if(event.body.indexOf('/img') > -1){
             api.markAsRead(event.threadID, function(err) {
               if (err) console.log(err);
@@ -160,7 +172,7 @@ function doAction(api){
     type = event.body.substring(event.body.indexOf(' ') + 1);
   }
   if(type === 'vip'){
-      crawlUrl = 'http://goihang.net/forums/gai-goi-ha-noi-cao-cap.31/';
+    crawlUrl = 'http://goihang.net/forums/gai-goi-ha-noi-cao-cap.31/';
   } else if(type === 'kiemdinh'){
     crawlUrl = 'http://goihang.net/forums/gai-goi-ha-noi-kiem-dinh.29/';
   } else if(type === 'tdh'){
@@ -231,19 +243,19 @@ function doAction(api){
         var root = $('ol.discussionListItems');
         var ol = root[getRandomInt(0, root.length - 1)];
         var hot = $(ol).find('li.discussionListItem.visible.sticky');
-          var normal = $(ol).find('li.discussionListItem.visible');
-          var hotItem = hot[getRandomInt(0, hot.length - 1)];
-          var normalItem = normal[getRandomInt(0, normal.length - 1)];
-          var result = [hotItem, normalItem];
-          var resultItem = result[getRandomInt(0, 1)];
-          var img = $(resultItem).find('img').attr('src');
-          var title = $(resultItem).find('div.titleText').find('a.PreviewTooltip').text();
-          var link = 'http://goihang.net/' + $(resultItem).find('div.titleText').find('a.PreviewTooltip').attr('href');
-          var price = $(resultItem).find('div.titleText').find('a.prefixLink').find('span').text();
-          var msg = price + '. ' + title + '\r\n' + link;
-          api.sendMessage(msg, event.threadID);
+        var normal = $(ol).find('li.discussionListItem.visible');
+        var hotItem = hot[getRandomInt(0, hot.length - 1)];
+        var normalItem = normal[getRandomInt(0, normal.length - 1)];
+        var result = [hotItem, normalItem];
+        var resultItem = result[getRandomInt(0, 1)];
+        var img = $(resultItem).find('img').attr('src');
+        var title = $(resultItem).find('div.titleText').find('a.PreviewTooltip').text();
+        var link = 'http://goihang.net/' + $(resultItem).find('div.titleText').find('a.PreviewTooltip').attr('href');
+        var price = $(resultItem).find('div.titleText').find('a.prefixLink').find('span').text();
+        var msg = price + '. ' + title + '\r\n' + link;
+        api.sendMessage(msg, event.threadID);
       }
-  }
+    }
   }).queue(crawlUrl);
 } 
 }
