@@ -9,6 +9,8 @@ var http = require('http');
 var imgs = [];
 var sentences = [];
 
+var webshot = require('webshot');
+
 fs.exists('botpage.json', function(exists) {
   if (exists) {
     var appstate = JSON.parse(fs.readFileSync('botpage.json', 'utf8'));
