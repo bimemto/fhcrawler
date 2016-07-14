@@ -302,16 +302,16 @@ c2.queue('http://danhngon.net/69-cau-noi-hay-trong-nhung-tieu-thuyet-ngon-tinh/'
 
 function getDateTime(dayBefore) {
 
-  var date = new Date();
+	var date = new Date();
 
-  var year = date.getFullYear();
+	var year = date.getFullYear();
 
-  var month = date.getMonth() + 1;
-  month = (month < 10 ? "0" : "") + month;
+	var month = date.getMonth() + 1;
+	month = (month < 10 ? "0" : "") + month;
 
-  var day = date.getDate() - dayBefore;
-  day = (day < 10 ? "0" : "") + day;
+	var day = date.getDate() - dayBefore;
+	day = (day < 10 ? "0" : "") + day;
 
-  return year + "-" + month + "-" + day;
+	return year + "-" + month + "-" + day;
 
 }
