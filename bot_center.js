@@ -8,6 +8,8 @@ var dateFormat = require("dateformat");
 var request = require('request'); 
 var CronJob = require('cron').CronJob;
 var Crawler = require("crawler");
+var express = require('express');
+var app = express();
 
 app.get('/bot/center',function(req, res){
 	var command = req.param('command', null);
