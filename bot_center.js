@@ -20,8 +20,8 @@ app.get('/bot/center',function(req, res){
 	} else if(command.indexOf('rau') > -1){
 		var type = '';
 		var crawlUrl = '';
-		if (event.body.length > 5) {
-			type = event.body.substring(event.body.indexOf(' ') + 1);
+		if (command.length > 5) {
+			type = command.substring(command.indexOf(' ') + 1);
 		}
 		if(type === 'vip'){
 			crawlUrl = 'http://goihang.net/forums/gai-goi-ha-noi-cao-cap.31/';
