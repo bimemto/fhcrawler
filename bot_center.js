@@ -159,6 +159,7 @@ app.get('/bot/center',function(req, res){
 			} else {
 				message = 'Khó thế éo làm đc';
 			}
+			res.send(message);
 		}
 	});
 } else if(command === 'quay'){
