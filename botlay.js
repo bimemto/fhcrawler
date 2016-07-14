@@ -450,6 +450,9 @@ bot.on('message', function(message) {
           }
         });
       }
+    } else if(message.text.indexOf('/rand') > -1){
+        var number = getRandomInt(1, 10);
+        bot.sendMessage(message.chat.id, number);
     } else if(message.text.indexOf('/pes') > -1){
       var number = 1;
       if (message.text.length > 4) {
