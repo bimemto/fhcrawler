@@ -173,6 +173,34 @@ app.get('/bot/center',function(req, res){
 		}
 		res.send(message);
 	});
+} else if(command === 'img'){
+	new Crawler({
+		maxConnections: 10,
+		userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
+		callback: function(error, result, $) {
+			if($){
+				var divPost = $('div.posts.sub-gallery.br5.first-child').find('div.post');
+				var item = divPost[getRandomInt(0, divPost.length - 1)];
+				var id = $(item).attr('id');
+				var details_url = 'http://imgur.com/r/nsfw/' + id;
+				new Crawler({
+					maxConnections: 10,
+					userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
+					callback: function(error, result, $) {
+						if($){
+							var img = $('div.post-image').find('img').attr('src');
+							if(img === undefined || img === 'undefined' || img === ''){
+
+							} else {
+								var url = 'http:' + img;
+								res.send(url);
+							}
+						}
+					}
+				}).queue(details_url);
+			}
+		}
+	}).queue('http://imgur.com/r/nsfw');
 }
 });
 
@@ -187,7 +215,7 @@ function getRandomInt(min, max) {
 }
 
 function degToCompass(num) {
-  var val = Math.floor((num / 22.5) + 0.5);
-  var arr = ["Bắc", "Bắc Bắc Đông", "Đông Bắc", "Đông Đông Bắc", "Đông", "Đông Đông Nam", "Đông Nam", "Nam Nam Đông", "Nam", "Nam Nam Tây", "Tây Nam", "Tây Tây Nam", "Tây", "Tây Tây Bắc", "Tây Bắc", "Bắc Bắc Tây"];
-  return arr[(val % 16)];
+	var val = Math.floor((num / 22.5) + 0.5);
+	var arr = ["Bắc", "Bắc Bắc Đông", "Đông Bắc", "Đông Đông Bắc", "Đông", "Đông Đông Nam", "Đông Nam", "Nam Nam Đông", "Nam", "Nam Nam Tây", "Tây Nam", "Tây Tây Nam", "Tây", "Tây Tây Bắc", "Tây Bắc", "Bắc Bắc Tây"];
+	return arr[(val % 16)];
 }
