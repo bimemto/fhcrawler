@@ -398,6 +398,18 @@ function wordInString(s, word) {
   return new RegExp('\\b' + word + '\\b', 'i').test(s);
 }
 
+var mess = '9-11h30: Nhà thầy
+11h30-2h30:  Goldmalt 397 Trường Chinh, Phường Ngã Tư Sở
+2h30-4h30: Kara 
+4h30-6h: HưƠng Sen
+Yêu cầu
+1. Tham gia vs tinh thần tự giác và có ý thức tôn trọng đồng mâm
+2. Anh Khánh nộp số tiền là 3M cho ng đặt bàn là Anh Bá để thanh toán linh hoạt
+3. Anh Đào hồng Địp rút kinh nghiệm lần họp mặt gần đây nhất làm suy giảm nghiêm trọng tinh thần của cả đội. Lời khuyên này thay cho lời cảnh báo. Nếu tái phạm sẽ có hình thức sử lý cưỡng chế từ bố của Mon
+4. Bia ở quán lần này có vại 500ml và 1 lít. Ban đầu sẽ uống vại 1 lít. Cốc sau sẽ căn theo thể lực của cả đội
+5. Anh Nguyễn Vịt Anh do lí do công việc nên được chiếu cố có thể góp mặt lúc 11h45 tại địa chỉ  397 Trường Chinh, Phường Ngã Tư Sở. Nếu không tuân thủ sẽ có hình thức kỉ luật cưỡng chế từ bố của Min.
+6. Lịch trình được set đến 18h cùng ngày. Tuy nhiên phát sinh là tất yếu sẽ do a Bá set up';
+
 bot.on('message', function(message) {
   var chat_id = message.chat.id;
   console.log(message);
@@ -450,9 +462,8 @@ bot.on('message', function(message) {
           }
         });
       }
-    } else if(message.text.indexOf('/rand') > -1){
-        var number = getRandomInt(1, 200);
-        bot.sendMessage(message.chat.id, number);
+    } else if(message.text.indexOf('/quay') > -1){
+        bot.sendMessage(message.chat.id, mess);
     } else if(message.text.indexOf('/pes') > -1){
       var number = 1;
       if (message.text.length > 4) {
