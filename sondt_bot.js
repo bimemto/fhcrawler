@@ -163,6 +163,13 @@ function doAction(api){
                 }
               }); 
             });
+          } else if(event.body.indexOf('/tt') > -1){
+            api.markAsRead(event.threadID, function(err) {
+              if (err) console.log(err);
+            });
+            var mess = callBotApi('tt', function(result){
+              api.sendMessage(result, event.threadID);  
+            });
           }
         }
 
