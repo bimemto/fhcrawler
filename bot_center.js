@@ -17,6 +17,7 @@ app.get('/bot/center',function(req, res){
 	var message;
 	if(command === 'troi'){
 		message = '.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n';
+		res.send(message);
 	} else if(command.indexOf('rau') > -1){
 		var type = '';
 		var crawlUrl = '';
@@ -105,6 +106,7 @@ app.get('/bot/center',function(req, res){
 				} else {
 					message = 'not available';
 				}
+				res.send(message);
 			}
 		}).queue(crawlUrl);
 } else if(command === 'tt'){
@@ -169,6 +171,7 @@ app.get('/bot/center',function(req, res){
 		} else {
 			message = data;
 		}
+		res.send(message);
 	});
 }
 });
