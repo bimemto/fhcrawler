@@ -105,12 +105,10 @@ app.get('/bot/center',function(req, res){
 				} else {
 					message = 'not available';
 				}
-				res.send(message);
 			}
 		}).queue(crawlUrl);
 } else if(command === 'tt'){
 	var query = new YQL("select * from weather.forecast where (woeid = 2347727) and u='c'");
-
 	query.exec(function(err, data) {
 		var location = data.query.results.channel.location;
 		var wind = data.query.results.channel.wind;
@@ -125,6 +123,7 @@ app.get('/bot/center',function(req, res){
 		+ 'Gió ' + degToCompass(wind.direction) + ' ' + wind.speed + ' km/h' + '\r\n'
 		+ condition.text + '\r\n';
 		message = weatherMsg + '\r\n' + forecastMsg;
+		res.send(message);
 	});
 } else if(command.indexOf('/tho') > -1){
 	var words = '';
@@ -171,7 +170,6 @@ app.get('/bot/center',function(req, res){
 		}
 	});
 }
-res.send(message);
 });
 
 var server = app.listen(6868, function() {
@@ -181,5 +179,5 @@ var server = app.listen(6868, function() {
 })
 
 function getRandomInt(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
