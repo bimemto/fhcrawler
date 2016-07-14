@@ -125,7 +125,7 @@ app.get('/bot/center',function(req, res){
 		message = weatherMsg + '\r\n' + forecastMsg;
 		res.send(message);
 	});
-} else if(command.indexOf('/tho') > -1){
+} else if(command.indexOf('tho') > -1){
 	var words = '';
 	if (command.length > 5) {
 		words = command.substring(command.indexOf(' ') + 1);
