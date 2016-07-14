@@ -66,12 +66,12 @@ fs.exists('botpage.json', function(exists) {
   }
 });
 
-function callBotApi(command){
+function callBotApi(command, callback){
   request.post('http://bu.1ly.co:6868/bot/center?command=' + command, function(error, response, body){
     if(error) {
-      return '';
+      callback('');
     } else {
-      return body;
+      callback(body);
     }
   });
 }
@@ -100,8 +100,9 @@ function doAction(api){
             api.markAsRead(event.threadID, function(err) {
               if (err) console.log(err);
             });
-            var mess = callBotApi('troi');
-            api.sendMessage(mess, event.threadID);
+            var mess = callBotApi('troi', function(result){
+              api.sendMessage(result, event.threadID);  
+            });
           }  else if(event.body.indexOf('/img') > -1){
             api.markAsRead(event.threadID, function(err) {
               if (err) console.log(err);
