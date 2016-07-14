@@ -127,8 +127,8 @@ app.get('/bot/center',function(req, res){
 	});
 } else if(command.indexOf('/tho') > -1){
 	var words = '';
-	if (event.body.length > 5) {
-		words = event.body.substring(event.body.indexOf(' ') + 1);
+	if (command.length > 5) {
+		words = command.substring(command.indexOf(' ') + 1);
 	}
 	request.post('http://thomay.vn/index.php?q=tutaochude2', 
 		{form: {
