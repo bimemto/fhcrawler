@@ -67,7 +67,7 @@ fs.exists('botpage.json', function(exists) {
 });
 
 function callBotApi(command, callback){
-  request.post('http://bu.1ly.co:6868/bot/center?command=' + command, function(error, response, body){
+  request.get('http://bu.1ly.co:6868/bot/center?command=' + command, function(error, response, body){
     if(error) {
       callback('');
     } else {
