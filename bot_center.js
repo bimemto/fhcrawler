@@ -190,7 +190,7 @@ app.get('/bot/center',function(req, res){
 						if($){
 							var img = $('div.post-image').find('img').attr('src');
 							if(img === undefined || img === 'undefined' || img === ''){
-
+								res.send('lil');
 							} else {
 								var url = 'http:' + img;
 								res.send(url);
