@@ -458,6 +458,9 @@ bot.on('message', function(message) {
       if (message.text.length > 4) {
         number = message.text.split(' ')[1];
       }
+      if(number === 'pair'){
+        bot.sendMessage(message.chat.id, 'Khanh: ' + getRandomInt(0, 200) + '\r\n' + 'Điệp: ' + getRandomInt(0, 200) + '\r\n' + 'Bá: ' + getRandomInt(0, 200) + '\r\n' + 'Khánh: ' + getRandomInt(0, 200));
+      }
       db.getPesFund(number, function(err, rows) {
         if (err) {
           bot.sendMessage(message.chat.id, 'ko có gì nha');
