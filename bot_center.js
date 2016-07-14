@@ -105,6 +105,7 @@ app.get('/bot/center',function(req, res){
 				} else {
 					message = 'not available';
 				}
+				res.send(message);
 			}
 		}).queue(crawlUrl);
 } else if(command === 'tt'){
