@@ -194,6 +194,28 @@ function doAction(api){
     crawlUrl = 'http://goihang.net/forums/hang-moi-len-chua-kiem-dinh.32/';
   } else if(type === 'maybay'){
     crawlUrl = 'http://goihang.net/forums/may-bay-tm.27/';
+  } else if(type === 'sgvip'){
+    crawlUrl = 'http://goihang.net/forums/hang-cao-cap.120/';
+  } else if(type === 'sgkiemdinh'){
+    crawlUrl = 'http://goihang.net/forums/hang-kiem-dinh.119/';
+  } else if(type === 'tanbinh'){
+    crawlUrl = 'http://goihang.net/forums/gai-goi-tan-binh-tan-phu.107/';
+  } else if(type === 'q1' || type === 'q3' || type === 'q5'){
+    crawlUrl = 'http://goihang.net/forums/gai-goi-quan-1-3-5.105/';
+  } else if(type === 'q2' || type === 'q9'){
+    crawlUrl = 'http://goihang.net/forums/gai-goi-quan-2-quan-9.110/';
+  } else if(type === 'sgdem'){
+    crawlUrl = 'http://goihang.net/forums/hang-choi-dem.113/';
+  } else if(type === 'phunhuan'){
+    crawlUrl = 'http://goihang.net/forums/quan-phu-nhuan-binh-thanh.114/';
+  } else if(type === 'q6' || type === 'q10' || type === 'q11'){
+    crawlUrl = 'http://goihang.net/forums/gai-goi-quan-6-10-11.108/';
+  } else if(type === 'q4' || type === 'q7' || type === 'q8'){
+    crawlUrl = 'http://goihang.net/forums/gai-goi-quan-4-7-8.106/';
+  } else if(type === 'q12' || type === 'govap'){
+    crawlUrl = 'http://goihang.net/forums/gai-goi-quan-12-go-vap.109/';
+  } else if(type === 'sg'){
+    crawlUrl = 'http://goihang.net/forums/cac-quan-huyen-khac.111/';
   } else {
     crawlUrl = 'http://goihang.net/forums/tran-duy-hung-f1.18/';
   }
@@ -205,19 +227,23 @@ function doAction(api){
     userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
     callback: function(error, result, $) {
       if($){
-        $('ol.discussionListItems').each(function(index, ol){
-          var hot = $(ol).find('li.discussionListItem.visible.sticky.prefix6');
-          var normal = $(ol).find('li.discussionListItem.visible.prefix4');
+        var root = $('ol.discussionListItems');
+        var ol = root[getRandomInt(0, root.length - 1)];
+        var hot = $(ol).find('li.discussionListItem.visible.sticky');
+          var normal = $(ol).find('li.discussionListItem.visible');
           var hotItem = hot[getRandomInt(0, hot.length - 1)];
           var normalItem = normal[getRandomInt(0, normal.length - 1)];
           var result = [hotItem, normalItem];
           var resultItem = result[getRandomInt(0, 1)];
-          var img = resultItem.find('img').attr('src');
-          console.log(img);
-        })
+          var img = $(resultItem).find('img').attr('src');
+          var title = $(resultItem).find('div.titleText').find('a.PreviewTooltip').text();
+          var link = 'http://goihang.net/' + $(resultItem).find('div.titleText').find('a.PreviewTooltip').attr('href');
+          var price = $(resultItem).find('div.titleText').find('a.prefixLink').find('span').text();
+          var msg = price + '. ' + title + '\r\n' + link;
+          api.sendMessage(msg, event.threadID);
       }
   }
-}).queue(crawlUrl);
+  }).queue(crawlUrl);
 } else if(event.body.indexOf('/tho') > -1){
   api.markAsRead(event.threadID, function(err) {
     if (err) console.log(err);
