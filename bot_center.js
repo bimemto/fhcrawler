@@ -213,6 +213,18 @@ app.get('/bot/center',function(req, res){
 	} else {
 		res.send('');
 	}
+} else if(command.indexOf('kq') > -1){
+	var dayBefore = '';
+	if (command.length > 4) {
+		var dayStr = command.split(' ')[1];
+		dayBefore = dayStr.substr(1, dayStr.length);
+	}
+	else {
+		dayBefore = 0;
+	}
+	var timestamp = Math.floor(Date.now() / 1000);
+	var kqUrl = 'http://ketqua.vn/in-ve-so/22/1/' + getDateTime(dayBefore) + '/1';
+	res.send(kqUrl);
 }
 });
 
@@ -287,3 +299,19 @@ c1.queue('http://chiemtinhhoc.vn/tuyen-tap-nhung-cau-noi-hay-trong-tieu-thuyet-n
 c1.queue('https://mannhuocbao.wordpress.com/2013/09/03/mot-so-cau-noi-hay-trong-ngon-tinh-1/');
 
 c2.queue('http://danhngon.net/69-cau-noi-hay-trong-nhung-tieu-thuyet-ngon-tinh/');
+
+function getDateTime(dayBefore) {
+
+  var date = new Date();
+
+  var year = date.getFullYear();
+
+  var month = date.getMonth() + 1;
+  month = (month < 10 ? "0" : "") + month;
+
+  var day = date.getDate() - dayBefore;
+  day = (day < 10 ? "0" : "") + day;
+
+  return year + "-" + month + "-" + day;
+
+}
