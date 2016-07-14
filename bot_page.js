@@ -108,7 +108,8 @@ function doAction(api){
               if (err) console.log(err);
             });
             var mess = callBotApi('img', function(result){
-              http.get(result, function(response) {
+              var file = fs.createWriteStream("img.jpg");
+              var request = http.get(result, function(response) {
                 if(response){
                   response.pipe(file);
                   file.on('finish', function(){
