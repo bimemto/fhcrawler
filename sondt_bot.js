@@ -147,6 +147,77 @@ function doAction(api){
             + condition.text + '\r\n';
             api.sendMessage(weatherMsg + '\r\n' + forecastMsg, event.threadID);
           });
+} else if(event.body.indexOf('/troi') > -1){
+  api.markAsRead(event.threadID, function(err) {
+    if (err) console.log(err);
+  });
+  api.sendMessage('.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n', event.threadID);
+} else if(event.body.indexOf('/rau') > -1){
+  var type = '';
+  var crawlUrl = '';
+  if (event.body.length > 5) {
+    type = event.body.substring(event.body.indexOf(' ') + 1);
+  }
+  if(type === 'vip'){
+      crawlUrl = 'http://goihang.net/forums/gai-goi-ha-noi-cao-cap.31/';
+  } else if(type === 'kiemdinh'){
+    crawlUrl = 'http://goihang.net/forums/gai-goi-ha-noi-kiem-dinh.29/';
+  } else if(type === 'tdh'){
+    var urls = ["http://goihang.net/forums/tran-duy-hung-f1.18/", "http://goihang.net/forums/tran-duy-hung-f2.17/", "http://goihang.net/forums/tran-duy-hung-f3.19/", "http://goihang.net/forums/hang-choi-dem-tdh.20/"];
+    crawlUrl = urls[getRandomInt(0, 3)];
+  } else if(type === 'nkt'){
+    var urls = ["http://goihang.net/forums/nguyen-khanh-toan-f1.35/", "http://goihang.net/forums/hang-choi-dem-nkt.39/", "http://goihang.net/forums/nguyen-khanh-toan-f2.38/", "http://goihang.net/forums/hoang-quoc-viet.37/"];
+    crawlUrl = urls[getRandomInt(0, 3)];
+  } else if(type === 'klm'){
+    crawlUrl = 'http://goihang.net/forums/gai-goi-chua-boc-klm.41/';
+  } else if(type === 'tdt'){
+    crawlUrl = 'http://goihang.net/forums/gai-goi-kham-thien-ton-duc-thang.129/';
+  } else if(type === 'hc'){
+    crawlUrl = 'http://goihang.net/forums/gai-goi-khu-vuc-hoang-cau.131/';
+  } else if(type === 'quadem'){
+    crawlUrl = 'http://goihang.net/forums/hang-choi-dem.45/';
+  } else if(type === 'llq'){
+    crawlUrl = 'http://goihang.net/forums/gai-goi-lac-long-quan-au-co-nghi-tam.132/';
+  } else if(type === 'lang'){
+    crawlUrl = 'http://goihang.net/forums/gai-goi-duong-lang-nguyen-khang.21/';
+  } else if(type === 'lb'){
+    crawlUrl = 'http://goihang.net/forums/pho-co-long-bien-gia-lam.42/';
+  } else if(type === 'gb'){
+    crawlUrl = 'http://goihang.net/forums/gai-goi-kim-dong-giap-bat.134/';
+  } else if(type === 'nts'){
+    crawlUrl = 'http://goihang.net/forums/nga-tu-so-thanh-xuan.44/';
+  } else if(type === 'cg'){
+    crawlUrl = 'http://goihang.net/forums/gai-goi-cau-giay-xuan-thuy.151/';
+  } else if(type === 'htm'){
+    crawlUrl = 'http://goihang.net/forums/gai-goi-dinh-thon-ho-tung-mau.36/';
+  } else if(type === 'new'){
+    crawlUrl = 'http://goihang.net/forums/hang-moi-len-chua-kiem-dinh.32/';
+  } else if(type === 'maybay'){
+    crawlUrl = 'http://goihang.net/forums/may-bay-tm.27/';
+  } else {
+    crawlUrl = 'http://goihang.net/forums/tran-duy-hung-f1.18/';
+  }
+  api.markAsRead(event.threadID, function(err) {
+    if (err) console.log(err);
+  });
+  new Crawler({
+    maxConnections: 10,
+    userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
+    callback: function(error, result, $) {
+      if($){
+        $('ol.discussionListItems').each(function(index, ol){
+          var hot = $(ol).find('li.discussionListItem.visible.sticky.prefix6');
+          var normal = $(ol).find('li.discussionListItem.visible.prefix4');
+          var hotItem = hot[getRandomInt(0, hot.length - 1)];
+          var normalItem = normal[getRandomInt(0, normal.length - 1)];
+          var result = [hotItem, normalItem];
+          var resultItem = result[getRandomInt(0, 1)];
+          var img = resultItem.find('img').attr('src');
+          console.log(img);
+        })
+      }
+  }
+}).queue(crawlUrl);
 } else if(event.body.indexOf('/tho') > -1){
   api.markAsRead(event.threadID, function(err) {
     if (err) console.log(err);
@@ -211,26 +282,26 @@ function doAction(api){
               } else {
                 var file = fs.createWriteStream("img.jpg");
                 var url = 'http:' + img;
-                        // var options = {
-                        //     url: uri,
-                        //     headers: {'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36'}
-                        // };
+                      // var options = {
+                      //     url: uri,
+                      //     headers: {'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36'}
+                      // };
 
-                        var request = http.get(url, function(response) {
-                          if(response){
-                            response.pipe(file);
-                            file.on('finish', function(){
-                              var msg = {
-                                attachment: fs.createReadStream('img.jpg')
-                              }
-                              api.sendMessage(msg, event.threadID);
-                            });
-                          }
-                        });
-                      }
+                      var request = http.get(url, function(response) {
+                        if(response){
+                          response.pipe(file);
+                          file.on('finish', function(){
+                            var msg = {
+                              attachment: fs.createReadStream('img.jpg')
+                            }
+                            api.sendMessage(msg, event.threadID);
+                          });
+                        }
+                      });
                     }
                   }
-                }).queue(details_url);
+                }
+              }).queue(details_url);
 }
 }
 }).queue('http://imgur.com/r/nsfw');

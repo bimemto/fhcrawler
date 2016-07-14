@@ -13,7 +13,7 @@ connectDB = function(callback) {
 	connection = mysql.createConnection(db_config); // Recreate the connection, since
 	connection.connect(function(error, result){
 		if(error){
-			console.log('error when connecting to db:', err);
+			console.log('error when connecting to db:', error);
       		setTimeout(connectDB, 2000);
 		} else {
 			callback(result);	
