@@ -142,6 +142,7 @@ function doAction(api){
               if (err) console.log(err);
             });
             var command = event.body.substring(1, event.body.length);
+            var timestamp = Math.floor(Date.now() / 1000);
             callBotApi(command, function(result){
               webshot(result, 'kqxs' + timestamp + '.png', function(err) {
                 if(err){
