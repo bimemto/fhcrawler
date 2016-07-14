@@ -79,94 +79,94 @@ function callBotApi(command, callback){
 }
 
 function doAction(api){
-  fs.writeFileSync('botpage.json', JSON.stringify(api.getAppState()));
-  db.connectDB(function(res) {
+  // fs.writeFileSync('botpage.json', JSON.stringify(api.getAppState()));
+  // db.connectDB(function(res) {
 
-  });
-  api.setOptions({
-    listenEvents: true,
-  });
-  var stopListening = api.listen(function(err, event) {
-    if (err) {
-      console.error(err);
-    }
-    if (event) {
-      var dayBefore = 0;
-      switch (event.type) {
-        case "message":
-        if (event.body) {
-          if (event.body === '/stop') {
-            api.sendMessage("Goodbye...", event.threadID);
-            return stopListening();
-          } else if(event.body.indexOf('/troi') > -1){
-            api.markAsRead(event.threadID, function(err) {
-              if (err) console.log(err);
-            });
-            var mess = callBotApi('troi', function(result){
-              api.sendMessage(result, event.threadID);  
-            });
-          }  else if(event.body.indexOf('/img') > -1){
-            api.markAsRead(event.threadID, function(err) {
-              if (err) console.log(err);
-            });
-            var mess = callBotApi('img', function(result){
-              var file = fs.createWriteStream("img.jpg");
-              var request = http.get(result, function(response) {
-                if(response){
-                  response.pipe(file);
-                  file.on('finish', function(){
-                    var msg = {
-                      attachment: fs.createReadStream('img.jpg')
-                    }
-                    api.sendMessage(msg, event.threadID);
-                  });
-                }
-              });
-            });
-          } else if(event.body.indexOf('/nt') > -1){
-            api.markAsRead(event.threadID, function(err) {
-              if (err) console.log(err);
-            });
-            var mess = callBotApi('nt', function(result){
-              api.sendMessage(result, event.threadID);  
-            });
-          } else if(event.body.indexOf('/rau') > -1){
-            api.markAsRead(event.threadID, function(err) {
-              if (err) console.log(err);
-            });
-            var mess = callBotApi('rau', function(result){
-              api.sendMessage(result, event.threadID);  
-            });
-          } else if(event.body.indexOf('/kq') > -1){
-            api.markAsRead(event.threadID, function(err) {
-              if (err) console.log(err);
-            });
-            var command = event.body.substring(1, event.body.length);
-            var timestamp = Math.floor(Date.now() / 1000);
-            callBotApi(command, function(result){
-              webshot(result, 'kqxs' + timestamp + '.png', function(err) {
-                if(err){
-                  console.log(err);
-                } else {
+  // });
+api.setOptions({
+  listenEvents: true,
+});
+var stopListening = api.listen(function(err, event) {
+  if (err) {
+    console.error(err);
+  }
+  if (event) {
+    var dayBefore = 0;
+    switch (event.type) {
+      case "message":
+      if (event.body) {
+        if (event.body === '/stop') {
+          api.sendMessage("Goodbye...", event.threadID);
+          return stopListening();
+        } else if(event.body.indexOf('/troi') > -1){
+          api.markAsRead(event.threadID, function(err) {
+            if (err) console.log(err);
+          });
+          var mess = callBotApi('troi', function(result){
+            api.sendMessage(result, event.threadID);  
+          });
+        }  else if(event.body.indexOf('/img') > -1){
+          api.markAsRead(event.threadID, function(err) {
+            if (err) console.log(err);
+          });
+          var mess = callBotApi('img', function(result){
+            var file = fs.createWriteStream("img.jpg");
+            var request = http.get(result, function(response) {
+              if(response){
+                response.pipe(file);
+                file.on('finish', function(){
                   var msg = {
-                    body: "Kết quả",
-                    attachment: fs.createReadStream('kqxs' + timestamp + '.png')
+                    attachment: fs.createReadStream('img.jpg')
                   }
                   api.sendMessage(msg, event.threadID);
-                }
-              }); 
+                });
+              }
             });
-          }
+          });
+        } else if(event.body.indexOf('/nt') > -1){
+          api.markAsRead(event.threadID, function(err) {
+            if (err) console.log(err);
+          });
+          var mess = callBotApi('nt', function(result){
+            api.sendMessage(result, event.threadID);  
+          });
+        } else if(event.body.indexOf('/rau') > -1){
+          api.markAsRead(event.threadID, function(err) {
+            if (err) console.log(err);
+          });
+          var mess = callBotApi('rau', function(result){
+            api.sendMessage(result, event.threadID);  
+          });
+        } else if(event.body.indexOf('/kq') > -1){
+          api.markAsRead(event.threadID, function(err) {
+            if (err) console.log(err);
+          });
+          var command = event.body.substring(1, event.body.length);
+          var timestamp = Math.floor(Date.now() / 1000);
+          callBotApi(command, function(result){
+            webshot(result, 'kqxs' + timestamp + '.png', function(err) {
+              if(err){
+                console.log(err);
+              } else {
+                var msg = {
+                  body: "Kết quả",
+                  attachment: fs.createReadStream('kqxs' + timestamp + '.png')
+                }
+                api.sendMessage(msg, event.threadID);
+              }
+            }); 
+          });
         }
-
-        break;
-        case "event":
-        console.log(event);
-        break;
       }
-    }
 
-  });
+      break;
+      case "event":
+      console.log(event);
+      break;
+    }
+  }
+
+});
 }
 
 function getDateTime(dayBefore) {
