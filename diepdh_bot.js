@@ -372,7 +372,7 @@ function doAction(api){
                         var ccu = response.body[i].ccu;
                         ccuMsg = ccuMsg + name + ': ' + ccu + '\r\n';
                       }
-                      bot.sendMessage(message.chat.id, ccuMsg);
+                      api.sendMessage(ccuMsg, event.threadID);  
                     }
                   }
                 }
