@@ -24,20 +24,15 @@ var tinh_nguoi = false;
 var imgs = [];
 var sentences = [];
 
-// function download(url, callback) {
-//   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-//   http.get(url, function(res) {
-//     var data = "";
-//     res.on('data', function(chunk) {
-//       data += chunk;
-//     });
-//     res.on("end", function() {
-//       callback(data);
-//     });
-//   }).on("error", function() {
-//     callback(null);
-//   });
-// }
+function callBotApi(command, callback){
+  request.get('http://bu.1ly.co:6868/bot/center?command=' + command, function(error, response, body){
+    if(error) {
+      callback('');
+    } else {
+      callback(body);
+    }
+  });
+}
 
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -180,26 +175,20 @@ function doAction(api){
           api.markAsRead(event.threadID, function(err) {
             if (err) console.log(err);
           });
-          var dayBefore = '';
-          if (event.body.length > 4) {
-            var dayStr = event.body.split(' ')[1];
-            dayBefore = dayStr.substr(1, dayStr.length);
-          }
-          else {
-            dayBefore = 0;
-          }
+          var command = event.body.substring(1, event.body.length);
           var timestamp = Math.floor(Date.now() / 1000);
-          webshot('http://ketqua.vn/in-ve-so/22/1/' + getDateTime(dayBefore) + '/1', 'kqxs' + timestamp + '.png', function(err) {
-            if(err){
-              console.log(err);
-            } else {
-              var msg = {
-                body: "Kết quả",
-                attachment: fs.createReadStream('kqxs' + timestamp + '.png')
+          callBotApi(command, function(result){
+            webshot(result, 'kqxs' + timestamp + '.png', function(err) {
+              if(err){
+                console.log(err);
+              } else {
+                var msg = {
+                  body: "Kết quả",
+                  attachment: fs.createReadStream('kqxs' + timestamp + '.png')
+                }
+                api.sendMessage(msg, event.threadID);
               }
-              api.sendMessage(msg, event.threadID);
-            }
-
+            }); 
           });
         }
         else if (event.body.indexOf('/bd') > -1) {
@@ -264,68 +253,17 @@ else if (event.body.indexOf('/tt') > -1) {
   api.markAsRead(event.threadID, function(err) {
     if (err) console.log(err);
   });
-  var query = new YQL("select * from weather.forecast where (woeid = 2347727) and u='c'");
-
-  query.exec(function(err, data) {
-    var location = data.query.results.channel.location;
-    var wind = data.query.results.channel.wind;
-    var condition = data.query.results.channel.item.condition;
-    var forecast = data.query.results.channel.item.forecast;
-    var forecastMsg = '';
-    forecastMsg = 'Mai:' + '\r\n' + 'Cao: ' + forecast[0].high + ' độ xê' + '\r\n' + 'Thấp: ' + forecast[0].low + ' độ xê' + '\r\n' + forecast[0].text + '\r\n' + '\r\n'
-    + 'Ngày kia:' + '\r\n' + 'Cao: ' + forecast[1].high + ' độ xê' + '\r\n' + 'Thấp: ' + forecast[1].low + ' độ xê' + '\r\n' + forecast[1].text + '\r\n' + '\r\n'
-    + 'Ngày kìa:' + '\r\n' + 'Cao: ' + forecast[2].high + ' độ xê' + '\r\n' + 'Thấp: ' + forecast[2].low + ' độ xê' + '\r\n' + forecast[2].text + '\r\n';
-    var weatherMsg = 'Bây giờ:' + '\r\n'
-    + condition.temp + ' độ xê' + '\r\n'
-    + 'Gió ' + degToCompass(wind.direction) + ' ' + wind.speed + ' km/h' + '\r\n'
-    + condition.text + '\r\n';
-    api.sendMessage(weatherMsg + '\r\n' + forecastMsg, event.threadID);
+  var mess = callBotApi('tt', function(result){
+    api.sendMessage(result, event.threadID);  
   });
 } else if(event.body.indexOf('/tho') > -1){
   api.markAsRead(event.threadID, function(err) {
     if (err) console.log(err);
   });
-  var words = '';
-  if (event.body.length > 5) {
-    words = event.body.substring(event.body.indexOf(' ') + 1);
-  }
-  request.post('http://thomay.vn/index.php?q=tutaochude2', 
-    {form: {
-      'dieukien_tu': '',
-      'dieukien_tu_last': '',
-      'fullbaitho': 'Thêm một khổ',
-      'last': '',
-      'order': '0',
-      'order_cu': '0',
-      'poem': '',
-      'poemSubject_tutao': '1',
-      'poemType': 'Lục bát',
-      'theloai': 'tho',
-      'tulap[cu]': '',
-      'tulap[moi]': '',
-      'tungcau_kho': '',
-      'tunhap_chude': words,
-      'van[cu]': '',
-      'van[moi]': '',
-    }
-  }, function(error, response, body){
-    if(error) {
-      console.log(error);
-    } else {
-      var $ = cheerio.load(body, { decodeEntities: false });
-      if($('font').attr('color', 'Blue').html()){
-        var tho = $('font').attr('color', 'Blue').html().split('<br>').join('\r\n');
-        api.sendMessage(tho, event.threadID);
-      } else {
-       api.sendMessage('Khó thế éo làm đc', event.threadID);
-     }
-   }
- });
-} else if(event.body.indexOf('/troi') > -1){
-  api.markAsRead(event.threadID, function(err) {
-    if (err) console.log(err);
+  var command = event.body.substring(1, event.body.length);
+  callBotApi(command, function(result){
+    api.sendMessage(result, event.threadID);  
   });
-  api.sendMessage('.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n', event.threadID);
 } else {
   for (var i = 0; i < filters.length; i++) {
     if (wordInString(event.body, filters[i])) {

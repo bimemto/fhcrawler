@@ -160,10 +160,18 @@ var stopListening = api.listen(function(err, event) {
           api.markAsRead(event.threadID, function(err) {
             if (err) console.log(err);
           });
-          var mess = callBotApi('tt', function(result){
+          callBotApi('tt', function(result){
             api.sendMessage(result, event.threadID);  
           });
-        }
+        } else if(event.body.indexOf('/tho') > -1){
+          api.markAsRead(event.threadID, function(err) {
+            if (err) console.log(err);
+          });
+          var command = event.body.substring(1, event.body.length);
+          callBotApi(command, function(result){
+            api.sendMessage(result, event.threadID);  
+          });
+        } 
       }
 
       break;

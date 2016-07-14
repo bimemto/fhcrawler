@@ -254,95 +254,114 @@ fs.exists('diepdj.json', function(exists) {
     }
   });
 
-function doAction(api){
-  api.setOptions({
-    listenEvents: true
-  });
-  var stopListening = api.listen(function(err, event) {
-    if (err) {
-      console.log(err);
+function callBotApi(command, callback){
+  request.get('http://bu.1ly.co:6868/bot/center?command=' + command, function(error, response, body){
+    if(error) {
+      callback('');
+    } else {
+      callback(body);
     }
-    if(event){
-      if(event.body){
-        console.log(event);
-        switch (event.type) {
-          case "message":
-          if (event.body === '/stop') {
-            api.sendMessage("Goodbye...", event.threadID);
-            return stopListening();
-          } else if(event.body.indexOf('/ga') > -1){
-            api.markAsRead(event.threadID, function(err) {
-              if (err) console.log(err);
-            });
-            var app_name = '';
-            if (event.body.length > 4) {
-              app_name = event.body.split(' ')[1];
-            }
-            if(app_name === 'beatvn'){
-              request.get('http://nhayau.com/GA/BeatAnalytics.php', {json: true}, function(error, response){
-                if(error){
-                  console.log(error);
-                } else {
-                  if(response){
-                    if(response.body){
-                      console.log(response.body);
-                      var ccuMsg = '';
-                      for(var i = 0; i < response.body.length; i++){
-                        var name = response.body[i].name;
-                        var ccu = response.body[i].ccu;
-                        ccuMsg = ccuMsg + name + ': ' + ccu + '\r\n';
-                      }
-                      api.sendMessage(ccuMsg, event.threadID);
-                    }
+  });
+}
+
+function doAction(api){
+api.setOptions({
+  listenEvents: true,
+});
+var stopListening = api.listen(function(err, event) {
+  if (err) {
+    console.error(err);
+  }
+  if (event) {
+    var dayBefore = 0;
+    switch (event.type) {
+      case "message":
+      if (event.body) {
+        if (event.body === '/stop') {
+          api.sendMessage("Goodbye...", event.threadID);
+          return stopListening();
+        } else if(event.body.indexOf('/troi') > -1){
+          api.markAsRead(event.threadID, function(err) {
+            if (err) console.log(err);
+          });
+          var mess = callBotApi('troi', function(result){
+            api.sendMessage(result, event.threadID);  
+          });
+        }  else if(event.body.indexOf('/img') > -1){
+          api.markAsRead(event.threadID, function(err) {
+            if (err) console.log(err);
+          });
+          var mess = callBotApi('img', function(result){
+            var file = fs.createWriteStream("img.jpg");
+            var request = http.get(result, function(response) {
+              if(response){
+                response.pipe(file);
+                file.on('finish', function(){
+                  var msg = {
+                    attachment: fs.createReadStream('img.jpg')
                   }
-                }
-              })
-            }
-          } else if(event.body.indexOf('/tho') > -1){
-            var words = '';
-            if (event.body.length > 5) {
-              words = event.body.substring(event.body.indexOf(' ') + 1);
-            }
-            request.post('http://thomay.vn/index.php?q=tutaochude2', 
-              {form: {
-                'dieukien_tu': '',
-                'dieukien_tu_last': '',
-                'fullbaitho': 'Thêm một khổ',
-                'last': '',
-                'order': '0',
-                'order_cu': '0',
-                'poem': '',
-                'poemSubject_tutao': '1',
-                'poemType': 'Lục bát',
-                'theloai': 'tho',
-                'tulap[cu]': '',
-                'tulap[moi]': '',
-                'tungcau_kho': '',
-                'tunhap_chude': words,
-                'van[cu]': '',
-                'van[moi]': '',
-              }
-            }, function(error, response, body){
-              if(error) {
-                console.log(error);
-              } else {
-                var $ = cheerio.load(body, { decodeEntities: false });
-                if($('font').attr('color', 'Blue').html()){
-                  var tho = $('font').attr('color', 'Blue').html().split('<br>').join('\r\n');
-                  api.sendMessage(tho, event.threadID);
-                } else {
-                  api.sendMessage('Khó thế éo làm đc', event.threadID);
-                }
+                  api.sendMessage(msg, event.threadID);
+                });
               }
             });
-}
-break;
-case "event":
-console.log(event);
-break;
-}
-}
-}
+          });
+        } else if(event.body.indexOf('/nt') > -1){
+          api.markAsRead(event.threadID, function(err) {
+            if (err) console.log(err);
+          });
+          var mess = callBotApi('nt', function(result){
+            api.sendMessage(result, event.threadID);  
+          });
+        } else if(event.body.indexOf('/rau') > -1){
+          api.markAsRead(event.threadID, function(err) {
+            if (err) console.log(err);
+          });
+          var mess = callBotApi('rau', function(result){
+            api.sendMessage(result, event.threadID);  
+          });
+        } else if(event.body.indexOf('/kq') > -1){
+          api.markAsRead(event.threadID, function(err) {
+            if (err) console.log(err);
+          });
+          var command = event.body.substring(1, event.body.length);
+          var timestamp = Math.floor(Date.now() / 1000);
+          callBotApi(command, function(result){
+            webshot(result, 'kqxs' + timestamp + '.png', function(err) {
+              if(err){
+                console.log(err);
+              } else {
+                var msg = {
+                  body: "Kết quả",
+                  attachment: fs.createReadStream('kqxs' + timestamp + '.png')
+                }
+                api.sendMessage(msg, event.threadID);
+              }
+            }); 
+          });
+        } else if(event.body.indexOf('/tt') > -1){
+          api.markAsRead(event.threadID, function(err) {
+            if (err) console.log(err);
+          });
+          callBotApi('tt', function(result){
+            api.sendMessage(result, event.threadID);  
+          });
+        } else if(event.body.indexOf('/tho') > -1){
+          api.markAsRead(event.threadID, function(err) {
+            if (err) console.log(err);
+          });
+          var command = event.body.substring(1, event.body.length);
+          callBotApi(command, function(result){
+            api.sendMessage(result, event.threadID);  
+          });
+        } 
+      }
+
+      break;
+      case "event":
+      console.log(event);
+      break;
+    }
+  }
 
 });
 }
