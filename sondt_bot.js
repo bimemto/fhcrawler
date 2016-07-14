@@ -158,6 +158,7 @@ function doAction(api){
   if (event.body.length > 5) {
     type = event.body.substring(event.body.indexOf(' ') + 1);
   }
+  //available command: vip, kiemdinh, tdh, nkt, klm, tdt, hc, quadem, llq, lang, lb, gb, nts, cg, htm, new, maybay, sgvip, sgkiemdinh, tanbinh, q1-11, sgdem, phunhuan, govap
   if(type === 'vip'){
       crawlUrl = 'http://goihang.net/forums/gai-goi-ha-noi-cao-cap.31/';
   } else if(type === 'kiemdinh'){
