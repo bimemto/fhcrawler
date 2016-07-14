@@ -73,8 +73,7 @@ function callBotApi(command){
     } else {
       return body;
     }
-  }
-});
+  });
 }
 
 function doAction(api){
