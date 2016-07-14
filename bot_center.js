@@ -178,3 +178,7 @@ var server = app.listen(6868, function() {
 	var port = server.address().port
 	console.log("Example app listening at http://%s:%s", host, port);
 })
+
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
