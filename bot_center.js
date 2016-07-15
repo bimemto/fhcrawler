@@ -212,7 +212,10 @@ app.get('/bot/center',function(req, res){
 					userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
 					callback: function(error, result, $) {
 						if($){
-							var content = $('div.entry-content').html();
+							var content;
+							$('div.entry-content').find('p:not([class!=""])').each(function(index, p){
+								content = content + $(p).text();
+							});
 							res.send(content);
 						} else {
 							res.send('ahihi');
