@@ -52,7 +52,8 @@ app.get('/bot/center',function(req, res){
 				if($){
 					var root = $('ol.discussionListItems');
 					var ol = root[getRandomInt(0, root.length - 1)];
-					var item = $(ol).find('li.discussionListItem.visible');
+					var items = $(ol).find('li.discussionListItem.visible');
+					var item = items[getRandomInt(0, items.length - 1)];
 					var place = $(item).find('span.prefix').text();
 					var title = $(item).find('div.titleText').find('a.PreviewTooltip').text();
 					var link = 'http://thiendia.com/diendan/' + $(item).find('div.titleText').find('a.PreviewTooltip').attr('href');
