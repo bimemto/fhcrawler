@@ -171,6 +171,13 @@ function doAction(api){
             var mess = callBotApi('tt', function(result){
               api.sendMessage(result, event.threadID);  
             });
+          } else if(event.body.indexOf('/tnl') > -1){
+            api.markAsRead(event.threadID, function(err) {
+              if (err) console.log(err);
+            });
+            callBotApi('tnl', function(result){
+              api.sendMessage(result, event.threadID);
+            });
           }
         }
 
