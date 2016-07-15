@@ -205,9 +205,11 @@ app.get('/bot/center',function(req, res){
 		userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
 		callback: function(error, result, $) {
 			if($){
-				var link = $('div.post-thumb').find('a').attr('href');
-				var title = $('h1.entry-title').text();
-				var desc = $('div.entry-excerpt').text();
+				var items = $('div.content-loop').find('article');
+				var item = items[getRandomInt(0, items.length - 1)];
+				var link = $(item).find('div.post-thumb').find('a').attr('href');
+				var title = $(item).find('h1.entry-title').text();
+				var desc = $(item).find('div.entry-excerpt').text();
 				var message = title + '\r\n' + desc + '\r\n' + link;
 				res.send(message);
 			} else {
