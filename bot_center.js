@@ -68,7 +68,8 @@ app.get('/bot/center',function(req, res){
 					// Shorten a long url and output the result
 					googl.shorten(link)
 					.then(function (shortUrl) {
-						message = place + '. ' + price + '. ' + title + '\r\n' + shortUrl + '$';
+						shortUrl = shortUrl + '$';
+						message = place + '. ' + price + '. ' + title + '\r\n' + shortUrl;
 						res.send(message);
 					})
 					.catch(function (err) {
