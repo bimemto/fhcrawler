@@ -209,6 +209,7 @@ app.get('/bot/center',function(req, res){
 				var link = $(item).find('a').attr('href');
 				var title = $(item).find('a').text();
 				var desc = $(item).find('p').text();
+				console.log(link + "-" + title + "-" + desc);
 				new Crawler({
 					maxConnections: 10,
 					userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
