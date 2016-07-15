@@ -10,6 +10,9 @@ var CronJob = require('cron').CronJob;
 var Crawler = require("crawler");
 var express = require('express');
 var app = express();
+var googl = require('goo.gl');
+googl.setKey('AIzaSyC2wTIH9KqiD4PGRPpk0DiGmYdDrB8lgUo');
+googl.getKey();
 
 app.get('/bot/center',function(req, res){
 	var command = req.param('command', null);
@@ -62,11 +65,20 @@ app.get('/bot/center',function(req, res){
 					var link = 'http://thiendia.com/diendan/' + $(item).find('div.titleText').find('a.PreviewTooltip').attr('href');
 					var aPrice = $(item).find('div.titleText').find('a.prefixLink')[1];
 					var price = $(aPrice).find('span').text();
-					message = place + '. ' + price + '. ' + title + '\r\n' + link;
+					// Shorten a long url and output the result
+					googl.shorten(link)
+					.then(function (shortUrl) {
+						message = place + '. ' + price + '. ' + title + '\r\n' + shortUrl;
+						res.send(message);
+					})
+					.catch(function (err) {
+						message = 'not available';
+						res.send(message);
+					});
 				} else {
 					message = 'not available';
+					res.send(message);
 				}
-				res.send(message);
 			}
 		}).queue(crawlUrl);
 } else if(command === 'tt'){
