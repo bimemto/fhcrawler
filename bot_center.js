@@ -206,22 +206,10 @@ app.get('/bot/center',function(req, res){
 		callback: function(error, result, $) {
 			if($){
 				var link = $('div.post-thumb').find('a').attr('href');
-				console.log(link);
-				new Crawler({
-					maxConnections: 10,
-					userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
-					callback: function(error, result, $) {
-						if($){
-							var content;
-							$('div.entry-content').find('p:not([class!=""])').each(function(index, p){
-								content = content + $(p).text();
-							});
-							res.send(content);
-						} else {
-							res.send('ahihi');
-						}
-					}
-				}).queue(link);
+				var title = $('h1.entry-title').text();
+				var desc = $('div.entry-excerpt').text();
+				var message = title + '\r\n' + desc + '\r\n' + link;
+				res.send(message);
 			} else {
 				res.send('ahihi');
 			}
