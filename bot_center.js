@@ -56,7 +56,7 @@ app.get('/bot/center',function(req, res){
 					var place = $(item).find('span.prefix').text();
 					var title = $(item).find('div.titleText').find('a.PreviewTooltip').text();
 					var link = 'http://thiendia.com/diendan/' + $(item).find('div.titleText').find('a.PreviewTooltip').attr('href');
-					var aPrice = $(resultItem).find('div.titleText').find('a.prefixLink');
+					var aPrice = $(item).find('div.titleText').find('a.prefixLink');
 					var price = $(aPrice)[1].find('span').text();
 					message = place + '. ' + price + '. ' + title + '\r\n' + link;
 				} else {
