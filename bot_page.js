@@ -136,6 +136,7 @@ var stopListening = api.listen(function(err, event) {
           });
           var command = event.body.substring(1, event.body.length);
           var mess = callBotApi(command, function(result){
+            console.log(result);
             api.sendMessage(result, event.threadID);  
           });
         } else if(event.body.indexOf('/kq') > -1){
