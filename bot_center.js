@@ -51,7 +51,7 @@ app.get('/bot/center',function(req, res){
 			callback: function(error, result, $) {
 				if($){
 					var root = $('ol.discussionListItems');
-					var ol = root[getRandomInt(0, root.length - 1)];
+					var ol = root[1];
 					var items = $(ol).find('li.discussionListItem.visible');
 					var item = items[getRandomInt(0, items.length - 1)];
 					var place = $(item).find('span.prefix').text();
