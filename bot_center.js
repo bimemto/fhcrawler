@@ -21,7 +21,7 @@ app.get('/bot/center',function(req, res){
 	} else if(command.indexOf('rau') > -1){
 		var type = '';
 		var crawlUrl = '';
-		if (command.length > 5) {
+		if (command.length > 4) {
 			type = command.substring(command.indexOf(' ') + 1);
 		}
 		if(type === 'vip'){

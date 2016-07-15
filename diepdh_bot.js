@@ -316,7 +316,8 @@ function doAction(api){
             api.markAsRead(event.threadID, function(err) {
               if (err) console.log(err);
             });
-            var mess = callBotApi('rau', function(result){
+            var command = event.body.substring(1, event.body.length);
+            var mess = callBotApi(command, function(result){
               api.sendMessage(result, event.threadID);  
             });
           } else if(event.body.indexOf('/kq') > -1){
