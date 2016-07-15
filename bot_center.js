@@ -52,6 +52,9 @@ app.get('/bot/center',function(req, res){
 				if($){
 					var root = $('ol.discussionListItems');
 					var ol = root[1];
+					if(ol === undefined || ol === 'undefined'){
+						ol = root[0];
+					}
 					var items = $(ol).find('li.discussionListItem.visible');
 					var item = items[getRandomInt(0, items.length - 1)];
 					var place = $(item).find('span.prefix').text();
