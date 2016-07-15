@@ -178,17 +178,7 @@ var stopListening = api.listen(function(err, event) {
             if (err) console.log(err);
           });
           callBotApi('tnl', function(result){
-            var length = result.length;
-            var str1 = result.substring(0, length/5);
-            var str2 = result.substring(length/5, length/(2/5));
-            var str3 = result.substring(length/(2/5), length/(3/5));
-            var str4 = result.substring(length/(3/5), length/(4/5));
-            var str5 = result.substring(length/(4/5), length);
-            api.sendMessage(str1, event.threadID);
-            api.sendMessage(str2, event.threadID);
-            api.sendMessage(str3, event.threadID);
-            api.sendMessage(str4, event.threadID);
-            api.sendMessage(str5, event.threadID);
+            api.sendMessage(result, event.threadID);
           });
         }
       }
