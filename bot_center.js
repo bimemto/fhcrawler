@@ -198,6 +198,34 @@ app.get('/bot/center',function(req, res){
 	var timestamp = Math.floor(Date.now() / 1000);
 	var kqUrl = 'http://ketqua.vn/in-ve-so/22/1/' + getDateTime(dayBefore) + '/1';
 	res.send(kqUrl);
+} else if(command === 'tnl'){
+	new Crawler({
+		maxConnections: 10,
+		userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
+		callback: function(error, result, $) {
+			if($){
+				var li = $('ul:not([class!=""])').find('li');
+				var item = li[getRandomInt(0, li.length - 1)];
+				var link = $(item).find('a').attr('href');
+				var title = $(item).find('a').text();
+				var desc = $(item).find('p').text();
+				new Crawler({
+					maxConnections: 10,
+					userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
+					callback: function(error, result, $) {
+						if($){
+							var container = $('div.tin-anh');
+							var content;
+							$(container).find('p:not([class!=""])').each(function(index, p){
+								content = content + p.text();
+							})
+							res.send(content);
+						}
+					}
+				}).queue(link);
+			}
+		}
+	}).queue('http://taizalo.pw/stories/truyen-nguoi-lon/');
 }
 });
 
@@ -230,9 +258,9 @@ var c = new Crawler({
 						sentences.push(sentense); 
 					}
 				})
-			})
-		}
-	}
+})
+}
+}
 });
 
 var c1 = new Crawler({
@@ -244,9 +272,9 @@ var c1 = new Crawler({
 					var sentense = $(p).find('em:not([class!=""])').text();
 					sentences.push(sentense); 
 				})
-			})
-		}
-	}
+})
+}
+}
 });
 
 var c2 = new Crawler({
@@ -261,9 +289,9 @@ var c2 = new Crawler({
 						sentences.push(sentense); 
 					}
 				})
-			})
-		}
-	}
+})
+}
+}
 });
 
 c.queue('http://blogtraitim.info/nhung-cau-noi-bat-hu-hay-nhat-trong-tieu-thuyet-ngon-tinh/');
