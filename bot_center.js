@@ -218,7 +218,7 @@ app.get('/bot/center',function(req, res){
 							var container = $('div.tin-anh');
 							var content;
 							$(container).find('p:not([class!=""])').each(function(index, p){
-								content = content + p.text();
+								content = content + $(p).text();
 							})
 							res.send(content);
 						}
