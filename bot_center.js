@@ -214,9 +214,13 @@ app.get('/bot/center',function(req, res){
 						if($){
 							var content = $('div.entry-content').html();
 							res.send(content);
+						} else {
+							res.send('ahihi');
 						}
 					}
 				}).queue(link);
+			} else {
+				res.send('ahihi');
 			}
 		}
 	}).queue(url);
