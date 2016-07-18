@@ -14,6 +14,10 @@ var googl = require('goo.gl');
 googl.setKey('AIzaSyC2wTIH9KqiD4PGRPpk0DiGmYdDrB8lgUo');
 googl.getKey();
 
+db.connectDB(function(result) {
+	        
+});
+
 app.get('/bot/center',function(req, res){
 	var command = req.param('command', null);
 	console.log("command: = "+command);
