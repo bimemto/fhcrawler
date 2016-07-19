@@ -44,6 +44,7 @@ var db_config = {
 var connection;
 
 function connectDB(callback) {
+	connection.ConnectionConfig(db_config);
 	connection = mysql.createConnection(db_config); // Recreate the connection, since
 	connection.connect(function(error, result){
 		if(error){
