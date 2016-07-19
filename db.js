@@ -23,8 +23,7 @@ connectDB = function(callback) {
 	connection.on('error', function(err) {
 		console.log('db error', err);
     	connectDB();                                 // server variable configures this)
-	}
-});
+	});
 };
 
 insertHighlight = function(Title, Date, Desc, Thumb, VideoURL1, VideoURL2, VideoURL3) {
