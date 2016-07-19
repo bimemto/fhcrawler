@@ -49,6 +49,25 @@ insertHighlight = function(Title, Date, Desc, Thumb, VideoURL1, VideoURL2, Video
 	});
 };
 
+insertPokemon = function(id, name, image, type) {
+	var data = {
+		id: id,
+		name: name,
+		image: image,
+		type: type
+	};
+	connection.query("SELECT * From Pokemon WHERE id='" + id + "'", function(err, res) {
+		if (res.length === 0) {
+			connection.query('INSERT INTO Pokemon SET ?', data, function(err, res) {
+				if (err) throw err;
+				else {
+					console.log('A new entity has been added.');
+				}
+			});
+		}
+	});
+};
+
 insertLiveMatch = function(team_home, team_away, logo_home, logo_away, time, league, details_url, live_stream_url) {
 	var data = {
 		team_home: team_home,
@@ -164,3 +183,4 @@ module.exports.getHighLightByTeam = getHighLightByTeam;
 module.exports.getPesFund = getPesFund;
 module.exports.getSentence1 = getSentence1;
 module.exports.getSentence2 = getSentence2;
+module.exports.insertPokemon = insertPokemon;
