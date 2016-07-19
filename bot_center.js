@@ -11,7 +11,7 @@ var Crawler = require("crawler");
 var express = require('express');
 var app = express();
 var googl = require('goo.gl');
-var _ = reqiure('underscore');
+var _ = require('underscore');
 googl.setKey('AIzaSyC2wTIH9KqiD4PGRPpk0DiGmYdDrB8lgUo');
 googl.getKey();
 
