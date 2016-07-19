@@ -14,20 +14,17 @@ connectDB = function(callback) {
 	connection.connect(function(error, result){
 		if(error){
 			console.log('error when connecting to db:', error);
-      		setTimeout(connectDB, 2000);
+			setTimeout(connectDB, 2000);
 		} else {
 			callback(result);	
 		}
 	});
 
 	connection.on('error', function(err) {
-    console.log('db error', err);
-    if(err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
-      connectDB();                         // lost due to either server restart, or a
-    } else {                                      // connnection idle timeout (the wait_timeout
-      throw err;                                  // server variable configures this)
-    }
-  });
+		console.log('db error', err);
+    	connectDB();                                 // server variable configures this)
+	}
+});
 };
 
 insertHighlight = function(Title, Date, Desc, Thumb, VideoURL1, VideoURL2, VideoURL3) {
