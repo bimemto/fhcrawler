@@ -396,6 +396,10 @@ bot.on('message', function(message) {
           bot.sendMessage(message.chat.id, data);
         }
       });
+    } else if(message.text.indexOf('/nude') > -1){
+      callBotApi('nude', function(result){
+        bot.sendMessage(message.chat.id, result);
+      });
     } else if(message.text.indexOf('/pes') > -1){
       var number = 1;
       if (message.text.length > 4) {
