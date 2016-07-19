@@ -255,15 +255,14 @@ app.get('/bot/center',function(req, res){
 				var items = $('div.view.photo-list-view.requiredToShowOnServer.photostream').find('div.view.photo-list-photo-view.requiredToShowOnServer.photostream.awake');
 				var item = items[getRandomInt(0, items.length - 1)];
 				var style = $(item).attr('style');
-				res.send(style);
-				// var attrs = $(style).split(';');
-				// for(var attr in attrs){
-				// 	console.log(attr);
-				// 	if(attr.indexOf('background-image') > -1){
-				// 		var link = attr.split(':')[1];
-				// 		res.send(urlToQueue + '\r\n' + link);
-				// 	}
-				// }
+				var attrs = style.split(';');
+				for(var attr in attrs){
+					console.log(attr);
+					if(attr.indexOf('background-image') > -1){
+						var link = attr.split(':')[1];
+						res.send(urlToQueue + '\r\n' + link);
+					}
+				}
 			} else {
 				res.send('ahihi');
 			}
