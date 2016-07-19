@@ -257,11 +257,11 @@ app.get('/bot/center',function(req, res){
 				var style = $(item).attr('style');
 				var attrs = style.toString().split(";");
 				for(var i = 0; i < attrs.length; i++){
-					console.log(attrs[i]);
 					if(attrs[i].indexOf('background-image') > -1){
 						var link = attrs[i].toString().split(":")[1];
-						var imageUrl = link.substring(6, link.length - 1);
-						res.send(urlToQueue + '\r\n' + imageUrl);
+						var imageUrl = 'http://' + link.substring(7, link.length - 1);
+						res.send(imageUrl);
+						break;
 					}
 				}
 			} else {
