@@ -20,7 +20,7 @@ var c = new Crawler({
     			}
     			var image = 'https://img.pokemondb.net/artwork/' + name.toLowerCase() + '.jpg';
     			//console.log(id + ", " + name + ", " + image + ", " + type);
-   				db.insertPokemon(id, name, image, class);
+   				db.insertPokemon(id, name, image, type);
    			})
     	} else {
     		console.log('lol');
