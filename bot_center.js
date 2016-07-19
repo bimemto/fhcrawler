@@ -351,6 +351,7 @@ app.get('/euro/api/match_list', function(req, res) {
 app.get('/euro/api/get_live_url', function(req, res){
 	var details_url = req.param('details_url');
 	var server = req.param('server');
+	res.header("Access-Control-Allow-Origin", "*");
 	if(server === undefined || server === 'undefined'){
 		server = 1;
 	}
