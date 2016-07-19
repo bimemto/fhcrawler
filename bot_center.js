@@ -241,6 +241,26 @@ app.get('/bot/center',function(req, res){
 			}
 		}
 	}).queue(url);
+} else if(command === 'nude'){
+	var thana = 'https://www.flickr.com/photos/thanatosgio/page' + getRandomInt(1, 171);
+	var lumina = 'https://www.flickr.com/photos/138808430@N02/page' + getRandomInt(1, 11);
+	var locphu = 'https://www.flickr.com/photos/129889617@N08/page' + getRandomInt(1, 14);
+	var urls = ["https://www.flickr.com/photos/giangrua/", "https://www.flickr.com/photos/87122923@N03/", thana, lumina, locphu, "https://www.flickr.com/photos/141064724@N04/"];
+	var urlToQueue = urls[getRandomInt(0, urls.length - 1)];
+	new Crawler({
+		maxConnections: 10,
+		userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
+		callback: function(error, result, $) {
+			if($){
+				var items = $('div.view photo-list-photo-view.requiredToShowOnServer.photostream.awake');
+				var item = items[getRandomInt(0, items.length - 1)];
+				var link = $(item).attr('background-image');
+				res.send(urlToQueue + '\r\n' + link);
+			} else {
+				res.send('ahihi');
+			}
+		}
+	}).queue(urlToQueue);
 }
 });
 
