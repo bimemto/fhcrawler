@@ -11,11 +11,31 @@ var Crawler = require("crawler");
 var express = require('express');
 var app = express();
 var googl = require('goo.gl');
+var _ = reqiure('underscore');
 googl.setKey('AIzaSyC2wTIH9KqiD4PGRPpk0DiGmYdDrB8lgUo');
 googl.getKey();
 
 db.connectDB(function(result) {
-	        
+
+});
+
+function allowCrossDomain(req, res, next) {
+	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+	var origin = req.headers.origin;
+	if (_.contains(app.get('allowed_origins'), origin)) {
+		res.setHeader('Access-Control-Allow-Origin', origin);
+	}
+	if (req.method === 'OPTIONS') {
+		res.send(200);
+	} else {
+		next();
+	}
+}
+
+app.configure(function () {
+	app.use(express.logger());
+	app.use(express.bodyParser());
+	app.use(allowCrossDomain);
 });
 
 app.get('/bot/center',function(req, res){
@@ -253,9 +273,9 @@ var c = new Crawler({
 						sentences.push(sentense); 
 					}
 				})
-})
-}
-}
+			})
+		}
+	}
 });
 
 var c1 = new Crawler({
@@ -267,9 +287,9 @@ var c1 = new Crawler({
 					var sentense = $(p).find('em:not([class!=""])').text();
 					sentences.push(sentense); 
 				})
-})
-}
-}
+			})
+		}
+	}
 });
 
 var c2 = new Crawler({
@@ -284,9 +304,9 @@ var c2 = new Crawler({
 						sentences.push(sentense); 
 					}
 				})
-})
-}
-}
+			})
+		}
+	}
 });
 
 c.queue('http://blogtraitim.info/nhung-cau-noi-bat-hu-hay-nhat-trong-tieu-thuyet-ngon-tinh/');
@@ -307,77 +327,77 @@ function getDateTime(dayBefore) {
 }
 
 app.get('/euro/api/match_list', function(req, res) {
-    db.getMatchList(function(err, rows) {
-        if (err) {
-            res.send("Error");
-        }
-        else {
-            var data = [];
-            for (var i = 0; i < rows.length; i++) {
-                var team_home = rows[i].team_home;
-                var team_away = rows[i].team_away;
-                var logo_home = rows[i].logo_home;
-                var logo_away = rows[i].logo_away;
-                var time = rows[i].time;
-                var league = rows[i].league;
-                var details_url = rows[i].details_url;
-                data[i] = {team_home: team_home, team_away: team_away, logo_home: logo_home, logo_away: logo_away, time: time, league: league, details_url: details_url};
-            }
-            res.send(data);
-        }
-    });
+	db.getMatchList(function(err, rows) {
+		if (err) {
+			res.send("Error");
+		}
+		else {
+			var data = [];
+			for (var i = 0; i < rows.length; i++) {
+				var team_home = rows[i].team_home;
+				var team_away = rows[i].team_away;
+				var logo_home = rows[i].logo_home;
+				var logo_away = rows[i].logo_away;
+				var time = rows[i].time;
+				var league = rows[i].league;
+				var details_url = rows[i].details_url;
+				data[i] = {team_home: team_home, team_away: team_away, logo_home: logo_home, logo_away: logo_away, time: time, league: league, details_url: details_url};
+			}
+			res.send(data);
+		}
+	});
 })
 
 app.get('/euro/api/get_live_url', function(req, res){
-    var details_url = req.param('details_url');
-    var server = req.param('server');
-    if(server === undefined || server === 'undefined'){
-        server = 1;
-    }
-    new Crawler({
-        maxConnections: 10,
-        callback: function(error, result, $){
-            if($){
-                var iframe1Url = $('iframe').attr('src');
-                if(iframe1Url){
-                    var link_crawler = new Crawler({
-                    maxConnections: 10,
-                    callback: function(error, result, $){
-                        if($){
-                            var iframe2Url = $('iframe').attr('src');
-                            console.log('ahihi', iframe2Url);
-                            if(iframe2Url){
-                                if(iframe2Url.indexOf('youtube.com') > -1  || iframe2Url.indexOf('http://tv.keonhacai.com/talk.php') > -1){
-                                    if(iframe2Url.lastIndexOf('//', 0) === 0){
-                                        iframe2Url = 'http:' + iframe2Url;
-                                    }
-                                    var data = {live_url: iframe2Url};
-                                    res.send(data); 
-                                } else {
-                                    if(iframe2Url.indexOf('http://tv.keonhacai.com/hot') > -1){
-                                        iframe2Url = 'http://tv.keonhacai.com/hot/k1_' + server + ".php";
-                                    }
-                                    link_crawler.queue(iframe2Url);    
-                                }
-                            } else {
-                                var data = {live_url: ''};
-                                res.send(data);
-                            }
-                        } else {
-                            var data = {live_url: ''};
-                            res.send(data);
-                        }
-                    }
-                    });
-                    link_crawler.queue(iframe1Url);
-                } else {
-                    var data = {live_url: ''};
-                    res.send(data);
-                }
-            } else {
-                var data = {live_url: ''};
-                res.send(data);
-            }
-        }
-    }).queue(details_url);
+	var details_url = req.param('details_url');
+	var server = req.param('server');
+	if(server === undefined || server === 'undefined'){
+		server = 1;
+	}
+	new Crawler({
+		maxConnections: 10,
+		callback: function(error, result, $){
+			if($){
+				var iframe1Url = $('iframe').attr('src');
+				if(iframe1Url){
+					var link_crawler = new Crawler({
+						maxConnections: 10,
+						callback: function(error, result, $){
+							if($){
+								var iframe2Url = $('iframe').attr('src');
+								console.log('ahihi', iframe2Url);
+								if(iframe2Url){
+									if(iframe2Url.indexOf('youtube.com') > -1  || iframe2Url.indexOf('http://tv.keonhacai.com/talk.php') > -1){
+										if(iframe2Url.lastIndexOf('//', 0) === 0){
+											iframe2Url = 'http:' + iframe2Url;
+										}
+										var data = {live_url: iframe2Url};
+										res.send(data); 
+									} else {
+										if(iframe2Url.indexOf('http://tv.keonhacai.com/hot') > -1){
+											iframe2Url = 'http://tv.keonhacai.com/hot/k1_' + server + ".php";
+										}
+										link_crawler.queue(iframe2Url);    
+									}
+								} else {
+									var data = {live_url: ''};
+									res.send(data);
+								}
+							} else {
+								var data = {live_url: ''};
+								res.send(data);
+							}
+						}
+					});
+					link_crawler.queue(iframe1Url);
+				} else {
+					var data = {live_url: ''};
+					res.send(data);
+				}
+			} else {
+				var data = {live_url: ''};
+				res.send(data);
+			}
+		}
+	}).queue(details_url);
 })
