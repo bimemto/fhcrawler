@@ -260,7 +260,8 @@ app.get('/bot/center',function(req, res){
 					console.log(attrs[i]);
 					if(attrs[i].indexOf('background-image') > -1){
 						var link = attrs[i].toString().split(":")[1];
-						res.send(urlToQueue + '\r\n' + link);
+						var imageUrl = link.substring(6, link.length - 1);
+						res.send(urlToQueue + '\r\n' + imageUrl);
 					}
 				}
 			} else {
