@@ -30,12 +30,8 @@ var c = new Crawler({
 
 //c.queue('http://pokemondb.net/pokedex/national');
 
-connectDB(function(error, result) {
-	if (error) {
-		console.log(error);
-	} else {
-		c.queue('http://pokemondb.net/pokedex/national');
-	}
+connectDB(function(result) {
+	c.queue('http://pokemondb.net/pokedex/national');
 });
 
 var db_config = {
