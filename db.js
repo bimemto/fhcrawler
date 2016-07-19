@@ -4,7 +4,7 @@ var db_config = {
 	host: '103.53.170.173',
 	user: 'duynk',
 	password: 'smilelife',
-	database: 'euro_2016'
+	database: 'Pokedeck'
 };
 
 var connection;
