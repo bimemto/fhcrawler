@@ -252,7 +252,7 @@ app.get('/bot/center',function(req, res){
 		userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
 		callback: function(error, result, $) {
 			if($){
-				var items = $('div.view photo-list-photo-view.requiredToShowOnServer.photostream.awake');
+				var items = $('div.view.photo-list-view.requiredToShowOnServer.photostream').find('div.view.photo-list-photo-view.requiredToShowOnServer.photostream.awake');
 				var item = items[getRandomInt(0, items.length - 1)];
 				var style = $(item).attr('style');
 				res.send(style);
