@@ -257,9 +257,9 @@ app.get('/bot/center',function(req, res){
 				var style = $(item).attr('style');
 				var attrs = style.toString().split(";");
 				for(var i = 0; i < attrs.length; i++){
-					console.log(attr[i]);
-					if(attr[i].indexOf('background-image') > -1){
-						var link = attr[i].toString().split(":")[1];
+					console.log(attrs[i]);
+					if(attrs[i].indexOf('background-image') > -1){
+						var link = attrs[i].toString().split(":")[1];
 						res.send(urlToQueue + '\r\n' + link);
 					}
 				}
