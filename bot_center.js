@@ -256,10 +256,10 @@ app.get('/bot/center',function(req, res){
 				var item = items[getRandomInt(0, items.length - 1)];
 				var style = $(item).attr('style');
 				var attrs = style.toString().split(";");
-				for(var attr in attrs){
-					console.log(attr);
-					if(attr.indexOf('background-image') > -1){
-						var link = attr.toString().split(":")[1];
+				for(var i = 0; i < attrs.length; i++){
+					console.log(attr[i]);
+					if(attr[i].indexOf('background-image') > -1){
+						var link = attr[i].toString().split(":")[1];
 						res.send(urlToQueue + '\r\n' + link);
 					}
 				}
