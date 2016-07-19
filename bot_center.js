@@ -255,7 +255,7 @@ app.get('/bot/center',function(req, res){
 				var items = $('div.view photo-list-photo-view.requiredToShowOnServer.photostream.awake');
 				var item = items[getRandomInt(0, items.length - 1)];
 				var style = $(item).attr('style');
-				var attrs = style.split(';');
+				var attrs = $(style).split(';');
 				for(var attr in attrs){
 					console.log(attr);
 					if(attr.indexOf('background-image') > -1){
