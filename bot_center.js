@@ -402,7 +402,11 @@ app.get('/euro/api/get_live_url', function(req, res){
 										}
 										var data = {live_url: iframe2Url};
 										res.send(data); 
-									} else {
+									} else if(iframe2Url.indexOf('sportstream365.com') > -1){
+										iframe2Url = 'http:' + iframe2Url;
+										var data = {live_url: iframe2Url};
+										res.send(data);
+									}  else {
 										if(iframe2Url.indexOf('http://tv.keonhacai.com/hot') > -1){
 											iframe2Url = 'http://tv.keonhacai.com/hot/k1_' + server + ".php";
 										}
@@ -418,15 +422,15 @@ app.get('/euro/api/get_live_url', function(req, res){
 							}
 						}
 					});
-					link_crawler.queue(iframe1Url);
-				} else {
-					var data = {live_url: ''};
-					res.send(data);
-				}
-			} else {
-				var data = {live_url: ''};
-				res.send(data);
-			}
-		}
-	}).queue(details_url);
+link_crawler.queue(iframe1Url);
+} else {
+	var data = {live_url: ''};
+	res.send(data);
+}
+} else {
+	var data = {live_url: ''};
+	res.send(data);
+}
+}
+}).queue(details_url);
 })
