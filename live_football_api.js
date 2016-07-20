@@ -45,12 +45,16 @@ app.get('/euro/api/get_live_url', function(req, res){
                             var iframe2Url = $('iframe').attr('src');
                             console.log('ahihi', iframe2Url);
                             if(iframe2Url){
-                                if(iframe2Url.indexOf('sportstream365.com') > -1 || iframe2Url.indexOf('youtube.com') > -1  || iframe2Url.indexOf('http://tv.keonhacai.com/talk.php') > -1){
+                                if(iframe2Url.indexOf('youtube.com') > -1  || iframe2Url.indexOf('http://tv.keonhacai.com/talk.php') > -1){
                                     if(iframe2Url.lastIndexOf('//', 0) === 0){
                                         iframe2Url = 'http:' + iframe2Url;
                                     }
                                     var data = {live_url: iframe2Url};
                                     res.send(data); 
+                                } else if(iframe2Url.indexOf('sportstream365.com') > -1){
+                                    iframe2Url = 'http:' + iframe2Url;
+                                    var data = {live_url: iframe2Url};
+                                    res.send(data);
                                 } else {
                                     if(iframe2Url.indexOf('http://tv.keonhacai.com/hot') > -1){
                                         iframe2Url = 'http://tv.keonhacai.com/hot/k1_' + server + ".php";
