@@ -19,7 +19,7 @@ var c = new Crawler({
     				type = $(type1).text() + '-' + $(type2).text();	
     			}
     			var image = 'https://img.pokemondb.net/artwork/' + name.toLowerCase() + '.jpg';
-    			console.log(id + ", " + name + ", " + image + ", " + type);
+    			//console.log(id + ", " + name + ", " + image + ", " + type);
    				db.insertPokemon(id, name, image, type);
    			})
     	} else {
@@ -30,10 +30,6 @@ var c = new Crawler({
 
 //c.queue('http://pokemondb.net/pokedex/national');
 
-db.connectDB(function(error, result) {
-	if (error) {
-		console.log(error);
-	} else {
-		c.queue('http://pokemondb.net/pokedex/national');
-	}
+db.connectDB(function(result) {
+	c.queue('http://pokemondb.net/pokedex/national');
 });
