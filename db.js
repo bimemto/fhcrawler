@@ -56,9 +56,9 @@ insertPokemon = function(id, name, image, type) {
 		image: image,
 		type: type
 	};
-	connection.query("SELECT * From Pokemon WHERE id='" + id + "'", function(err, res) {
+	connection.query("SELECT * From Pokedeck WHERE id='" + id + "'", function(err, res) {
 		if (res.length === 0) {
-			connection.query('INSERT INTO Pokemon SET ?', data, function(err, res) {
+			connection.query('INSERT INTO Pokedeck SET ?', data, function(err, res) {
 				if (err) throw err;
 				else {
 					console.log('A new entity has been added.');

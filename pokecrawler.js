@@ -1,5 +1,5 @@
 var Crawler = require("crawler");
-var mysql = require('mysql');
+var db = require("./db.js");
 
 var c = new Crawler({
 	maxConnections: 10,
@@ -20,7 +20,7 @@ var c = new Crawler({
     			}
     			var image = 'https://img.pokemondb.net/artwork/' + name.toLowerCase() + '.jpg';
     			//console.log(id + ", " + name + ", " + image + ", " + type);
-   				insertPokemon(id, name, image, type);
+   				db.insertPokemon(id, name, image, type);
    			})
     	} else {
     		console.log('lol');
@@ -30,46 +30,10 @@ var c = new Crawler({
 
 //c.queue('http://pokemondb.net/pokedex/national');
 
-connectDB(function(result) {
-	c.queue('http://pokemondb.net/pokedex/national');
+db.connectDB(function(error, result) {
+	if (error) {
+		console.log(error);
+	} else {
+		c.queue('http://pokemondb.net/pokedex/national');
+	}
 });
-
-var db_config = {
-    host: '103.53.170.173',
-    user: 'duynk',
-    password: 'smilelife',
-    database: 'Pokedeck'
-};
-
-var connection;
-
-function connectDB(callback) {
-    connection = mysql.createConnection(db_config); // Recreate the connection, since
-    connection.connect(function(error, result){
-        if(error){
-            console.log('error when connecting to db:', error);
-        } else {
-            console.log('connected to db', result);
-            callback(result);  
-        }
-    });
-};
-
-function insertPokemon(id, name, image, type) {
-    var data = {
-        id: id,
-        name: name,
-        image: image,
-        type: type
-    };
-    connection.query("SELECT * From Pokemon WHERE id='" + id + "'", function(err, res) {
-        if (res.length === 0) {
-            connection.query('INSERT INTO Pokemon SET ?', data, function(err, res) {
-                if (err) throw err;
-                else {
-                    console.log('A new entity has been added.');
-                }
-            });
-        }
-    });
-};
