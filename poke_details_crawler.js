@@ -9,6 +9,7 @@ db.connectDB(function(result) {
 			for (var i = 0; i < rows.length; i++) {
 				var name = rows[i].name;
 				var detailsUrl = 'https://pokemonshowdown.com/dex/pokemon/' + name.toLowerCase();
+				console.log(detailsUrl);
 				new Crawler({
 					maxConnections: 10,
 					userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
@@ -37,7 +38,7 @@ db.connectDB(function(result) {
 							// console.log(id + ", " + height + ", " + skills + ", " + hp + ", " + evolution);
 						}  
 					}
-				}).queue(detailsUrl);
+				});
 			}
 		}
 	});
