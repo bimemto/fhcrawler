@@ -20,7 +20,7 @@ var c = new Crawler({
     			}
     			var image = 'https://img.pokemondb.net/artwork/' + name.toLowerCase() + '.jpg';
     			//console.log(id + ", " + name + ", " + image + ", " + type);
-   				db.insertPokemon(id, name, image, type);
+   				insertPokemon(id, name, image, type);
    			})
     	} else {
     		console.log('lol');
@@ -51,6 +51,25 @@ function connectDB(callback) {
         } else {
             console.log('connected to db', result);
             callback(result);  
+        }
+    });
+};
+
+function insertPokemon(id, name, image, type) {
+    var data = {
+        id: id,
+        name: name,
+        image: image,
+        type: type
+    };
+    connection.query("SELECT * From Pokemon WHERE id='" + id + "'", function(err, res) {
+        if (res.length === 0) {
+            connection.query('INSERT INTO Pokemon SET ?', data, function(err, res) {
+                if (err) throw err;
+                else {
+                    console.log('A new entity has been added.');
+                }
+            });
         }
     });
 };
