@@ -20,7 +20,7 @@ var c = new Crawler({
     			}
     			var image = 'https://img.pokemondb.net/artwork/' + name.toLowerCase() + '.jpg';
     			var generation;
-                var idInt = id.substring(1, id.length - 1);
+                var idInt = id.substring(1, id.length);
                 if(idInt >= 1 && idInt <= 151){
                     generation = 1;
                 } else if(idInt > 151 && idInt <= 251){
@@ -34,8 +34,7 @@ var c = new Crawler({
                 } else {
                     generation = 6;
                 }
-                console.log(idInt + ":" + generation);
-   				//db.insertPokemon(id, name, image, type);
+   				db.insertPokemon(id, name, image, type, generation);
    			})
     	} else {
     		console.log('lol');
