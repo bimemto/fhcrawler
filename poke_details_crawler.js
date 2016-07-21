@@ -28,7 +28,7 @@ db.connectDB(function(result) {
 							var tds = $('table.stats').find('td.stat');
 							var hpStat = tds[0];
 							var hp = $(hpStat).text();
-							var evos = $('table.evos').find('a').attr('data-target');
+							var evos = $('table.evos').find('a');
 							var evolution = '';
 							for(var i = 0; i < evos.length; i++){
 								evolution = i + "." + $(evos[i]).text();
