@@ -70,7 +70,7 @@ insertPokemon = function(id, name, image, type, generation) {
 	});
 };
 
-getAllPokemon = function() {
+getAllPokemon = function(callback) {
 	connection.query("SELECT * FROM Pokedeck WHERE generation = 1", function(err, rows) {
 		callback(err, rows);
 	});
