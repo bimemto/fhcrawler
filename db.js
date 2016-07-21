@@ -70,6 +70,12 @@ insertPokemon = function(id, name, image, type, generation) {
 	});
 };
 
+getAllPokemon = function() {
+	connection.query("SELECT * FROM Pokedeck WHERE generation = 1", function(err, rows) {
+		callback(err, rows);
+	});
+};
+
 insertLiveMatch = function(team_home, team_away, logo_home, logo_away, time, league, details_url, live_stream_url) {
 	var data = {
 		team_home: team_home,
