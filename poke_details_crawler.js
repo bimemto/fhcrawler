@@ -14,7 +14,7 @@ db.connectDB(function(result) {
 					userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
 					callback: function(error, result, $) {
 						if($){
-							var id = $('div.pfx-panel').find('code:not([class!=""])').text();
+							var id = $('div.pfx-panel').find('code').text();
 							var height = $('dl.sizeentry').find('dd:not([class!=""])').text();
 							var abilities = $('dl.abilityentry').find('dd.imgentry').find('a');
 							var skills = '';
