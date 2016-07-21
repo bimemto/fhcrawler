@@ -19,8 +19,23 @@ var c = new Crawler({
     				type = $(type1).text() + '-' + $(type2).text();	
     			}
     			var image = 'https://img.pokemondb.net/artwork/' + name.toLowerCase() + '.jpg';
-    			//console.log(id + ", " + name + ", " + image + ", " + type);
-   				db.insertPokemon(id, name, image, type);
+    			var generation;
+                var idInt = id.substring(1, id.length - 1);
+                if(idInt >= 1 && idInt <= 151){
+                    generation = 1;
+                } else if(idInt > 151 && idInt <= 251){
+                    generation = 2;
+                } else if(idInt > 251 && idInt <= 386){
+                    generation = 3;
+                } else if(idInt > 386 && idInt <= 493){
+                    generation = 4;
+                } else if(idInt > 493 && idInt <= 649){
+                    generation = 5;
+                } else {
+                    generation = 6;
+                }
+                console.log(idInt + ":" + generation);
+   				//db.insertPokemon(id, name, image, type);
    			})
     	} else {
     		console.log('lol');

@@ -49,12 +49,13 @@ insertHighlight = function(Title, Date, Desc, Thumb, VideoURL1, VideoURL2, Video
 	});
 };
 
-insertPokemon = function(id, name, image, type) {
+insertPokemon = function(id, name, image, type, gen) {
 	var data = {
 		id: id,
 		name: name,
 		image: image,
-		type: type
+		type: type,
+		generation: gen
 	};
 	connection.query("SELECT * FROM Pokedeck WHERE id='" + id + "'", function(err, res) {
 		if (res.length === 0) {
