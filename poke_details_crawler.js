@@ -37,7 +37,7 @@ db.connectDB(function(result) {
 							// console.log(id + ", " + height + ", " + skills + ", " + hp + ", " + evolution);
 						}  
 					}
-				});.queue(detailsUrl);
+				}).queue(detailsUrl);
 			}
 		}
 	});
