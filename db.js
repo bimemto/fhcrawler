@@ -192,3 +192,4 @@ module.exports.getPesFund = getPesFund;
 module.exports.getSentence1 = getSentence1;
 module.exports.getSentence2 = getSentence2;
 module.exports.insertPokemon = insertPokemon;
+module.exports.getAllPokemon = getAllPokemon;
