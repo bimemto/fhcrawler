@@ -38,7 +38,7 @@ var db_config = {
     host: '103.53.170.173',
     user: 'duynk',
     password: 'smilelife',
-    database: 'Pokedex'
+    database: 'Pokedeck'
 };
 
 var connection;
