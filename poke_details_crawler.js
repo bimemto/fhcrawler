@@ -14,8 +14,7 @@ db.connectDB(function(result) {
 					userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
 					callback: function(error, result, $) {
 						if($){
-							console.log($.html());
-							// var id = $('div.pfx-panel').find('code').text();
+							var id = $('table.vitals-table').find('strong:not([class!=""])').text();
 							// var height = $('dl.sizeentry').find('dd:not([class!=""])').text();
 							// var abilities = $('dl.abilityentry').find('dd.imgentry').find('a');
 							// var skills = '';
@@ -34,7 +33,7 @@ db.connectDB(function(result) {
 							// for(var i = 0; i < evos.length; i++){
 							// 	evolution = i + "." + $(evos[i]).text();
 							// }
-							// console.log(id + ", " + height + ", " + skills + ", " + hp + ", " + evolution);
+							console.log(id + ", " + height + ", " + skills + ", " + hp + ", " + evolution);
 						}  
 					}
 				}).queue(detailsUrl);
