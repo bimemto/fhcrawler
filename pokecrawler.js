@@ -1,4 +1,5 @@
 var Crawler = require("crawler");
+var mysql = require('mysql');
 
 var c = new Crawler({
 	maxConnections: 10,
