@@ -32,7 +32,8 @@ getMatchList = function(callback) {
 	MongoClient.connect(url, function(err, db) {
 		assert.equal(null, err);
 		console.log("Connected correctly to server");
-		findMatches(db, function() {
+		findMatches(db, function(rows) {
+			callback(rows);
 			db.close();
 		});
 	});
