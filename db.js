@@ -1,7 +1,7 @@
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 
-var url = 'mongodb://bu.1ly.co:27017/mydb';
+var url = 'mongodb://localhost:27017/mydb';
 // Use connect method to connect to the Server
 insertLiveMatch = function(team_home, team_away, logo_home, logo_away, time, league, details_url){
 	MongoClient.connect(url, function(err, db) {
