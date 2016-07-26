@@ -8,7 +8,7 @@ insertLiveMatch = function(team_home, team_away, logo_home, logo_away, time, lea
 		assert.equal(null, err);
 		console.log("Connected correctly to server");
 
-		addMatches(db, function() {
+		addMatches(db, team_home, team_away, logo_home, logo_away, time, league, details_url, function() {
 			db.close();
 		});
 	});
@@ -16,7 +16,7 @@ insertLiveMatch = function(team_home, team_away, logo_home, logo_away, time, lea
 
 
 
-var addMatches = function(db, callback) {
+var addMatches = function(db, team_home, team_away, logo_home, logo_away, time, league, details_url, callback) {
   // Get the documents collection
   var collection = db.collection('liveMatch');
   collection.insertMany([
