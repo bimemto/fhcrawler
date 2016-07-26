@@ -355,24 +355,19 @@ function getDateTime(dayBefore) {
 }
 
 app.get('/euro/api/match_list', function(req, res) {
-	db.getMatchList(function(err, rows) {
-		if (err) {
-			res.send("Error");
+	db.getMatchList(function(rows) {
+		var data = [];
+		for (var i = 0; i < rows.length; i++) {
+			var team_home = rows[i].team_home;
+			var team_away = rows[i].team_away;
+			var logo_home = rows[i].logo_home;
+			var logo_away = rows[i].logo_away;
+			var time = rows[i].time;
+			var league = rows[i].league;
+			var details_url = rows[i].details_url;
+			data[i] = {team_home: team_home, team_away: team_away, logo_home: logo_home, logo_away: logo_away, time: time, league: league, details_url: details_url};
 		}
-		else {
-			var data = [];
-			for (var i = 0; i < rows.length; i++) {
-				var team_home = rows[i].team_home;
-				var team_away = rows[i].team_away;
-				var logo_home = rows[i].logo_home;
-				var logo_away = rows[i].logo_away;
-				var time = rows[i].time;
-				var league = rows[i].league;
-				var details_url = rows[i].details_url;
-				data[i] = {team_home: team_home, team_away: team_away, logo_home: logo_home, logo_away: logo_away, time: time, league: league, details_url: details_url};
-			}
-			res.send(data);
-		}
+		res.send(data);
 	});
 })
 
