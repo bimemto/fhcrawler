@@ -7,11 +7,11 @@ insertLiveMatch = function(team_home, team_away, logo_home, logo_away, time, lea
 	MongoClient.connect(url, function(err, db) {
 		assert.equal(null, err);
 		console.log("Connected correctly to server");
-		deleteAllMatches(db, function()){
+		deleteAllMatches(db, function(){
 			addMatches(db, team_home, team_away, logo_home, logo_away, time, league, details_url, function() {
 				db.close();
 			});
-		}
+		});
 	});
 }
 
