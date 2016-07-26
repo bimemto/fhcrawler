@@ -41,73 +41,32 @@ var c = new Crawler({
                 console.log('icon_home', icon_home);
                 icon_away = $(container).find('div.icon.away').find('img.attachment-48x48').attr('src');
                 console.log('icon_away', icon_away);
-                // $('div[class=icon]').each(function(index, div) {
-                //     $(div).find('img.attachment-48x48').each(function(index, img){
-                //         icon_home = $(img).attr('src');
-                //         console.log('icon_home', icon_home);
-                //     })
-                // })
-                // $('div.icon.away').each(function(index, div) {
-                //     $(div).find('img.attachment-48x48').each(function(index, img){
-                //         icon_away = $(img).attr('src');
-                //         console.log('icon_away', icon_away);
-                //     })
-                // })
                 team_home = $(container).find('h2[class=team]').find('p').text();
                 if(team_home === ''){
                     team_home = $(container).find('h2[class=team]').find('i').text();
                 }
                 console.log('team_home', team_home);
-                // $('h2[class=team]').each(function(index, h2) {
-                //     $(h2).find('p').each(function(index, p){
-                //         team_home = $(p).text();
-                //         console.log('team_home', team_home);
-                //     })
-                // })
                 team_away = $(container).find('h2.team.away').find('p').text();
                 if(team_away === ''){
                     team_away = $(container).find('h2.team.away').find('i').text();
                 }
                 console.log('team_away', team_away);
-                // $('h2.team.away').each(function(index, h2) {
-                //     $(h2).find('p').each(function(index, p){
-                //         team_away = $(p).text();
-                //         console.log('team_away', team_away);
-                //     })
-                // })
                 time = $(container).find('div.meta').find('h4').text();
                 league = $(container).find('div.meta').find('span:not([class!=""])').text();
                 console.log('time', time);
                 console.log('league', league);
-                // $('div.meta').each(function(index, div) {
-                //     $(div).find('h4').each(function(index, h4){
-                //         time = $(h4).text();
-                //         console.log('time', time);
-                //     })
-                //     $(div).find('span:not([class!=""])').each(function(index, span){
-                //         league = $(span).text();
-                //         console.log('league', league);
-                //     })
-                // })
                 details_url = 'http://keonhacai.com/' + $(container).find('div.livelink.column').find('a').attr('href');
                 console.log('details_url', details_url);
-                //details_crawler.queue(details_url);
-                // $('div.livelink.column').each(function(index, div){
-                //     $(div).find('a').each(function(index, a){
-                //         details_url = 'http://keonhacai.com/' + $(a).attr('href');
-                //         console.log('details_url', details_url);
-                //         details_crawler.queue(details_url);
-                //     })
-                // })
                 db.insertLiveMatch(team_home, team_away, icon_home, icon_away, time, league, details_url, '');
             })
-
-}
-}
+        }
+    }
 });
 
 crawl = function() {
-    c.queue('http://keonhacai.com');
+    db.clearMatches(function(result){
+        c.queue('http://keonhacai.com');    
+    });
 };
 
 module.exports.crawl = crawl;

@@ -7,15 +7,22 @@ insertLiveMatch = function(team_home, team_away, logo_home, logo_away, time, lea
 	MongoClient.connect(url, function(err, db) {
 		assert.equal(null, err);
 		console.log("Connected correctly to server");
-		deleteAllMatches(db, function(){
-			addMatches(db, team_home, team_away, logo_home, logo_away, time, league, details_url, function() {
+		addMatches(db, team_home, team_away, logo_home, logo_away, time, league, details_url, function() {
 				db.close();
-			});
 		});
 	});
 }
 
-
+clearMatches = function(callback){
+	MongoClient.connect(url, function(err, db) {
+		assert.equal(null, err);
+		deleteAllMatches(db, function(result){
+			console.log("Cleared");
+			callback(result);
+			db.close();
+		});
+	});
+}
 
 var addMatches = function(db, team_home, team_away, logo_home, logo_away, time, league, details_url, callback) {
   // Get the documents collection
@@ -260,6 +267,7 @@ module.exports.insertLiveMatch = insertLiveMatch;
 // module.exports.getAllHighlight = getAllHighlight;
 // module.exports.getAllVideos = getAllVideos;
 module.exports.getMatchList = getMatchList;
+module.exports.clearMatches = clearMatches;
 // module.exports.getHighLightByTeam = getHighLightByTeam;
 // module.exports.getPesFund = getPesFund;
 // module.exports.getSentence1 = getSentence1;
