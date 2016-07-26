@@ -510,37 +510,37 @@ bot.on('message', function(message) {
 }
 });
 
-var job = new CronJob({
-  cronTime: '00 00 07 * * 0-6',
-  onTick: function() {
-    db.getSentence1(function(error, rows){
-      if (error) {
-        console.log(error);
-      } else {
-        var message = rows[0].Text;
-        bot.sendMessage('-41541244', message);  
-      }
-    });
-  },
-  start: true,
-});
-job.start();
+// var job = new CronJob({
+//   cronTime: '00 00 07 * * 0-6',
+//   onTick: function() {
+//     db.getSentence1(function(error, rows){
+//       if (error) {
+//         console.log(error);
+//       } else {
+//         var message = rows[0].Text;
+//         bot.sendMessage('-41541244', message);  
+//       }
+//     });
+//   },
+//   start: true,
+// });
+// job.start();
 
-var job1 = new CronJob({
-  cronTime: '00 01 07 * * 0-6',
-  onTick: function() {
-    db.getSentence2(function(error, rows){
-      if (error) {
-        console.log(error);
-      } else {
-        var message = rows[0].Text;
-        bot.sendMessage('-41541244', message);  
-      }
-    });
-  },
-  start: true,
-});
-job1.start();
+// var job1 = new CronJob({
+//   cronTime: '00 01 07 * * 0-6',
+//   onTick: function() {
+//     db.getSentence2(function(error, rows){
+//       if (error) {
+//         console.log(error);
+//       } else {
+//         var message = rows[0].Text;
+//         bot.sendMessage('-41541244', message);  
+//       }
+//     });
+//   },
+//   start: true,
+// });
+// job1.start();
 
 function degToCompass(num) {
   var val = Math.floor((num / 22.5) + 0.5);
