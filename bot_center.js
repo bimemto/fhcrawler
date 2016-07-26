@@ -15,9 +15,9 @@ var _ = require('underscore');
 googl.setKey('AIzaSyC2wTIH9KqiD4PGRPpk0DiGmYdDrB8lgUo');
 googl.getKey();
 
-db.connectDB(function(result) {
+// db.connectDB(function(result) {
 
-});
+// });
 
 function allowCrossDomain(req, res, next) {
 	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');

@@ -107,9 +107,7 @@ var c = new Crawler({
 });
 
 crawl = function() {
-    db.connectDB(function(result) {
-        c.queue('http://keonhacai.com');
-    });
+    c.queue('http://keonhacai.com');
 };
 
 module.exports.crawl = crawl;
