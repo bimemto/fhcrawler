@@ -15,6 +15,8 @@ db.connectDB(function(result) {
 					callback: function(error, result, $) {
 						if($){
 							var id = $('table.vitals-table').find('strong:not([class!=""])').text();
+							var height;
+							var trs = $('table.vitals-table').find('tbody')
 							// var height = $('dl.sizeentry').find('dd:not([class!=""])').text();
 							// var abilities = $('dl.abilityentry').find('dd.imgentry').find('a');
 							// var skills = '';
