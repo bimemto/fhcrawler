@@ -8,8 +8,8 @@ insertLiveMatch = function(team_home, team_away, logo_home, logo_away, time, lea
 		assert.equal(null, err);
 		console.log("Connected correctly to server");
 		addMatches(db, team_home, team_away, logo_home, logo_away, time, league, details_url, function() {
-				db.close();
-		});
+      db.close();
+    });
 	});
 }
 
@@ -76,6 +76,32 @@ var deleteAllMatches = function(db, callback) {
   	assert.equal(err, null);
   	console.log("Removed");
   	callback(result);
+  });
+}
+
+var addPokemon = function(db, id, name, maxCP, callback){
+  var collection = db.collection('pokemon');
+  var data = {
+    id: id,
+    name: name,
+    maxCP: maxCP
+  };
+  collection.insert([
+    data
+    ], function(err, result) {
+      assert.equal(err, null);
+      console.log("Inserted");
+      callback(result);
+    });
+}
+
+var insertPokemon = function(id, name, maxCP){
+  MongoClient.connect(url, function(err, db) {
+    assert.equal(null, err);
+    console.log("Connected correctly to server");
+    addPokemon(db, id, name, maxCP, function() {
+      db.close();
+    });
   });
 }
 // var mysql = require('mysql');
@@ -272,5 +298,5 @@ module.exports.clearMatches = clearMatches;
 // module.exports.getPesFund = getPesFund;
 // module.exports.getSentence1 = getSentence1;
 // module.exports.getSentence2 = getSentence2;
-// module.exports.insertPokemon = insertPokemon;
+module.exports.insertPokemon = insertPokemon;
 // module.exports.getAllPokemon = getAllPokemon;
