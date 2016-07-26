@@ -7,10 +7,11 @@ insertLiveMatch = function(team_home, team_away, logo_home, logo_away, time, lea
 	MongoClient.connect(url, function(err, db) {
 		assert.equal(null, err);
 		console.log("Connected correctly to server");
-
-		addMatches(db, team_home, team_away, logo_home, logo_away, time, league, details_url, function() {
-			db.close();
-		});
+		deleteAllMatches(db, function()){
+			addMatches(db, team_home, team_away, logo_home, logo_away, time, league, details_url, function() {
+				db.close();
+			});
+		}
 	});
 }
 
@@ -19,8 +20,17 @@ insertLiveMatch = function(team_home, team_away, logo_home, logo_away, time, lea
 var addMatches = function(db, team_home, team_away, logo_home, logo_away, time, league, details_url, callback) {
   // Get the documents collection
   var collection = db.collection('liveMatch');
-  collection.insertMany([
-  	{team_home : team_home}, {team_away : team_away}, {logo_home : logo_home}, {logo_away: logo_away}, {time: time}, {league: league}, {details_url: details_url}
+  var data = {
+  	team_home: team_home,
+  	team_away: team_away,
+  	logo_home: logo_home,
+  	logo_away: logo_away,
+  	time: time,
+  	league: league,
+  	details_url: details_url
+  };
+  collection.insert([
+  	data
   	], function(err, result) {
   		assert.equal(err, null);
   		console.log("Inserted");
@@ -44,10 +54,21 @@ var findMatches = function(db, callback) {
   var collection = db.collection('liveMatch');
   // Find some documents
   collection.find({}).toArray(function(err, rows) {
-    assert.equal(err, null);
-    console.log("Found the following records");
-    console.dir(rows);
-    callback(rows);
+  	assert.equal(err, null);
+  	console.log("Found the following records");
+  	console.dir(rows);
+  	callback(rows);
+  });
+}
+
+var deleteAllMatches = function(db, callback) {
+  // Get the documents collection
+  var collection = db.collection('liveMatch');
+  // Insert some documents
+  collection.remove({}, function(err, result) {
+  	assert.equal(err, null);
+  	console.log("Removed");
+  	callback(result);
   });
 }
 // var mysql = require('mysql');
