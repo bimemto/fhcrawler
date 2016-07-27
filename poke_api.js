@@ -46,6 +46,7 @@ app.get('/pokemon/api/cp', function(req, res) {
 			var level = rows[i].level;
 			var minCP = rows[i].minCP;
 			var maxCP = rows[i].maxCP;
+			console.log(id + ', ' + stardust + ', ' + level + ', ' + minCP + ', ' + maxCP);
 			data[i] = {id: id, stardust: stardust, level: level, minCP: minCP, maxCP: maxCP};
 		}
 		res.send(data);
