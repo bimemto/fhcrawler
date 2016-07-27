@@ -27,7 +27,8 @@ db.getPokemonList(function(rows){
                                 maxCP = $(td).text();
                                 break;
                         }
-                        db.insertPokeCP(id, stardust, level, minCP, maxCP);
+                        console.log(id + ', ' + stardust + ', ' + minCP + ', ' + maxCP);
+                        //db.insertPokeCP(id, stardust, level, minCP, maxCP);
                     })
                 }
             }
