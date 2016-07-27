@@ -7,6 +7,7 @@ var candy, hatchDistance;
 
 var c = new Crawler({
     maxConnections : 10,
+    userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
     callback: function (error, result, $) {
         if($){
             $('div.pokemon-stats').find('tr').each(function(index, tr){
