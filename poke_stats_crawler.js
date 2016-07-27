@@ -17,6 +17,7 @@ db.getPokemonList(function(rows){
         c.queue([{
             uri: detailsUrl,
             callback: function (error, result, $) {
+                console.log($.html());
                 if($){
                     $('div.pokemon-stats').find('tr').each(function(index, tr){
                         switch(index){
