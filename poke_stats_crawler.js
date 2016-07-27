@@ -44,7 +44,9 @@ db.getPokemonList(function(rows){
                             hatchDistance = $(tr).find('td:not([class!=""])').text().trim();
                         }
                     })
-                    console.log(id + ', ' + baseAtk + ', ' + baseDef + ', ' + baseSta + ', ' + captureRate + ', ' + fleeRate + ', ' + type + ', '+ candy + ', ' + hatchDistance);
+                    //console.log(id + ', ' + baseAtk + ', ' + baseDef + ', ' + baseSta + ', ' + captureRate + ', ' + fleeRate + ', ' + type + ', '+ candy + ', ' + hatchDistance);
+                    var pokeId = detailsUrl.substring(detailsUrl.lastIndexOf('/'), detailsUrl.length);
+                    console.log(pokeId);
                     //db.insertPokeStats(id, baseAtk, baseDef, baseSta, captureRate, fleeRate, type, candy, hatchDistance);
                 }
             }
