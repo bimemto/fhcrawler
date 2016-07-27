@@ -7,7 +7,7 @@ var candy, hatchDistance;
 
 var c = new Crawler({
     maxConnections : 10,
-    userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
+    userAgent: 'Mozilla/5.0 (Linux; U; Android 4.0.3; ko-kr; LG-L160L Build/IML74K) AppleWebkit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30',
     callback: function (error, result, $) {
         if($){
             $('div.pokemon-stats').find('tr').each(function(index, tr){
@@ -40,13 +40,13 @@ var c = new Crawler({
                     hatchDistance = $(tr).find('td:not([class!=""])').text().trim();
                 }
             })
-            console.log(candy);
-            // var image = 'http://pokemongo.gamepress.gg/' + $('div.pokemon-image').find('img').attr('src');
-            // var pokeId = image.substring(image.lastIndexOf('/') + 1, image.lastIndexOf('.'));
-            // if(pokeId.indexOf('_') > -1){
-            //     pokeId = pokeId.substring(0, pokeId.lastIndexOf('_'));
-            // }
-            // db.insertPokeStats(pokeId, image, baseAtk, baseDef, baseSta, captureRate, fleeRate, type, candy, hatchDistance);
+
+            var image = 'http://pokemongo.gamepress.gg/' + $('div.pokemon-image').find('img').attr('src');
+            var pokeId = image.substring(image.lastIndexOf('/') + 1, image.lastIndexOf('.'));
+            if(pokeId.indexOf('_') > -1){
+                pokeId = pokeId.substring(0, pokeId.lastIndexOf('_'));
+            }
+            db.insertPokeStats(pokeId, image, baseAtk, baseDef, baseSta, captureRate, fleeRate, type, candy, hatchDistance);
         }
     }
 });
