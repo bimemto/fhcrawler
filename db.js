@@ -95,11 +95,105 @@ var addPokemon = function(db, id, name, maxCP, callback){
     });
 }
 
-var insertPokemon = function(id, name, maxCP){
+var addPokeStats = function(db, id, baseAtk, baseDef, baseSta, captureRate, fleeRate, type, candy, hatchDistance, callback){
+  var collection = db.collection('pokestats');
+  var data = {
+    id: id,
+    baseAtk: baseAtk,
+    baseDef: baseDef,
+    baseSta: baseSta,
+    captureRate: captureRate,
+    fleeRate: fleeRate,
+    type: type,
+    candy: candy,
+    hatchDistance: hatchDistance
+  };
+  collection.insert([
+    data
+    ], function(err, result) {
+      assert.equal(err, null);
+      console.log("Inserted");
+      callback(result);
+    });
+}
+
+insertPokemon = function(id, name, maxCP){
   MongoClient.connect(url, function(err, db) {
     assert.equal(null, err);
     console.log("Connected correctly to server");
     addPokemon(db, id, name, maxCP, function() {
+      db.close();
+    });
+  });
+}
+
+var findPokemonById = function(db, id, callback){
+  var cursor = db.collection('pokemon').find( { "id": id } );
+  cursor.each(function(err, result) {
+    assert.equal(err, null);
+    if (result != null) {
+     console.dir(result);
+     callback(result);
+   } else {
+     callback(err);
+   }
+ });
+}
+
+insertPokeStats = function(id, baseAtk, baseDef, baseSta, captureRate, fleeRate, type, candy, hatchDistance){
+  MongoClient.connect(url, function(err, db) {
+    assert.equal(null, err);
+    console.log("Connected correctly to server");
+    addPokeStats(db, id, baseAtk, baseDef, baseSta, captureRate, fleeRate, type, candy, hatchDistance, function(){
+      db.close();
+    });
+  });
+}
+
+var addPokeCP = function(db, id, stardust, level, minCP, maxCP, callback){
+  var collection = db.collection('pokecp');
+  var data = {
+    id: id,
+    stardust: stardust,
+    level: level,
+    minCP: minCP,
+    maxCP: maxCP
+  };
+  collection.insert([
+    data
+    ], function(err, result) {
+      assert.equal(err, null);
+      console.log("Inserted");
+      callback(result);
+    });
+}
+
+insertPokeCP = function(id, stardust, level, minCP, maxCP){
+  MongoClient.connect(url, function(err, db) {
+    assert.equal(null, err);
+    console.log("Connected correctly to server");
+    addPokeCP(id, stardust, level, minCP, maxCP, function(){
+      db.close();
+    });
+  });
+}
+
+var getAllPokemons = function(db, callback) {
+  var collection = db.collection('pokemon');
+  collection.find({}).toArray(function(err, rows) {
+    assert.equal(err, null);
+    console.log("Found the following records");
+    console.dir(rows);
+    callback(rows);
+  });
+}
+
+getPokemonList = function(callback) {
+  MongoClient.connect(url, function(err, db) {
+    assert.equal(null, err);
+    console.log("Connected correctly to server");
+    getAllPokemons(db, function(rows) {
+      callback(rows);
       db.close();
     });
   });
@@ -299,4 +393,6 @@ module.exports.clearMatches = clearMatches;
 // module.exports.getSentence1 = getSentence1;
 // module.exports.getSentence2 = getSentence2;
 module.exports.insertPokemon = insertPokemon;
-// module.exports.getAllPokemon = getAllPokemon;
+module.exports.insertPokeStats = insertPokeStats;
+module.exports.insertPokeCP = insertPokeCP;
+module.exports.getPokemonList = getPokemonList;
