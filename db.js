@@ -173,7 +173,7 @@ insertPokeCP = function(id, stardust, level, minCP, maxCP){
   MongoClient.connect(url, function(err, db) {
     assert.equal(null, err);
     console.log("Connected correctly to server");
-    addPokeCP(id, stardust, level, minCP, maxCP, function(){
+    addPokeCP(db, id, stardust, level, minCP, maxCP, function(){
       db.close();
     });
   });
