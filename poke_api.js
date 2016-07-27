@@ -36,13 +36,15 @@ app.get('/pokemon/api/stats', function(req, res) {
 app.get('/pokemon/api/cp', function(req, res) {
 	var pokeId = req.param('id');
 	db.getPokeCPs(pokeId, function(rows) {
-		var id = rows.id;
-		var stardust = rows.stardust;
-		var level = rows.level;
-		var minCP = rows.minCP;
-		var maxCP = rows.maxCP;
-		console.log(id + ', ' + stardust + ', ' + level + ', ' + minCP + ', ' + maxCP);
-		var data = {id: id, stardust: stardust, level: level, minCP: minCP, maxCP: maxCP};
+		var data = [];
+		for (var i = 0; i < rows.length; i++) {
+			var id = rows[i].id;
+			var stardust = rows[i].stardust;
+			var level = rows[i].level;
+			var minCP = rows[i].minCP;
+			var maxCP = rows[i].maxCP;
+			var data[i] = {id: id, stardust: stardust, level: level, minCP: minCP, maxCP: maxCP};
+		}
 		res.send(data);
 	});
 })
