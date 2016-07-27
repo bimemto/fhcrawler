@@ -223,7 +223,7 @@ getPokeStats = function(id, callback){
 
 var getCPs = function(pokeId, db, callback){
   var collection = db.collection('pokecp');
-  collection.findOne({"id": pokeId}, function(err, rows) {
+  collection.find({"id": pokeId}).toArray(function(err, rows) {
     assert.equal(err, null);
     console.log("Found the following records");
     console.dir(rows);
