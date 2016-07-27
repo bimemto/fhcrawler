@@ -44,8 +44,8 @@ db.getPokemonList(function(rows){
                             hatchDistance = $(tr).find('td:not([class!=""])').text().trim();
                         }
                     })
-
-                    db.insertPokeStats(id, baseAtk, baseDef, baseSta, captureRate, fleeRate, type, candy, hatchDistance);
+                    console.log(id + ', ' + baseAtk + ', ' + baseDef + ', ' + baseSta + ', ' + captureRate + ', ' + fleeRate + ', ' + type + ', '+ candy + ', ' + hatchDistance);
+                    //db.insertPokeStats(id, baseAtk, baseDef, baseSta, captureRate, fleeRate, type, candy, hatchDistance);
                 }
             }
         }).queue(detailsUrl);
