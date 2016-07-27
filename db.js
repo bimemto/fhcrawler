@@ -95,10 +95,11 @@ var addPokemon = function(db, id, name, maxCP, callback){
     });
 }
 
-var addPokeStats = function(db, id, baseAtk, baseDef, baseSta, captureRate, fleeRate, type, candy, hatchDistance, callback){
+var addPokeStats = function(db, id, image, baseAtk, baseDef, baseSta, captureRate, fleeRate, type, candy, hatchDistance, callback){
   var collection = db.collection('pokestats');
   var data = {
     id: id,
+    image: image,
     baseAtk: baseAtk,
     baseDef: baseDef,
     baseSta: baseSta,
@@ -140,11 +141,11 @@ var findPokemonById = function(db, id, callback){
  });
 }
 
-insertPokeStats = function(id, baseAtk, baseDef, baseSta, captureRate, fleeRate, type, candy, hatchDistance){
+insertPokeStats = function(id, image, baseAtk, baseDef, baseSta, captureRate, fleeRate, type, candy, hatchDistance){
   MongoClient.connect(url, function(err, db) {
     assert.equal(null, err);
     console.log("Connected correctly to server");
-    addPokeStats(db, id, baseAtk, baseDef, baseSta, captureRate, fleeRate, type, candy, hatchDistance, function(){
+    addPokeStats(db, id, image, baseAtk, baseDef, baseSta, captureRate, fleeRate, type, candy, hatchDistance, function(){
       db.close();
     });
   });

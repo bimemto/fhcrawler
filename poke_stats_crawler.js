@@ -13,7 +13,6 @@ db.getPokemonList(function(rows){
     var data = [];
     for (var i = 0; i < rows.length; i++) {
         var id = rows[i].id;
-        console.log(id);
         var detailsUrl = 'http://pokemongo.gamepress.gg/pokemon/' + id;
         c.queue([{
             uri: detailsUrl,
@@ -49,10 +48,12 @@ db.getPokemonList(function(rows){
                         hatchDistance = $(tr).find('td:not([class!=""])').text().trim();
                     }
                 })
+
+                var image = 'http://pokemongo.gamepress.gg/' + $('div.pokemon-image').find('img').attr('src');
                     //console.log(id + ', ' + baseAtk + ', ' + baseDef + ', ' + baseSta + ', ' + captureRate + ', ' + fleeRate + ', ' + type + ', '+ candy + ', ' + hatchDistance);
-                    //var pokeId = detailsUrl.substring(detailsUrl.lastIndexOf('/') + 1, detailsUrl.length);
-                    
-                    //db.insertPokeStats(id, baseAtk, baseDef, baseSta, captureRate, fleeRate, type, candy, hatchDistance);
+                var pokeId = image.substring(image.lastIndexOf('/') + 1, image.lastIndexOf('.') - 1);
+                console.log(pokeId);
+                    //db.insertPokeStats(id, image, baseAtk, baseDef, baseSta, captureRate, fleeRate, type, candy, hatchDistance);
                 }
             }
         }]);
