@@ -37,7 +37,7 @@ db.getPokemonList(function(rows){
                         }
                     })
 
-                    $('div.evolution-requirements').find('tr').each(function(index, tr){
+                    $('div[id=evolution-requirements]').find('tr').each(function(index, tr){
                         if(index === 0){
                             candy = $(tr).find('td:not([class!=""])').text().trim();
                         } else {
