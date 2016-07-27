@@ -200,7 +200,7 @@ getPokemonList = function(callback) {
   });
 }
 
-var getPokeStats = function(pokeId, db, callback){
+var getStats = function(pokeId, db, callback){
   var collection = db.collection('pokestats');
   collection.find({id: pokeId}).toArray(function(err, rows) {
     assert.equal(err, null);
@@ -214,14 +214,14 @@ getPokeStats = function(id, callback){
   MongoClient.connect(url, function(err, db) {
     assert.equal(null, err);
     console.log("Connected correctly to server");
-    getPokeStats(id, db, function(rows) {
+    getStats(id, db, function(rows) {
       callback(rows);
       db.close();
     });
   });
 }
 
-var getPokeCPs = function(pokeId, db, callback){
+var getCPs = function(pokeId, db, callback){
   var collection = db.collection('pokecp');
   collection.find({id: pokeId}).toArray(function(err, rows) {
     assert.equal(err, null);
@@ -235,7 +235,7 @@ getPokeCPs = function(id, callback){
   MongoClient.connect(url, function(err, db) {
     assert.equal(null, err);
     console.log("Connected correctly to server");
-    getPokeCPs(id, db, function(rows) {
+    getCPs(id, db, function(rows) {
       callback(rows);
       db.close();
     });
