@@ -10,6 +10,7 @@ var c = new Crawler({
     userAgent: 'Mozilla/5.0 (Linux; U; Android 4.0.3; ko-kr; LG-L160L Build/IML74K) AppleWebkit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30',
     callback: function (error, result, $) {
         if($){
+            console.log($.html());
             $('div.pokemon-stats').find('tr').each(function(index, tr){
                 switch(index){
                     case 1:
