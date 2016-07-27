@@ -23,17 +23,17 @@ var c = new Crawler({
                     var stardust, level, minCP, maxCP;
                     switch(index){
                         case 0:
-                        stardust = $(td).text();
-                        break;
+                            stardust = $(td).text().trim();
+                            break;
                         case 1:
-                        level = $(td).text();
-                        break;
+                            level = $(td).text().trim();
+                            break;
                         case 2:
-                        minCP = $(td).text();
-                        break;
+                            minCP = $(td).text().trim();
+                            break;
                         case 3:
-                        maxCP = $(td).text();
-                        break;
+                            maxCP = $(td).text().trim();
+                            break;
                     }
                     var image = 'http://pokemongo.gamepress.gg/' + $('div.pokemon-image').find('img').attr('src');
                     var pokeId = image.substring(image.lastIndexOf('/') + 1, image.lastIndexOf('.'));
