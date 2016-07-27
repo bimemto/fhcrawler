@@ -13,6 +13,7 @@ db.getPokemonList(function(rows){
     var data = [];
     for (var i = 0; i < rows.length; i++) {
         var id = rows[i].id;
+        console.log(id);
         var detailsUrl = 'http://pokemongo.gamepress.gg/pokemon/' + id;
         c.queue([{
             uri: detailsUrl,
@@ -50,7 +51,7 @@ db.getPokemonList(function(rows){
                 })
                     //console.log(id + ', ' + baseAtk + ', ' + baseDef + ', ' + baseSta + ', ' + captureRate + ', ' + fleeRate + ', ' + type + ', '+ candy + ', ' + hatchDistance);
                     //var pokeId = detailsUrl.substring(detailsUrl.lastIndexOf('/') + 1, detailsUrl.length);
-                    console.log(i);
+                    
                     //db.insertPokeStats(id, baseAtk, baseDef, baseSta, captureRate, fleeRate, type, candy, hatchDistance);
                 }
             }
