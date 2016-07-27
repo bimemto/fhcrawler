@@ -23,26 +23,26 @@ var c = new Crawler({
                     var stardust, level, minCP, maxCP;
                     switch(index){
                         case 0:
-                            stardust = $(td).text().trim();
-                            break;
+                        stardust = $(td).text().trim();
+                        break;
                         case 1:
-                            level = $(td).text().trim();
-                            break;
+                        level = $(td).text().trim();
+                        break;
                         case 2:
-                            minCP = $(td).text().trim();
-                            break;
+                        minCP = $(td).text().trim();
+                        break;
                         case 3:
-                            maxCP = $(td).text().trim();
-                            break;
-                    }
-                    var image = 'http://pokemongo.gamepress.gg/' + $('div.pokemon-image').find('img').attr('src');
-                    var pokeId = image.substring(image.lastIndexOf('/') + 1, image.lastIndexOf('.'));
-                    if(pokeId.indexOf('_') > -1){
-                        pokeId = pokeId.substring(0, pokeId.lastIndexOf('_'));
+                        maxCP = $(td).text().trim();
+                        break;
                     }
                 })
+                var image = 'http://pokemongo.gamepress.gg/' + $('div.pokemon-image').find('img').attr('src');
+                var pokeId = image.substring(image.lastIndexOf('/') + 1, image.lastIndexOf('.'));
+                if(pokeId.indexOf('_') > -1){
+                    pokeId = pokeId.substring(0, pokeId.lastIndexOf('_'));
+                }
                 console.log(pokeId + ', ' + stardust + ', ' + level + ', ' + minCP + ', ' + maxCP);
             })
-        }
-    }
+}
+}
 });
