@@ -49,8 +49,9 @@ db.getPokemonList(function(rows){
                     }
                 })
                     //console.log(id + ', ' + baseAtk + ', ' + baseDef + ', ' + baseSta + ', ' + captureRate + ', ' + fleeRate + ', ' + type + ', '+ candy + ', ' + hatchDistance);
+                    console.log(detailsUrl);
                     var pokeId = detailsUrl.substring(detailsUrl.lastIndexOf('/') + 1, detailsUrl.length);
-                    console.log(pokeId);
+                    //console.log(pokeId);
                     //db.insertPokeStats(id, baseAtk, baseDef, baseSta, captureRate, fleeRate, type, candy, hatchDistance);
                 }
             }
