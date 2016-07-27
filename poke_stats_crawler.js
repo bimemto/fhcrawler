@@ -51,7 +51,7 @@ db.getPokemonList(function(rows){
 
                 var image = 'http://pokemongo.gamepress.gg/' + $('div.pokemon-image').find('img').attr('src');
                     //console.log(id + ', ' + baseAtk + ', ' + baseDef + ', ' + baseSta + ', ' + captureRate + ', ' + fleeRate + ', ' + type + ', '+ candy + ', ' + hatchDistance);
-                var pokeId = image.substring(image.lastIndexOf('/') + 1, image.lastIndexOf('.') - 1);
+                var pokeId = image.substring(image.lastIndexOf('/') + 1, image.lastIndexOf('.'));
                 console.log(pokeId);
                     //db.insertPokeStats(id, image, baseAtk, baseDef, baseSta, captureRate, fleeRate, type, candy, hatchDistance);
                 }
