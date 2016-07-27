@@ -199,6 +199,48 @@ getPokemonList = function(callback) {
     });
   });
 }
+
+var getPokeStats = function(pokeId, db, callback){
+  var collection = db.collection('pokestats');
+  collection.find({id: pokeId}).toArray(function(err, rows) {
+    assert.equal(err, null);
+    console.log("Found the following records");
+    console.dir(rows);
+    callback(rows);
+  });
+}
+
+getPokeStats = function(id, callback){
+  MongoClient.connect(url, function(err, db) {
+    assert.equal(null, err);
+    console.log("Connected correctly to server");
+    getPokeStats(id, db, function(rows) {
+      callback(rows);
+      db.close();
+    });
+  });
+}
+
+var getPokeCPs = function(pokeId, db, callback){
+  var collection = db.collection('pokecp');
+  collection.find({id: pokeId}).toArray(function(err, rows) {
+    assert.equal(err, null);
+    console.log("Found the following records");
+    console.dir(rows);
+    callback(rows);
+  });
+}
+
+getPokeCPs = function(id, callback){
+  MongoClient.connect(url, function(err, db) {
+    assert.equal(null, err);
+    console.log("Connected correctly to server");
+    getPokeCPs(id, db, function(rows) {
+      callback(rows);
+      db.close();
+    });
+  });
+}
 // var mysql = require('mysql');
 
 // var db_config = {
@@ -393,6 +435,8 @@ module.exports.clearMatches = clearMatches;
 // module.exports.getPesFund = getPesFund;
 // module.exports.getSentence1 = getSentence1;
 // module.exports.getSentence2 = getSentence2;
+module.exports.getPokeCPs = getPokeCPs;
+module.exports.getPokeStats = getPokeStats;
 module.exports.insertPokemon = insertPokemon;
 module.exports.insertPokeStats = insertPokeStats;
 module.exports.insertPokeCP = insertPokeCP;
