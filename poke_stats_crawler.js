@@ -40,13 +40,13 @@ var c = new Crawler({
                     hatchDistance = $(tr).find('td:not([class!=""])').text().trim();
                 }
             })
-
-            var image = 'http://pokemongo.gamepress.gg/' + $('div.pokemon-image').find('img').attr('src');
-            var pokeId = image.substring(image.lastIndexOf('/') + 1, image.lastIndexOf('.'));
-            if(pokeId.indexOf('_') > -1){
-                pokeId = pokeId.substring(0, pokeId.lastIndexOf('_'));
-            }
-            db.insertPokeStats(pokeId, image, baseAtk, baseDef, baseSta, captureRate, fleeRate, type, candy, hatchDistance);
+            console.log(candy);
+            // var image = 'http://pokemongo.gamepress.gg/' + $('div.pokemon-image').find('img').attr('src');
+            // var pokeId = image.substring(image.lastIndexOf('/') + 1, image.lastIndexOf('.'));
+            // if(pokeId.indexOf('_') > -1){
+            //     pokeId = pokeId.substring(0, pokeId.lastIndexOf('_'));
+            // }
+            // db.insertPokeStats(pokeId, image, baseAtk, baseDef, baseSta, captureRate, fleeRate, type, candy, hatchDistance);
         }
     }
 });
