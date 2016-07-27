@@ -40,8 +40,8 @@ var c = new Crawler({
                     if(pokeId.indexOf('_') > -1){
                         pokeId = pokeId.substring(0, pokeId.lastIndexOf('_'));
                     }
-                    console.log(pokeId + ', ' + stardust + ', ' + level + ', ' + minCP + ', ' + maxCP);
                 })
+                console.log(pokeId + ', ' + stardust + ', ' + level + ', ' + minCP + ', ' + maxCP);
             })
         }
     }
