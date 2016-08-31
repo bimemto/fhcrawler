@@ -161,12 +161,7 @@ bot.on('message', function(message) {
     }
   });
 } else if(message.text.indexOf('/ga') > -1){
-  var app_name = '';
-  if (message.text.length > 4) {
-    app_name = message.text.split(' ')[1];
-  }
-  if(app_name === 'beatvn'){
-    request.get('http://nhayau.com/GA/BeatAnalytics.php', {json: true}, function(error, response){
+  request.get('http://nhayau.com/GA/BeatAnalytics.php', {json: true}, function(error, response){
       if(error){
         console.log(error);
       } else {
@@ -184,7 +179,13 @@ bot.on('message', function(message) {
         }
       }
     })
-  }
+  // var app_name = '';
+  // if (message.text.length > 4) {
+  //   app_name = message.text.split(' ')[1];
+  // }
+  // if(app_name === 'beatvn'){
+    
+  // }
 }
 }
 });
