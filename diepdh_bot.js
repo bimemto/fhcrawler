@@ -359,12 +359,7 @@ function doAction(api){
             api.markAsRead(event.threadID, function(err) {
               if (err) console.log(err);
             });
-            var app_name = '';
-            if (event.body.length > 4) {
-              app_name = event.body.split(' ')[1];
-            }
-            if(app_name === 'beatvn'){
-              request.get('http://nhayau.com/GA/BeatAnalytics.php', {json: true}, function(error, response){
+            request.get('http://nhayau.com/GA/BeatAnalytics.php', {json: true}, function(error, response){
                 if(error){
                   console.log(error);
                 } else {
@@ -382,7 +377,6 @@ function doAction(api){
                   }
                 }
               })
-            }
           }
         }
 
