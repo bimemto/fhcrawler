@@ -105,23 +105,23 @@ var stopListening = api.listen(function(err, event) {
             api.sendMessage(result, event.threadID);  
           });
         }  else if(event.body.indexOf('/img') > -1){
-          api.markAsRead(event.threadID, function(err) {
-            if (err) console.log(err);
-          });
-          var mess = callBotApi('img', function(result){
-            var file = fs.createWriteStream("img.jpg");
-            var request = http.get(result, function(response) {
-              if(response){
-                response.pipe(file);
-                file.on('finish', function(){
-                  var msg = {
-                    attachment: fs.createReadStream('img.jpg')
-                  }
-                  api.sendMessage(msg, event.threadID);
-                });
-              }
-            });
-          });
+          // api.markAsRead(event.threadID, function(err) {
+          //   if (err) console.log(err);
+          // });
+          // var mess = callBotApi('img', function(result){
+          //   var file = fs.createWriteStream("img.jpg");
+          //   var request = http.get(result, function(response) {
+          //     if(response){
+          //       response.pipe(file);
+          //       file.on('finish', function(){
+          //         var msg = {
+          //           attachment: fs.createReadStream('img.jpg')
+          //         }
+          //         api.sendMessage(msg, event.threadID);
+          //       });
+          //     }
+          //   });
+          // });
         } else if(event.body.indexOf('/nt') > -1){
           api.markAsRead(event.threadID, function(err) {
             if (err) console.log(err);
@@ -130,13 +130,13 @@ var stopListening = api.listen(function(err, event) {
             api.sendMessage(result, event.threadID);  
           });
         } else if(event.body.indexOf('/rau') > -1){
-          api.markAsRead(event.threadID, function(err) {
-            if (err) console.log(err);
-          });
-          var command = event.body.substring(1, event.body.length);
-          var mess = callBotApi(command, function(result){
-            api.sendMessage(result, event.threadID);  
-          });
+          // api.markAsRead(event.threadID, function(err) {
+          //   if (err) console.log(err);
+          // });
+          // var command = event.body.substring(1, event.body.length);
+          // var mess = callBotApi(command, function(result){
+          //   api.sendMessage(result, event.threadID);  
+          // });
         } else if(event.body.indexOf('/kq') > -1){
           api.markAsRead(event.threadID, function(err) {
             if (err) console.log(err);
@@ -172,23 +172,23 @@ var stopListening = api.listen(function(err, event) {
             api.sendMessage(result, event.threadID);  
           });
         } else if(event.body.indexOf('/nude') > -1){
-          api.markAsRead(event.threadID, function(err) {
-            if (err) console.log(err);
-          });
-          callBotApi('nude', function(result){
-            var file = fs.createWriteStream("nude.jpg");
-            var request = http.get(result, function(response) {
-              if(response){
-                response.pipe(file);
-                file.on('finish', function(){
-                  var msg = {
-                    attachment: fs.createReadStream('nude.jpg')
-                  }
-                  api.sendMessage(msg, event.threadID);
-                });
-              }
-            });
-          });
+          // api.markAsRead(event.threadID, function(err) {
+          //   if (err) console.log(err);
+          // });
+          // callBotApi('nude', function(result){
+          //   var file = fs.createWriteStream("nude.jpg");
+          //   var request = http.get(result, function(response) {
+          //     if(response){
+          //       response.pipe(file);
+          //       file.on('finish', function(){
+          //         var msg = {
+          //           attachment: fs.createReadStream('nude.jpg')
+          //         }
+          //         api.sendMessage(msg, event.threadID);
+          //       });
+          //     }
+          //   });
+          // });
         }
       }
 
