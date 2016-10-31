@@ -9,6 +9,7 @@ var dateFormat = require("dateformat");
 var request = require('request');
 var Crawler = require("crawler");
 var webshot = require('webshot');
+var TelegramBot = require('node-telegram-bot-api');
 
 var filters = ["duy", "địp", "điệp", "bá", "khanh", "vân", "thảo"];
 var allowedGroups = ['1133698873375433'];
