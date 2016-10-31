@@ -13,6 +13,12 @@ var webshot = require('webshot');
 var filters = ["duy", "địp", "điệp", "bá", "khanh", "vân", "thảo"];
 var allowedGroups = ['1133698873375433'];
 
+var token = '269909258:AAHvYvt0a2gI7LRVJC1HVOIwvdxdLCkkJfc';
+// Setup polling way
+var bot = new TelegramBot(token, {
+  polling: true
+});
+
 function callBotApi(command, callback){
   request.get('http://bu.1ly.co:6868/bot/center?command=' + command, function(error, response, body){
     if(error) {
@@ -21,6 +27,10 @@ function callBotApi(command, callback){
       callback(body);
     }
   });
+}
+
+function wordInString(s, word) {
+  return new RegExp('\\b' + word + '\\b', 'i').test(s);
 }
 
 fs.exists('luongsonba.json', function(exists) {
