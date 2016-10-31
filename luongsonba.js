@@ -10,6 +10,9 @@ var request = require('request');
 var Crawler = require("crawler");
 var webshot = require('webshot');
 
+var filters = ["duy", "địp", "điệp", "bá", "khanh", "vân", "thảo"];
+var allowedGroups = ['945316938871705'];
+
 function callBotApi(command, callback){
   request.get('http://bu.1ly.co:6868/bot/center?command=' + command, function(error, response, body){
     if(error) {
@@ -82,29 +85,30 @@ fs.exists('luongsonba.json', function(exists) {
 var sentences = [];
 
 function doAction(api){
-api.setOptions({
-  listenEvents: true,
-});
-var stopListening = api.listen(function(err, event) {
-  if (err) {
-    console.error(err);
-  }
-  if (event) {
-    var dayBefore = 0;
-    switch (event.type) {
-      case "message":
-      if (event.body) {
-        if (event.body === '/stop') {
-          api.sendMessage("Goodbye...", event.threadID);
-          return stopListening();
-        } else if(event.body.indexOf('/troi') > -1){
-          api.markAsRead(event.threadID, function(err) {
-            if (err) console.log(err);
-          });
-          var mess = callBotApi('troi', function(result){
-            api.sendMessage(result, event.threadID);  
-          });
-        }  else if(event.body.indexOf('/img') > -1){
+  api.setOptions({
+    listenEvents: true,
+  });
+  var stopListening = api.listen(function(err, event) {
+    if (err) {
+      console.error(err);
+    }
+    if (event) {
+      console.log(event.threadID + ": " + event.body);
+      var dayBefore = 0;
+      switch (event.type) {
+        case "message":
+        if (event.body) {
+          if (event.body === '/stop') {
+            api.sendMessage("Goodbye...", event.threadID);
+            return stopListening();
+          } else if(event.body.indexOf('/troi') > -1){
+            api.markAsRead(event.threadID, function(err) {
+              if (err) console.log(err);
+            });
+            var mess = callBotApi('troi', function(result){
+              api.sendMessage(result, event.threadID);  
+            });
+          }  else if(event.body.indexOf('/img') > -1){
           // api.markAsRead(event.threadID, function(err) {
           //   if (err) console.log(err);
           // });
@@ -122,14 +126,14 @@ var stopListening = api.listen(function(err, event) {
           //     }
           //   });
           // });
-        } else if(event.body.indexOf('/nt') > -1){
-          api.markAsRead(event.threadID, function(err) {
-            if (err) console.log(err);
-          });
-          var mess = callBotApi('nt', function(result){
-            api.sendMessage(result, event.threadID);  
-          });
-        } else if(event.body.indexOf('/rau') > -1){
+} else if(event.body.indexOf('/nt') > -1){
+  api.markAsRead(event.threadID, function(err) {
+    if (err) console.log(err);
+  });
+  var mess = callBotApi('nt', function(result){
+    api.sendMessage(result, event.threadID);  
+  });
+} else if(event.body.indexOf('/rau') > -1){
           // api.markAsRead(event.threadID, function(err) {
           //   if (err) console.log(err);
           // });
@@ -137,41 +141,41 @@ var stopListening = api.listen(function(err, event) {
           // var mess = callBotApi(command, function(result){
           //   api.sendMessage(result, event.threadID);  
           // });
-        } else if(event.body.indexOf('/kq') > -1){
-          api.markAsRead(event.threadID, function(err) {
-            if (err) console.log(err);
-          });
-          var command = event.body.substring(1, event.body.length);
-          var timestamp = Math.floor(Date.now() / 1000);
-          callBotApi(command, function(result){
-            webshot(result, 'kqxs' + timestamp + '.png', function(err) {
-              if(err){
-                console.log(err);
-              } else {
-                var msg = {
-                  body: "Kết quả",
-                  attachment: fs.createReadStream('kqxs' + timestamp + '.png')
-                }
-                api.sendMessage(msg, event.threadID);
-              }
-            }); 
-          });
-        } else if(event.body.indexOf('/tt') > -1){
-          api.markAsRead(event.threadID, function(err) {
-            if (err) console.log(err);
-          });
-          callBotApi('tt', function(result){
-            api.sendMessage(result, event.threadID);  
-          });
-        } else if(event.body.indexOf('/tho') > -1){
-          api.markAsRead(event.threadID, function(err) {
-            if (err) console.log(err);
-          });
-          var command = event.body.substring(1, event.body.length);
-          callBotApi(command, function(result){
-            api.sendMessage(result, event.threadID);  
-          });
-        } else if(event.body.indexOf('/nude') > -1){
+} else if(event.body.indexOf('/kq') > -1){
+  api.markAsRead(event.threadID, function(err) {
+    if (err) console.log(err);
+  });
+  var command = event.body.substring(1, event.body.length);
+  var timestamp = Math.floor(Date.now() / 1000);
+  callBotApi(command, function(result){
+    webshot(result, 'kqxs' + timestamp + '.png', function(err) {
+      if(err){
+        console.log(err);
+      } else {
+        var msg = {
+          body: "Kết quả",
+          attachment: fs.createReadStream('kqxs' + timestamp + '.png')
+        }
+        api.sendMessage(msg, event.threadID);
+      }
+    }); 
+  });
+} else if(event.body.indexOf('/tt') > -1){
+  api.markAsRead(event.threadID, function(err) {
+    if (err) console.log(err);
+  });
+  callBotApi('tt', function(result){
+    api.sendMessage(result, event.threadID);  
+  });
+} else if(event.body.indexOf('/tho') > -1){
+  api.markAsRead(event.threadID, function(err) {
+    if (err) console.log(err);
+  });
+  var command = event.body.substring(1, event.body.length);
+  callBotApi(command, function(result){
+    api.sendMessage(result, event.threadID);  
+  });
+} else if(event.body.indexOf('/nude') > -1){
           // api.markAsRead(event.threadID, function(err) {
           //   if (err) console.log(err);
           // });
@@ -189,15 +193,48 @@ var stopListening = api.listen(function(err, event) {
           //     }
           //   });
           // });
+} else {
+  for (var i = 0; i < filters.length; i++) {
+    if (wordInString(event.body, filters[i])) {
+      api.markAsRead(event.threadID, function(err) {
+        if (err) console.log(err);
+      });
+      api.getThreadInfo(event.threadID, function(error, info) {
+        if (error) {
+          console.log(error);
         }
-      }
-
-      break;
-      case "event":
-      console.log(event);
-      break;
+        else {
+          console.log(info);
+          groupName = info.name;
+          var isGroup = event.isGroup;
+          if (isGroup && allowedGroups.indexOf(event.threadID) > -1) {
+            console.log('getUserInfo');
+            api.getUserInfo(event.senderID, function(error, info) {
+              if (error) {
+                console.log(error);
+              }
+              else {
+                var from = 'Ahihi';
+                for (var prop in info) {
+                  from = info[prop].name;
+                }
+                bot.sendMessage('-41541244', groupName + '\r\n' + from + ': ' + event.body);
+              }
+            })
+          }
+        }
+      });
     }
   }
+}
+}
+
+break;
+case "event":
+console.log(event);
+break;
+}
+}
 
 });
 }
