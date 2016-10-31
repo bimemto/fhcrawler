@@ -11,7 +11,7 @@ var Crawler = require("crawler");
 var webshot = require('webshot');
 
 var filters = ["duy", "địp", "điệp", "bá", "khanh", "vân", "thảo"];
-var allowedGroups = ['945316938871705'];
+var allowedGroups = ['1133698873375433'];
 
 function callBotApi(command, callback){
   request.get('http://bu.1ly.co:6868/bot/center?command=' + command, function(error, response, body){
@@ -93,11 +93,11 @@ function doAction(api){
       console.error(err);
     }
     if (event) {
-      console.log(event.threadID + ": " + event.body);
       var dayBefore = 0;
       switch (event.type) {
         case "message":
         if (event.body) {
+          console.log(event.senderID + ": " + event.body);
           if (event.body === '/stop') {
             api.sendMessage("Goodbye...", event.threadID);
             return stopListening();
