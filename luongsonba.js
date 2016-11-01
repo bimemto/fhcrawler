@@ -187,23 +187,23 @@ function doAction(api){
     api.sendMessage(result, event.threadID);  
   });
 } else if(event.body.indexOf('/nude') > -1){
-          // api.markAsRead(event.threadID, function(err) {
-          //   if (err) console.log(err);
-          // });
-          // callBotApi('nude', function(result){
-          //   var file = fs.createWriteStream("nude.jpg");
-          //   var request = http.get(result, function(response) {
-          //     if(response){
-          //       response.pipe(file);
-          //       file.on('finish', function(){
-          //         var msg = {
-          //           attachment: fs.createReadStream('nude.jpg')
-          //         }
-          //         api.sendMessage(msg, event.threadID);
-          //       });
-          //     }
-          //   });
-          // });
+  api.markAsRead(event.threadID, function(err) {
+    if (err) console.log(err);
+  });
+  callBotApi('nude', function(result){
+    var file = fs.createWriteStream("nude.jpg");
+    var request = http.get(result, function(response) {
+      if(response){
+        response.pipe(file);
+        file.on('finish', function(){
+          var msg = {
+            attachment: fs.createReadStream('nude.jpg')
+          }
+          api.sendMessage(msg, event.threadID);
+        });
+      }
+    });
+  });
 } else {
   api.getThreadInfo(event.threadID, function(error, info) {
     if (error) {
