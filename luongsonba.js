@@ -105,6 +105,7 @@ function doAction(api){
     }
     if (event) {
       var dayBefore = 0;
+      console.log(event.type);
       switch (event.type) {
         case "message":
         if (event.body) {
