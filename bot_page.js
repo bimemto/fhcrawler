@@ -92,10 +92,10 @@ var stopListening = api.listen(function(err, event) {
   }
   if (event) {
     var dayBefore = 0;
+    console.log(event);
     switch (event.type) {
       case "message":
       if (event.body) {
-        console.log(event.body);
         if (event.body === '/stop') {
           api.sendMessage("Goodbye...", event.threadID);
           return stopListening();
