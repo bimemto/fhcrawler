@@ -202,7 +202,7 @@ var stopListening = api.listen(function(err, event) {
         } 
       } else {
         if(event.attachments.length > 0){
-          console.log(attachments[0].hiresUrl);
+          console.log(event.attachments[0].hiresUrl);
         }
       }
 
