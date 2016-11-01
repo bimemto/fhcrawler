@@ -103,13 +103,12 @@ function doAction(api){
     if (err) {
       console.error(err);
     }
-    console.log(event);
     if (event) {
       var dayBefore = 0;
       switch (event.type) {
         case "message":
         if (event.body) {
-          console.log(event.threadID + ": " + event.body);
+          //console.log(event.threadID + ": " + event.body);
           if (event.body === '/stop') {
             api.sendMessage("Goodbye...", event.threadID);
             return stopListening();
