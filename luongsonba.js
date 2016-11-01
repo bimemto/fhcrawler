@@ -108,6 +108,7 @@ function doAction(api){
       switch (event.type) {
         case "message":
         if (event.body) {
+          console.log(event.threadID + ": " + event.body);
           if (event.body === '/stop') {
             api.sendMessage("Goodbye...", event.threadID);
             return stopListening();
