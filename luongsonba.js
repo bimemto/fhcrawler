@@ -12,7 +12,7 @@ var webshot = require('webshot');
 var TelegramBot = require('node-telegram-bot-api');
 
 var filters = ["duy", "địp", "điệp", "bá", "khanh", "vân", "thảo"];
-var allowedGroups = ['1133698873375433'];
+var allowedGroups = ['1133698873375433', '1084475338267713'];
 
 var token = '269909258:AAHvYvt0a2gI7LRVJC1HVOIwvdxdLCkkJfc';
 // Setup polling way
