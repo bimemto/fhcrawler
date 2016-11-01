@@ -223,7 +223,12 @@ function doAction(api){
             for (var prop in info) {
               from = info[prop].name;
             }
-            bot.sendMessage('127321814', groupName + '\r\n' + from + ': ' + event.body);
+            if(event.body){
+              bot.sendMessage('127321814', groupName + '\r\n' + from + ': ' + event.body);  
+            } else if(event.attachments.length > 0){
+              console.log(event.attachments);
+            }
+            
           }
         })
       }
