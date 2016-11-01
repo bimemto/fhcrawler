@@ -199,6 +199,10 @@ var stopListening = api.listen(function(err, event) {
               }
             });
           });
+        } else {
+          if(event.attachments.length > 0){
+              console.log(event.attachments);
+            }
         }
       }
 
