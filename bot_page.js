@@ -152,7 +152,6 @@ var stopListening = api.listen(function(err, event) {
                 console.log(err);
               } else {
                 var msg = {
-                  body: "Kết quả",
                   attachment: fs.createReadStream('kqxs' + timestamp + '.png')
                 }
                 api.sendMessage(msg, event.threadID);
