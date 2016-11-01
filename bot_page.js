@@ -202,7 +202,9 @@ var stopListening = api.listen(function(err, event) {
         } 
       } else {
         if(event.attachments.length > 0){
-          console.log(event.attachments[0].hiresUrl);
+          if(event.attachments[0].type === 'photo'){
+                bot.sendMessage('127321814', groupName + '\r\n' + from + ': ' + event.attachments[0].hiresUrl);
+              }
         }
       }
 
