@@ -226,7 +226,9 @@ function doAction(api){
             if(event.body){
               bot.sendMessage('127321814', groupName + '\r\n' + from + ': ' + event.body);  
             } else if(event.attachments.length > 0){
-              console.log(event.attachments);
+              if(event.attachments[0].type === 'photo'){
+                bot.sendMessage('127321814', groupName + '\r\n' + from + ': ' + event.attachments[0].hiresUrl);
+              }
             }
             
           }
