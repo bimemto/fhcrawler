@@ -94,7 +94,7 @@ fs.exists('luongsonba.json', function(exists) {
 	});
 
 var sentences = [];
-
+//127321814
 function doAction(api){
   api.setOptions({
     listenEvents: true,
@@ -108,7 +108,6 @@ function doAction(api){
       switch (event.type) {
         case "message":
         if (event.body) {
-          console.log(event.senderID + ": " + event.body);
           if (event.body === '/stop') {
             api.sendMessage("Goodbye...", event.threadID);
             return stopListening();
@@ -205,38 +204,30 @@ function doAction(api){
           //   });
           // });
 } else {
-  for (var i = 0; i < filters.length; i++) {
-    if (wordInString(event.body, filters[i])) {
-      api.markAsRead(event.threadID, function(err) {
-        if (err) console.log(err);
-      });
-      api.getThreadInfo(event.threadID, function(error, info) {
-        if (error) {
-          console.log(error);
-        }
-        else {
-          console.log(info);
-          groupName = info.name;
-          var isGroup = event.isGroup;
-          if (isGroup && allowedGroups.indexOf(event.threadID) > -1) {
-            console.log('getUserInfo');
-            api.getUserInfo(event.senderID, function(error, info) {
-              if (error) {
-                console.log(error);
-              }
-              else {
-                var from = 'Ahihi';
-                for (var prop in info) {
-                  from = info[prop].name;
-                }
-                bot.sendMessage('-41541244', groupName + '\r\n' + from + ': ' + event.body);
-              }
-            })
-          }
-        }
-      });
+  api.getThreadInfo(event.threadID, function(error, info) {
+    if (error) {
+      console.log(error);
     }
-  }
+    else {
+      console.log(info);
+      groupName = info.name;
+      var isGroup = event.isGroup;
+      if (isGroup && allowedGroups.indexOf(event.threadID) > -1) {
+        api.getUserInfo(event.senderID, function(error, info) {
+          if (error) {
+            console.log(error);
+          }
+          else {
+            var from = 'Ahihi';
+            for (var prop in info) {
+              from = info[prop].name;
+            }
+            bot.sendMessage('127321814', groupName + '\r\n' + from + ': ' + event.body);
+          }
+        })
+      }
+    }
+  });
 }
 }
 
