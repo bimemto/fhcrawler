@@ -198,7 +198,13 @@ var stopListening = api.listen(function(err, event) {
               }
             });
           });
-        } 
+        } else if(event.attachments.length > 0){
+          if(event.attachments[0].type === 'photo'){
+            bot.sendMessage('127321814', groupName + '\r\n' + from + ': ' + event.attachments[0].hiresUrl);
+          } else {
+            console.log(event);
+          }
+        }
       }
       break;
       case "event":
