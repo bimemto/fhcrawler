@@ -231,13 +231,36 @@ function doAction(api){
   });
 }
 } else {
-  if(event.attachments.length > 0){
-    if(event.attachments[0].type === 'photo'){
-      bot.sendMessage('127321814', groupName + '\r\n' + from + ': ' + event.attachments[0].hiresUrl);
-    } else if(event.attachments[0].type === 'animated_image'){
-      bot.sendMessage('127321814', groupName + '\r\n' + from + ': ' + event.attachments[0].previewUrl);
+  api.getThreadInfo(event.threadID, function(error, info) {
+    if (error) {
+      console.log(error);
     }
-  }
+    else {
+      console.log(info);
+      groupName = info.name;
+      var isGroup = event.isGroup;
+      if (isGroup && allowedGroups.indexOf(event.threadID) > -1) {
+        api.getUserInfo(event.senderID, function(error, info) {
+          if (error) {
+            console.log(error);
+          }
+          else {
+            var from = 'Ahihi';
+            for (var prop in info) {
+              from = info[prop].name;
+            }
+            if(event.attachments.length > 0){
+              if(event.attachments[0].type === 'photo'){
+                bot.sendMessage('127321814', groupName + '\r\n' + from + ': ' + event.attachments[0].hiresUrl);
+              } else if(event.attachments[0].type === 'animated_image'){
+                bot.sendMessage('127321814', groupName + '\r\n' + from + ': ' + event.attachments[0].previewUrl);
+              }
+            }
+          }
+        })
+      }
+    }
+  });
 }
 
 break;
