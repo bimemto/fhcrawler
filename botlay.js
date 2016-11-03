@@ -116,124 +116,45 @@ function doAction(api){
     }
     if(event){
       console.log(event);
-      if(event.attachments.length > 0){
-        if(event.attachments[0].type === 'photo'){
-          bot.sendMessage('-41541244', groupName + '\r\n' + from + ': ' + event.attachments[0].hiresUrl);
-        } else if(event.attachments[0].type === 'animated_image'){
-          bot.sendMessage('-41541244', groupName + '\r\n' + from + ': ' + event.attachments[0].previewUrl);
-        }
-      }
       var groupName, from;
       switch (event.type) {
         case "message":
-        if (event.body === '/stop') {
-          api.sendMessage("Goodbye...", event.threadID);
-          return stopListening();
-        }/* else if(event.threadID === '127905330720913'){
-          if(tinh_nguoi === false){
-            if(wordInString(event.body, 'thắng')){
-              api.getThreadInfo(event.threadID, function(error, info) {
-                if (error) {
-                  console.log(error);
-                }
-                else {
-                  api.getUserInfo(event.senderID, function(error, info) {
-                    if (error) {
-                      console.log(error);
-                    }
-                    else {
-                      var from = 'Ahihi';
-                      for (var prop in info) {
-                        from = info[prop].name;
-                      }
-                      api.sendMessage(from + ': ' + event.body, '100001447309106');
-                    }
-                  })
-                }
-              });
-            }
-          } else {
-            api.getUserInfo(event.senderID, function(error, info) {
-              if (error) {
-                console.log(error);
-              }
-              else {
-                var from = 'Ahihi';
-                for (var prop in info) {
-                  from = info[prop].name;
-                }
-                api.sendMessage(from + ': ' + event.body, '100001447309106');
-              }
-            })
-          }
-          
-        } else if(event.threadID === '100001447309106'){
-          if(event.body.indexOf('/dm') > -1){
+        if(event.body){
+          if (event.body === '/stop') {
+            api.sendMessage("Goodbye...", event.threadID);
+            return stopListening();
+          } else if (event.body.indexOf('/kq') > -1) {
             api.markAsRead(event.threadID, function(err) {
               if (err) console.log(err);
             });
-            var msg = '';
-            if (event.body.length > 4) {
-              msg = event.body.split(' ').slice(1).join(' ');
-            }
-            api.sendMessage('a Thắng bảo: ' + msg, '127905330720913');
-          }
-        }*/ else if (event.body.indexOf('/kq') > -1) {
-          api.markAsRead(event.threadID, function(err) {
-            if (err) console.log(err);
-          });
-          var command = event.body.substring(1, event.body.length);
-          var timestamp = Math.floor(Date.now() / 1000);
-          callBotApi(command, function(result){
-            webshot(result, 'kqxs' + timestamp + '.png', function(err) {
-              if(err){
-                console.log(err);
-              } else {
-                var msg = {
-                  body: "Kết quả",
-                  attachment: fs.createReadStream('kqxs' + timestamp + '.png')
-                }
-                api.sendMessage(msg, event.threadID);
-              }
-            }); 
-          });
-        }
-        else if (event.body.indexOf('/bd') > -1) {
-          api.markAsRead(event.threadID, function(err) {
-            if (err) console.log(err);
-          });
-          var team = '';
-          if (event.body.length > 4) {
-            team = event.body.split(' ')[1];
-          }
-          if (team === '') {
-            db.getAllHighlight(0, 20, function(err, rows) {
-              if (err) {
-                console.log(err);
-              }
-              else {
-                for (var i = 0; i < rows.length; i++) {
-                  var videoUrl2 = rows[i].VideoURL2;
-                  var videoUrl3 = rows[i].VideoURL3;
-                  if (videoUrl2 === null || videoUrl2 === 'null') {
-                    videoUrl2 = "";
+            var command = event.body.substring(1, event.body.length);
+            var timestamp = Math.floor(Date.now() / 1000);
+            callBotApi(command, function(result){
+              webshot(result, 'kqxs' + timestamp + '.png', function(err) {
+                if(err){
+                  console.log(err);
+                } else {
+                  var msg = {
+                    body: "Kết quả",
+                    attachment: fs.createReadStream('kqxs' + timestamp + '.png')
                   }
-                  if (videoUrl3 === 'null' || videoUrl3 === null) {
-                    videoUrl3 = "";
-                  }
-                  api.sendMessage(rows[i].Title + '\r\n' + rows[i].VideoURL1 + '\r\n' + videoUrl2 + '\r\n' + videoUrl3, event.threadID);
+                  api.sendMessage(msg, event.threadID);
                 }
-              }
+              }); 
             });
           }
-          else {
-            db.getHighLightByTeam(team, function(err, rows) {
-              if (err) {
-                api.sendMessage(team + ' có đá đéo đâu mà có. ngu', event.threadID);
-              }
-              else {
-                if (rows.length === 0) {
-                  api.sendMessage(team + ' có đá đéo đâu mà có. ngu', event.threadID);
+          else if (event.body.indexOf('/bd') > -1) {
+            api.markAsRead(event.threadID, function(err) {
+              if (err) console.log(err);
+            });
+            var team = '';
+            if (event.body.length > 4) {
+              team = event.body.split(' ')[1];
+            }
+            if (team === '') {
+              db.getAllHighlight(0, 20, function(err, rows) {
+                if (err) {
+                  console.log(err);
                 }
                 else {
                   for (var i = 0; i < rows.length; i++) {
@@ -245,15 +166,39 @@ function doAction(api){
                     if (videoUrl3 === 'null' || videoUrl3 === null) {
                       videoUrl3 = "";
                     }
-                    var message = rows[i].Title + '\r\n' + rows[i].VideoURL1 + '\r\n' + videoUrl2 + '\r\n' + videoUrl3;
-                    if (team.indexOf('mu') > -1 || team.indexOf('Mu') > -1) {
-                      message = message + '\r\n' + 'MU vô đối';
-                    }
-                    api.sendMessage(message, event.threadID);
+                    api.sendMessage(rows[i].Title + '\r\n' + rows[i].VideoURL1 + '\r\n' + videoUrl2 + '\r\n' + videoUrl3, event.threadID);
                   }
                 }
-              }
-            });
+              });
+            }
+            else {
+              db.getHighLightByTeam(team, function(err, rows) {
+                if (err) {
+                  api.sendMessage(team + ' có đá đéo đâu mà có. ngu', event.threadID);
+                }
+                else {
+                  if (rows.length === 0) {
+                    api.sendMessage(team + ' có đá đéo đâu mà có. ngu', event.threadID);
+                  }
+                  else {
+                    for (var i = 0; i < rows.length; i++) {
+                      var videoUrl2 = rows[i].VideoURL2;
+                      var videoUrl3 = rows[i].VideoURL3;
+                      if (videoUrl2 === null || videoUrl2 === 'null') {
+                        videoUrl2 = "";
+                      }
+                      if (videoUrl3 === 'null' || videoUrl3 === null) {
+                        videoUrl3 = "";
+                      }
+                      var message = rows[i].Title + '\r\n' + rows[i].VideoURL1 + '\r\n' + videoUrl2 + '\r\n' + videoUrl3;
+                      if (team.indexOf('mu') > -1 || team.indexOf('Mu') > -1) {
+                        message = message + '\r\n' + 'MU vô đối';
+                      }
+                      api.sendMessage(message, event.threadID);
+                    }
+                  }
+                }
+              });
 }
 }
 else if (event.body.indexOf('/tt') > -1) {
@@ -305,6 +250,16 @@ else if (event.body.indexOf('/tt') > -1) {
     }
   }
 }
+} else {
+  // if(event.attachments.length > 0){
+  //   if(event.attachments[0].type === 'photo'){
+  //     bot.sendMessage('-41541244', groupName + '\r\n' + from + ': ' + event.attachments[0].hiresUrl);
+  //   } else if(event.attachments[0].type === 'animated_image'){
+  //     bot.sendMessage('-41541244', groupName + '\r\n' + from + ': ' + event.attachments[0].previewUrl);
+  //   }
+  // }
+}
+
 break;
 case "event":
 console.log(event);
