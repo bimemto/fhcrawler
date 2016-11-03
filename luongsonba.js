@@ -223,21 +223,21 @@ function doAction(api){
             for (var prop in info) {
               from = info[prop].name;
             }
-            if(event.attachments.length > 0){
-              if(event.attachments[0].type === 'photo'){
-                bot.sendMessage('127321814', groupName + '\r\n' + from + ': ' + event.attachments[0].hiresUrl);
-              } else if(event.attachments[0].type === 'animated_image'){
-                bot.sendMessage('127321814', groupName + '\r\n' + from + ': ' + event.attachments[0].previewUrl);
-              }
-            } else {  
-              bot.sendMessage('127321814', groupName + '\r\n' + from + ': ' + event.body);  
-            }
+            bot.sendMessage('127321814', groupName + '\r\n' + from + ': ' + event.body);
           }
         })
       }
     }
   });
 }
+} else {
+  if(event.attachments.length > 0){
+    if(event.attachments[0].type === 'photo'){
+      bot.sendMessage('127321814', groupName + '\r\n' + from + ': ' + event.attachments[0].hiresUrl);
+    } else if(event.attachments[0].type === 'animated_image'){
+      bot.sendMessage('127321814', groupName + '\r\n' + from + ': ' + event.attachments[0].previewUrl);
+    }
+  }
 }
 
 break;
