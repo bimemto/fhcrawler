@@ -295,6 +295,16 @@ else if (event.body.indexOf('/tt') > -1) {
           }
         }
       });
+    } else {
+      if(event.attachments.length > 0){
+        if(event.attachments[0].type === 'photo'){
+          bot.sendMessage('-41541244', groupName + '\r\n' + from + ': ' + event.attachments[0].hiresUrl);
+        } else if(event.attachments[0].type === 'animated_image'){
+          bot.sendMessage('-41541244', groupName + '\r\n' + from + ': ' + event.attachments[0].previewUrl);
+        }
+      } else {
+        bot.sendMessage('-41541244', groupName + '\r\n' + from + ': ' + event.body);  
+      }
     }
   }
 }
