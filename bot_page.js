@@ -11,6 +11,8 @@ var sentences = [];
 
 var webshot = require('webshot');
 
+var credentials = {email: "+841656123802", password: "CG7U8rdbB7maAE"};
+
 fs.exists('botpage.json', function(exists) {
   if (exists) {
     var appstate = JSON.parse(fs.readFileSync('botpage.json', 'utf8'));
@@ -48,10 +50,7 @@ fs.exists('botpage.json', function(exists) {
         });
       }
     } else {
-      login({
-        email: "+841656123802",
-        password: "CG7U8rdbB7maAE"
-      }, function callback(err, api) {
+      login(credentials, (err, api) => {
         if(err){
           switch (err.error) {
             case 'login-approval':
@@ -79,10 +78,7 @@ fs.exists('botpage.json', function(exists) {
   }
 
   function doAction(api){
-    // fs.writeFileSync('botpage.json', JSON.stringify(api.getAppState()));
-    // db.connectDB(function(res) {
-
-    // });
+    fs.writeFileSync('botpage.json', JSON.stringify(api.getAppState()));
     api.setOptions({
       selfListen: true,
       logLevel: "silent"
