@@ -28,8 +28,9 @@ fs.exists('botpage.json', (exists) => {
             });
             break;
           }
+        } else {
+          doAction(api);
         }
-        doAction(api);
       })} else {
         login(credentials, (err, api) => {
           if(err){
@@ -42,8 +43,9 @@ fs.exists('botpage.json', (exists) => {
               });
               break;
             }
+          } else {
+              doAction(api);
           }
-          doAction(api);
         });
       }
     } else {
