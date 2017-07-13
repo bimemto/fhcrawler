@@ -78,7 +78,7 @@ fs.exists('botpage.json', (exists) => {
   }
 
   function doAction(api) {
-    fs.writeFileSync('botpage.json', JSON.stringify(api.getAppState()));
+    //fs.writeFileSync('botpage.json', JSON.stringify(api.getAppState()));
     api.setOptions({
       selfListen: true,
       logLevel: "silent"
