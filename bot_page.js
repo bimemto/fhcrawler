@@ -77,7 +77,7 @@ fs.exists('botpage.json', function(exists) {
     });
   }
 
-  function doAction(api){
+  doAction(api){
     fs.writeFileSync('botpage.json', JSON.stringify(api.getAppState()));
     api.setOptions({
       selfListen: true,
