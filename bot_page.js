@@ -11,7 +11,7 @@ var sentences = [];
 
 var webshot = require('webshot');
 
-var credentials = {email: "+841656123802", password: "CG7U8rdbB7maAE"};
+var credentials = {email: "+841656123802", password: "oNxyuN9stHYPkVG9"};
 
 fs.exists('botpage.json', (exists) => {
   if (exists) {
