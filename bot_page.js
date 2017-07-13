@@ -101,7 +101,7 @@ fs.exists('botpage.json', (exists) => {
             var mess = callBotApi('troi', function(result){
               api.sendMessage(result, event.threadID);
             });
-          }  else if(event.body.indexOf('/img') > -1 || event.body.indexOf('/vếu') > -1){
+          }  /*else if(event.body.indexOf('/img') > -1 || event.body.indexOf('/vếu') > -1){
             api.markAsRead(event.threadID, function(err) {
               if (err) console.log(err);
             });
@@ -119,7 +119,7 @@ fs.exists('botpage.json', (exists) => {
                 }
               });
             });
-          } else if(event.body.indexOf('/nt') > -1){
+          }*/ else if(event.body.indexOf('/nt') > -1){
             api.markAsRead(event.threadID, function(err) {
               if (err) console.log(err);
             });
