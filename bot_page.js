@@ -58,8 +58,9 @@ fs.exists('botpage.json', (exists) => {
             });
             break;
           }
+        } else {
+          doAction(api);
         }
-        doAction(api);
       });
     }
   });
