@@ -1,5 +1,4 @@
 var CronJob = require('cron').CronJob;
-var crawler = require("./live_football.js");
 var request = require('request');
 
 var job = new CronJob({
