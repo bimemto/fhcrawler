@@ -21,7 +21,7 @@ function report(projectId) {
     date: now
   };
   request.post({
-    headers: {'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1OGM4YzEwOTExY2IwMTQ1OTU2MWYwNWYiLCJlbWFpbCI6ImR1eW5rQGFwcG90YS5jb20iLCJsYXN0TG9naW4iOjE1MDIzNjAwNTUwMzUsImlhdCI6MTUwMjM2MDA1NX0.usVbvIYC2RuIC2_B9GX2emgDSb-xpJlTtbTeJBMWNQE'},
+    headers: {'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1OGM4YzEwOTExY2IwMTQ1OTU2MWYwNWYiLCJlbWFpbCI6ImR1eW5rQGFwcG90YS5jb20iLCJsYXN0TG9naW4iOjE1MDI4Nzg1MDUyMDUsImlhdCI6MTUwMjg3ODUwNX0.GiUCxwfdJz0rGLXNaZAhW2lWHR-DO2PcIJbuNDuhZWc'},
     url: 'https://api.checkin.appota.com:3001/api/mobile/staffs-report-project',
     body: form,
     json: true
