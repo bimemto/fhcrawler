@@ -170,7 +170,7 @@ fs.exists('mybot.json', (exists) => {
             api.markAsRead(event.threadID, function(err) {
               if (err) console.log(err);
             });
-            if(event.senderID === '100000404491080' || event.senderID === '100005017784835' || event.senderID === '100002542018182'){
+            if(event.senderID === '100000404491080' || event.senderID === '100005017784835' || event.senderID === '100002542018182' || event.senderID === '100000228498924'){
               if(event.body.length > 0){
                 if(event.body.indexOf('duy') < 0 || event.body.indexOf('Duy') < 0 || event.body.indexOf('lợi') < 0 || event.body.indexOf('Lợi') < 0){
                   api.sendMessage({
