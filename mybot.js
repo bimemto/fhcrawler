@@ -181,7 +181,7 @@ fs.exists('mybot.json', (exists) => {
                 if(event.hasOwnProperty('attachments')){
                   if(event.attachments[0].type === 'sticker'){
                     api.sendMessage({
-                      sticker: attachments[0].stickerID
+                      sticker: event.attachments[0].stickerID
                     }, event.threadID);
                   } else if(event.attachments[0].type === 'photo'){
                     var file = fs.createWriteStream("echo_photo.jpg");
