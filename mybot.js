@@ -178,7 +178,7 @@ fs.exists('mybot.json', (exists) => {
                   }, event.threadID);
                 }
               } else {
-                if(event.attachments){
+                if(event.hasOwnProperty('attachments')){
                   if(event.attachments[0].type === 'sticker'){
                     api.sendMessage({
                       sticker: attachments[0].stickerID
