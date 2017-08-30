@@ -166,6 +166,38 @@ fs.exists('mybot.json', (exists) => {
             callBotApi('tnl', function(result){
               api.sendMessage(result, event.threadID);
             });
+          } else if(event.threadID === '1561582510560190'){
+            api.markAsRead(event.threadID, function(err) {
+              if (err) console.log(err);
+            });
+            if(event.senderID === '100000404491080' || event.senderID === '100005017784835' || event.senderID === '100002542018182'){
+              if(event.body.length > 0){
+                api.sendMessage({
+                  body: event.body
+                }, event.threadID);
+              } else {
+                if(event.attachments){
+                  if(event.attachments[0].type === 'sticker'){
+                    api.sendMessage({
+                      sticker: attachments[0].stickerID
+                    }, event.threadID);
+                  } else if(event.attachments[0].type === 'photo'){
+                    var file = fs.createWriteStream("echo_photo.jpg");
+                    var request = http.get(event.attachments[0].previewUrl, function(response) {
+                      if(response){
+                        response.pipe(file);
+                        file.on('finish', function(){
+                          var msg = {
+                            attachment: fs.createReadStream('echo_photo.jpg')
+                          }
+                          api.sendMessage(msg, event.threadID);
+                        });
+                      }
+                    });
+                  }
+                }
+              }
+            }
           }
         }
       }
