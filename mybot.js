@@ -172,7 +172,9 @@ fs.exists('mybot.json', (exists) => {
             });
             if(event.senderID === '100000404491080' || event.senderID === '100005017784835' || event.senderID === '100002542018182'){
               if(event.body.length > 0){
-                if(event.body.indexOf('duy') < 0 || event.body.indexOf('Duy') < 0 || event.body.indexOf('lợi') < 0 || event.body.indexOf('Lợi') < 0){
+                if(event.body.indexOf('duy') > -1 || event.body.indexOf('Duy') > -1 || event.body.indexOf('lợi') > -1 || event.body.indexOf('Lợi') > -1){
+                  console.log('lol');
+                } else {
                   api.sendMessage({
                     body: event.body
                   }, event.threadID);
