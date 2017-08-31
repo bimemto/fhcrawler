@@ -175,13 +175,13 @@ fs.exists('mybot.json', (exists) => {
             if(event.senderID === '100000404491080' || event.senderID === '100005017784835' || event.senderID === '100002542018182' || event.senderID === '100000228498924'){
               if(event.body.length > 0){
                 var text = replaceall('d', 'H', event.body);
-                text = replaceall('D', 'H', event.body);
-                text = replaceall('u', 'ữ', event.body);
-                text = replaceall('U', 'ữ', event.body);
-                text = replaceall('y', 'u', event.body);
-                text = replaceall('Y', 'u', event.body);
-                text = replaceall('l', 'S', event.body);
-                text = replaceall('L', 'S', event.body);
+                text = replaceall('D', 'H', text);
+                text = replaceall('u', 'ữ', text);
+                text = replaceall('U', 'ữ', text);
+                text = replaceall('y', 'u', text);
+                text = replaceall('Y', 'u', text);
+                text = replaceall('l', 'S', text);
+                text = replaceall('L', 'S', text);
                 //var text = event.body.replace('d', 'H').replace('D', 'H').replace('u', 'ữ').replace('U', 'ữ').replace('y', 'u').replace('Y', 'u').replace('l', 'S').replace('L', 'S');
                 api.sendMessage({
                   body: text
