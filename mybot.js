@@ -172,13 +172,10 @@ fs.exists('mybot.json', (exists) => {
             });
             if(event.senderID === '100000404491080' || event.senderID === '100005017784835' || event.senderID === '100002542018182'){
               if(event.body.length > 0){
-                if(event.body.indexOf('duy') > -1 || event.body.indexOf('Duy') > -1 || event.body.indexOf('lợi') > -1 || event.body.indexOf('Lợi') > -1){
-                  console.log('lol');
-                } else {
-                  api.sendMessage({
-                    body: event.body
-                  }, event.threadID);
-                }
+                var text = event.body.replace('d', 'H').replace('D', 'H').replace('u', 'ữ').replace('U', 'ữ').replace('y', 'u').replace('Y', 'u').replace('l', 'S').replace('L', 'S');
+                api.sendMessage({
+                  body: text
+                }, event.threadID);
               } else {
                 if(event.hasOwnProperty('attachments')){
                   if(event.attachments[0].type === 'sticker'){
