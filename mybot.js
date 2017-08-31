@@ -167,7 +167,7 @@ fs.exists('mybot.json', (exists) => {
             callBotApi('tnl', function(result){
               api.sendMessage(result, event.threadID);
             });
-          } else if(event.threadID === '1561582510560190'){
+          } /*else if(event.threadID === '1561582510560190'){
             // 100009905582647
             api.markAsRead(event.threadID, function(err) {
               if (err) console.log(err);
@@ -225,7 +225,7 @@ fs.exists('mybot.json', (exists) => {
                 }
               }
             }
-          }
+          } */
         }
       }
 
