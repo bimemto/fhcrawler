@@ -167,12 +167,12 @@ fs.exists('mybot.json', (exists) => {
             callBotApi('tnl', function(result){
               api.sendMessage(result, event.threadID);
             });
-          } else if(event.threadID === '1561582510560190'){
-            // 100009905582647
+          } else if(event.threadID === '100009905582647'){
+            //1561582510560190
             api.markAsRead(event.threadID, function(err) {
               if (err) console.log(err);
             });
-            if(event.senderID === '100000404491080' || event.senderID === '100005017784835' || event.senderID === '100002542018182'){
+            if(event.senderID === '100000404491080' || event.senderID === '100005017784835' || event.senderID === '100002542018182' || event.senderID === '100000228498924'){
               if(event.body.length > 0){
                 var text = replaceall('d', 'H', event.body);
                 text = replaceall('D', 'H', event.body);
