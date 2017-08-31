@@ -186,6 +186,8 @@ fs.exists('mybot.json', (exists) => {
                 text = replaceall('P', 'T', text);
                 text = replaceall('g', 'k', text);
                 text = replaceall('G', 'k', text);
+                text = replaceall('n', 'L', text);
+                text = replaceall('N', 'L', text);
                 //var text = event.body.replace('d', 'H').replace('D', 'H').replace('u', 'ữ').replace('U', 'ữ').replace('y', 'u').replace('Y', 'u').replace('l', 'S').replace('L', 'S');
                 api.sendMessage({
                   body: text
