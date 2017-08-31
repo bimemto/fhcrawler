@@ -184,18 +184,26 @@ fs.exists('mybot.json', (exists) => {
                       sticker: event.attachments[0].stickerID
                     }, event.threadID);
                   } else if(event.attachments[0].type === 'photo'){
-                    var file = fs.createWriteStream("echo_photo.jpg");
-                    var request = http.get(event.attachments[0].previewUrl, function(response) {
-                      if(response){
-                        response.pipe(file);
-                        file.on('finish', function(){
-                          var msg = {
-                            attachment: fs.createReadStream('echo_photo.jpg')
-                          }
-                          api.sendMessage(msg, event.threadID);
-                        });
-                      }
+                    //var file = fs.createWriteStream("echo_photo.jpg");
+                    request(event.attachments[0].previewUrl, {encoding: 'binary'}, function(error, response, body) {
+                      fs.writeFile('echo_photo.jpg', body, 'binary', function (err) {
+                        var msg = {
+                          attachment: fs.createReadStream('echo_photo.jpg')
+                        }
+                        api.sendMessage(msg, event.threadID);
+                      });
                     });
+                    // var request = http.get(event.attachments[0].previewUrl, function(response) {
+                    //   if(response){
+                    //     response.pipe(file);
+                    //     file.on('finish', function(){
+                    //       var msg = {
+                    //         attachment: fs.createReadStream('echo_photo.jpg')
+                    //       }
+                    //       api.sendMessage(msg, event.threadID);
+                    //     });
+                    //   }
+                    // });
                   }
                 }
               }
