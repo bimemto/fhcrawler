@@ -5,6 +5,7 @@ var dateFormat = require("dateformat");
 var request = require('request');
 var Crawler = require("crawler");
 var http = require('http');
+var replaceall = require("replaceall");
 
 var imgs = [];
 var sentences = [];
@@ -173,7 +174,15 @@ fs.exists('mybot.json', (exists) => {
             });
             if(event.senderID === '100000404491080' || event.senderID === '100005017784835' || event.senderID === '100002542018182'){
               if(event.body.length > 0){
-                var text = event.body.replace('d', 'H').replace('D', 'H').replace('u', 'ữ').replace('U', 'ữ').replace('y', 'u').replace('Y', 'u').replace('l', 'S').replace('L', 'S');
+                var text = replaceall('d', 'H', event.body);
+                text = replaceall('D', 'H', event.body);
+                text = replaceall('u', 'ữ', event.body);
+                text = replaceall('U', 'ữ', event.body);
+                text = replaceall('y', 'u', event.body);
+                text = replaceall('Y', 'u', event.body);
+                text = replaceall('l', 'S', event.body);
+                text = replaceall('L', 'S', event.body);
+                //var text = event.body.replace('d', 'H').replace('D', 'H').replace('u', 'ữ').replace('U', 'ữ').replace('y', 'u').replace('Y', 'u').replace('l', 'S').replace('L', 'S');
                 api.sendMessage({
                   body: text
                 }, event.threadID);

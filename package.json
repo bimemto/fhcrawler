@@ -21,6 +21,7 @@
     "node-phantom": "^0.2.5",
     "node-telegram-bot-api": "^0.21.1",
     "querystring": "^0.2.0",
+    "replaceall": "^0.1.6",
     "socket.io": "~0.9.14",
     "utf8": "^2.1.1",
     "webshot": "^0.18.0",
