@@ -292,7 +292,8 @@ app.get('/bot/center',function(req, res){
 		if(err){
 			console.log(err);
 		} else {
-			res.send(body);
+			//res.send(body);
+			console.log('lol ', body);
 		}
   });
 }
