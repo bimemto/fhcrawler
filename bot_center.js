@@ -278,8 +278,8 @@ app.get('/bot/center',function(req, res){
       'Content-Type': 'application/json',
 			'Accepted-Language': 'en_US'
     },
-		body: json_obj,
-    uri: 'https://api.uber.com/v1.2/requests/estimate',
+		form: json_obj,
+    uri: 'https://sandbox-api.uber.com/v1.2/requests/estimate',
     method: 'POST'
   }, function (err, res, body) {
     //it works!
