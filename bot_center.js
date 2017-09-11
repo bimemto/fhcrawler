@@ -5,7 +5,7 @@ var banquo = require('banquo');
 var fs = require("fs");
 var db = require("./db.js")
 var dateFormat = require("dateformat");
-var request = require('request'); 
+var request = require('request');
 var CronJob = require('cron').CronJob;
 var Crawler = require("crawler");
 var express = require('express');
@@ -106,30 +106,30 @@ app.get('/bot/center',function(req, res){
 				}
 			}
 		}).queue(crawlUrl);
-} else if(command === 'tt'){
-	var query = new YQL("select * from weather.forecast where (woeid = 2347727) and u='c'");
-	query.exec(function(err, data) {
-		var location = data.query.results.channel.location;
-		var wind = data.query.results.channel.wind;
-		var condition = data.query.results.channel.item.condition;
-		var forecast = data.query.results.channel.item.forecast;
-		var forecastMsg = '';
-		forecastMsg = 'Mai:' + '\r\n' + 'Cao: ' + forecast[0].high + ' độ xê' + '\r\n' + 'Thấp: ' + forecast[0].low + ' độ xê' + '\r\n' + forecast[0].text + '\r\n' + '\r\n'
-		+ 'Ngày kia:' + '\r\n' + 'Cao: ' + forecast[1].high + ' độ xê' + '\r\n' + 'Thấp: ' + forecast[1].low + ' độ xê' + '\r\n' + forecast[1].text + '\r\n' + '\r\n'
-		+ 'Ngày kìa:' + '\r\n' + 'Cao: ' + forecast[2].high + ' độ xê' + '\r\n' + 'Thấp: ' + forecast[2].low + ' độ xê' + '\r\n' + forecast[2].text + '\r\n';
-		var weatherMsg = 'Bây giờ:' + '\r\n'
-		+ condition.temp + ' độ xê' + '\r\n'
-		+ 'Gió ' + degToCompass(wind.direction) + ' ' + wind.speed + ' km/h' + '\r\n'
-		+ condition.text + '\r\n';
-		message = weatherMsg + '\r\n' + forecastMsg;
-		res.send(message);
-	});
-} else if(command.indexOf('tho') > -1){
-	var words = '';
-	if (command.length > 5) {
-		words = command.substring(command.indexOf(' ') + 1);
-	}
-	request.post('http://thomay.vn/index.php?q=tutaochude2', 
+	} else if(command === 'tt'){
+		var query = new YQL("select * from weather.forecast where (woeid = 2347727) and u='c'");
+		query.exec(function(err, data) {
+			var location = data.query.results.channel.location;
+			var wind = data.query.results.channel.wind;
+			var condition = data.query.results.channel.item.condition;
+			var forecast = data.query.results.channel.item.forecast;
+			var forecastMsg = '';
+			forecastMsg = 'Mai:' + '\r\n' + 'Cao: ' + forecast[0].high + ' độ xê' + '\r\n' + 'Thấp: ' + forecast[0].low + ' độ xê' + '\r\n' + forecast[0].text + '\r\n' + '\r\n'
+			+ 'Ngày kia:' + '\r\n' + 'Cao: ' + forecast[1].high + ' độ xê' + '\r\n' + 'Thấp: ' + forecast[1].low + ' độ xê' + '\r\n' + forecast[1].text + '\r\n' + '\r\n'
+			+ 'Ngày kìa:' + '\r\n' + 'Cao: ' + forecast[2].high + ' độ xê' + '\r\n' + 'Thấp: ' + forecast[2].low + ' độ xê' + '\r\n' + forecast[2].text + '\r\n';
+			var weatherMsg = 'Bây giờ:' + '\r\n'
+			+ condition.temp + ' độ xê' + '\r\n'
+			+ 'Gió ' + degToCompass(wind.direction) + ' ' + wind.speed + ' km/h' + '\r\n'
+			+ condition.text + '\r\n';
+			message = weatherMsg + '\r\n' + forecastMsg;
+			res.send(message);
+		});
+	} else if(command.indexOf('tho') > -1){
+		var words = '';
+		if (command.length > 5) {
+			words = command.substring(command.indexOf(' ') + 1);
+		}
+		request.post('http://thomay.vn/index.php?q=tutaochude2',
 		{form: {
 			'dieukien_tu': '',
 			'dieukien_tu_last': '',
@@ -269,6 +269,19 @@ app.get('/bot/center',function(req, res){
 			}
 		}
 	}).queue(urlToQueue);
+} else if(command === 'pes') {
+	request({
+    headers: {
+      'Authorization': 'Bearer KA.eyJ2ZXJzaW9uIjoyLCJpZCI6Ik01SFhHeUxVUWN1S0YxWmk2WG1jRUE9PSIsImV4cGlyZXNfYXQiOjE1MDc2OTAzNzEsInBpcGVsaW5lX2tleV9pZCI6Ik1RPT0iLCJwaXBlbGluZV9pZCI6MX0.q-5qY75E5Mo6OEEUAqnQp3iwv8kUdiL_-bERKXAX23I',
+      'Content-Type': 'application/json',
+			'Accepted-Language': 'en_US'
+    },
+    uri: 'https://sandbox-api.uber.com/v1.2/products?latitude=21.0195562&longitude=105.8152686',
+    method: 'GET'
+  }, function (err, res, body) {
+    //it works!
+		console.log('fuck: ', res + ', ' + body);
+  });
 }
 });
 
@@ -298,7 +311,7 @@ var c = new Crawler({
 				var p = $(div).find('p:not([class!=""])').each(function(index, p){
 					var sentense = $(p).text();
 					if(sentense.indexOf('{') < 0){
-						sentences.push(sentense); 
+						sentences.push(sentense);
 					}
 				})
 			})
@@ -313,7 +326,7 @@ var c1 = new Crawler({
 			$('div.entry-content').each(function(index, div){
 				var p = $(div).find('p:not([class!=""])').each(function(index, p){
 					var sentense = $(p).find('em:not([class!=""])').text();
-					sentences.push(sentense); 
+					sentences.push(sentense);
 				})
 			})
 		}
@@ -329,7 +342,7 @@ var c2 = new Crawler({
 				var p = $(span).find('p:not([class!=""])').each(function(index, p){
 					var sentense = $(p).text();
 					if(sentense.indexOf('69') < 0){
-						sentences.push(sentense); 
+						sentences.push(sentense);
 					}
 				})
 			})
@@ -396,7 +409,7 @@ app.get('/euro/api/get_live_url', function(req, res){
 											iframe2Url = 'http:' + iframe2Url;
 										}
 										var data = {live_url: iframe2Url};
-										res.send(data); 
+										res.send(data);
 									} else if(iframe2Url.indexOf('sportstream365.com') > -1){
 										iframe2Url = 'http:' + iframe2Url;
 										var data = {live_url: iframe2Url};
@@ -405,7 +418,7 @@ app.get('/euro/api/get_live_url', function(req, res){
 										if(iframe2Url.indexOf('http://tv.keonhacai.com/hot') > -1){
 											iframe2Url = 'http://tv.keonhacai.com/hot/k1_' + server + ".php";
 										}
-										link_crawler.queue(iframe2Url);    
+										link_crawler.queue(iframe2Url);
 									}
 								} else {
 									var data = {live_url: ''};
@@ -417,15 +430,15 @@ app.get('/euro/api/get_live_url', function(req, res){
 							}
 						}
 					});
-link_crawler.queue(iframe1Url);
-} else {
-	var data = {live_url: ''};
-	res.send(data);
-}
-} else {
-	var data = {live_url: ''};
-	res.send(data);
-}
-}
-}).queue(details_url);
+					link_crawler.queue(iframe1Url);
+				} else {
+					var data = {live_url: ''};
+					res.send(data);
+				}
+			} else {
+				var data = {live_url: ''};
+				res.send(data);
+			}
+		}
+	}).queue(details_url);
 })
