@@ -280,7 +280,7 @@ app.get('/bot/center',function(req, res){
 	}
 	request({
     headers: {
-      'Authorization': 'Bearer KA.eyJ2ZXJzaW9uIjoyLCJpZCI6Ik01SFhHeUxVUWN1S0YxWmk2WG1jRUE9PSIsImV4cGlyZXNfYXQiOjE1MDc2OTAzNzEsInBpcGVsaW5lX2tleV9pZCI6Ik1RPT0iLCJwaXBlbGluZV9pZCI6MX0.q-5qY75E5Mo6OEEUAqnQp3iwv8kUdiL_-bERKXAX23I',
+      'Authorization': 'Bearer KA.eyJ2ZXJzaW9uIjoyLCJpZCI6ImFCaWZWeEF4U3dlNTVKNE9qY1NsTWc9PSIsImV4cGlyZXNfYXQiOjE1MDc2OTY2ODYsInBpcGVsaW5lX2tleV9pZCI6Ik1RPT0iLCJwaXBlbGluZV9pZCI6MX0.FmLblv9uG_r-wL94aIdwkEBeFsX5zrEa9PhrjANjpe4',
       'Content-Type': 'application/json',
 			'Accepted-Language': 'en_US'
     },
@@ -309,7 +309,7 @@ app.get('/bot/center',function(req, res){
 	}
 	request({
     headers: {
-      'Authorization': 'Bearer KA.eyJ2ZXJzaW9uIjoyLCJpZCI6Ik01SFhHeUxVUWN1S0YxWmk2WG1jRUE9PSIsImV4cGlyZXNfYXQiOjE1MDc2OTAzNzEsInBpcGVsaW5lX2tleV9pZCI6Ik1RPT0iLCJwaXBlbGluZV9pZCI6MX0.q-5qY75E5Mo6OEEUAqnQp3iwv8kUdiL_-bERKXAX23I',
+      'Authorization': 'Bearer KA.eyJ2ZXJzaW9uIjoyLCJpZCI6ImFCaWZWeEF4U3dlNTVKNE9qY1NsTWc9PSIsImV4cGlyZXNfYXQiOjE1MDc2OTY2ODYsInBpcGVsaW5lX2tleV9pZCI6Ik1RPT0iLCJwaXBlbGluZV9pZCI6MX0.FmLblv9uG_r-wL94aIdwkEBeFsX5zrEa9PhrjANjpe4',
       'Content-Type': 'application/json'
     },
 		json: requestData,

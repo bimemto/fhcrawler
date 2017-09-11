@@ -27,7 +27,7 @@ bot.on('message', function(message) {
         var data = JSON.parse(result);
         var msg = 'Đi MAT \n'
                   + 'Giá : ' + data.fare.display + ' \n'
-                  + 'Xe cách' + data.pickup_estimate + ' phút'
+                  + 'Xe cách ' + data.pickup_estimate + ' phút'
         fareId = data.fare.fare_id;
         bot.sendMessage(message.chat.id, msg);
       });
