@@ -26,11 +26,6 @@ bot.on('message', function(message) {
         //bot.sendMessage(message.chat.id, result);
         console.log('fack ', result);
       });
-    } else if(message.text.indexOf('/tho') > -1){
-      callBotApi('tho', function(result){
-        //bot.sendMessage(message.chat.id, result);
-        console.log('lol ', result);
-      });
     }
   }
 });

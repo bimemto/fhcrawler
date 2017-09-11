@@ -287,7 +287,7 @@ app.get('/bot/center',function(req, res){
 		json: requestData,
     uri: 'https://sandbox-api.uber.com/v1.2/requests/estimate',
     method: 'POST'
-  }, function (err, res, body) {
+  }, function (err, response, body) {
     //it works!
 		if(err){
 			console.log(err);
