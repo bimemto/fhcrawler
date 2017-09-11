@@ -23,7 +23,8 @@ bot.on('message', function(message) {
   if(message.text){
     if(message.text.indexOf('/pes') > -1){
       callBotApi('pes', function(result){
-        bot.sendMessage(message.chat.id, result);
+        //bot.sendMessage(message.chat.id, result);
+        console.log('fack ', result);
       });
     }
   }

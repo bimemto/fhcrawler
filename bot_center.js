@@ -281,7 +281,7 @@ app.get('/bot/center',function(req, res){
   }, function (err, res, body) {
     //it works!
 		console.log('fuck: ', res + ', ' + body);
-		res.send(body);
+		res.send(body + ', ' + res);
   });
 }
 });
