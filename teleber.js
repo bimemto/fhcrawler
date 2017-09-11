@@ -20,13 +20,31 @@ function callBotApi(command, callback){
 bot.on('message', function(message) {
   var chat_id = message.chat.id;
   console.log(message);
+  var fareId;
   if(message.text){
-    if(message.text.indexOf('/pes') > -1){
-      callBotApi('pes', function(result){
+    if(message.text === '/pes_estimate'){
+      callBotApi('pes_estimate', function(result){
         var data = JSON.parse(result);
         var msg = 'Đi MAT \n'
                   + 'Giá : ' + data.fare.display + ' \n'
-                  + 'Xe ' + data.pickup_estimate + ' phút nữa thì đến'
+                  + 'Xe cách' + data.pickup_estimate + ' phút'
+        fareId = data.fare.fare_id;
+        bot.sendMessage(message.chat.id, msg);
+      });
+    } else if(message.text === '/pes_go') {
+      callBotApi('pes_go|' + fareId, function(result){
+        var data = JSON.parse(result);
+        var msg = 'Đi MAT \n'
+                  + 'Giá : ' + data.fare.display + ' \n'
+                  + 'Xe cách' + data.pickup_estimate + ' phút'
+        bot.sendMessage(message.chat.id, msg);
+      });
+    } else if(message.text === '/pes_status') {
+      callBotApi('pes_status', function(result){
+        var data = JSON.parse(result);
+        var msg = 'Đi MAT \n'
+                  + 'Giá : ' + data.fare.display + ' \n'
+                  + 'Xe cách' + data.pickup_estimate + ' phút'
         bot.sendMessage(message.chat.id, msg);
       });
     }
