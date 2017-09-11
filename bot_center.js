@@ -280,7 +280,7 @@ app.get('/bot/center',function(req, res){
 	}
 	request({
     headers: {
-      'Authorization': 'Bearer KA.eyJ2ZXJzaW9uIjoyLCJpZCI6ImFCaWZWeEF4U3dlNTVKNE9qY1NsTWc9PSIsImV4cGlyZXNfYXQiOjE1MDc2OTY2ODYsInBpcGVsaW5lX2tleV9pZCI6Ik1RPT0iLCJwaXBlbGluZV9pZCI6MX0.FmLblv9uG_r-wL94aIdwkEBeFsX5zrEa9PhrjANjpe4',
+      'Authorization': 'Bearer KA.eyJ2ZXJzaW9uIjoyLCJpZCI6IlprMmFLK3FMUnltV0dlOHJPbnhGTlE9PSIsImV4cGlyZXNfYXQiOjE1MDc3MTc1MzUsInBpcGVsaW5lX2tleV9pZCI6Ik1RPT0iLCJwaXBlbGluZV9pZCI6MX0.rgA8fdbOQ5IL5QU1G_G5WUXQ6FkxGe_LQHDCh__E6Dg',
       'Content-Type': 'application/json',
 			'Accepted-Language': 'en_US'
     },
@@ -297,7 +297,6 @@ app.get('/bot/center',function(req, res){
 		}
   });
 } else if(command.indexOf('pes_go') > -1){
-	console.log('fareId: ', command.split("|")[1]);
 	var requestData = {
 		product_id: '4e6b60d5-8e3a-4772-86b5-324d09b0ce39',
 		start_latitude: '21.0195562',
@@ -309,7 +308,7 @@ app.get('/bot/center',function(req, res){
 	}
 	request({
     headers: {
-      'Authorization': 'Bearer KA.eyJ2ZXJzaW9uIjoyLCJpZCI6ImFCaWZWeEF4U3dlNTVKNE9qY1NsTWc9PSIsImV4cGlyZXNfYXQiOjE1MDc2OTY2ODYsInBpcGVsaW5lX2tleV9pZCI6Ik1RPT0iLCJwaXBlbGluZV9pZCI6MX0.FmLblv9uG_r-wL94aIdwkEBeFsX5zrEa9PhrjANjpe4',
+      'Authorization': 'Bearer KA.eyJ2ZXJzaW9uIjoyLCJpZCI6IlprMmFLK3FMUnltV0dlOHJPbnhGTlE9PSIsImV4cGlyZXNfYXQiOjE1MDc3MTc1MzUsInBpcGVsaW5lX2tleV9pZCI6Ik1RPT0iLCJwaXBlbGluZV9pZCI6MX0.rgA8fdbOQ5IL5QU1G_G5WUXQ6FkxGe_LQHDCh__E6Dg',
       'Content-Type': 'application/json'
     },
 		json: requestData,
