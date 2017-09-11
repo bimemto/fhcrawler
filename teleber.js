@@ -7,6 +7,8 @@ var bot = new TelegramBot(token, {
   polling: true
 });
 
+var fareId = '';
+
 function callBotApi(command, callback){
   request.get('http://bu.1ly.co:6868/bot/center?command=' + command, function(error, response, body){
     if(error) {
@@ -20,7 +22,6 @@ function callBotApi(command, callback){
 bot.on('message', function(message) {
   var chat_id = message.chat.id;
   console.log(message);
-  var fareId;
   if(message.text){
     if(message.text === '/pes_estimate'){
       callBotApi('pes_estimate', function(result){
