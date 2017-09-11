@@ -24,11 +24,10 @@ bot.on('message', function(message) {
     if(message.text.indexOf('/pes') > -1){
       callBotApi('pes', function(result){
         var data = JSON.parse(result);
-        console.log('result: ', data.fare);
-        // var msg = 'Đi MAT \n'
-        //           + 'Giá : ' + result.fare.display + ' \n'
-        //           + 'Xe ' + result.pickup_estimate + ' phút nữa thì đến'
-        // bot.sendMessage(message.chat.id, msg);
+        var msg = 'Đi MAT \n'
+                  + 'Giá : ' + data.fare.display + ' \n'
+                  + 'Xe ' + data.pickup_estimate + ' phút nữa thì đến'
+        bot.sendMessage(message.chat.id, msg);
       });
     }
   }
