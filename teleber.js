@@ -33,19 +33,19 @@ bot.on('message', function(message) {
       });
     } else if(message.text === '/pes_go') {
       callBotApi('pes_go|' + fareId, function(result){
-        var data = JSON.parse(result);
-        var msg = 'Đi MAT \n'
-                  + 'Giá : ' + data.fare.display + ' \n'
-                  + 'Xe cách' + data.pickup_estimate + ' phút'
-        bot.sendMessage(message.chat.id, msg);
+        // var data = JSON.parse(result);
+        // var msg = 'Đi MAT \n'
+        //           + 'Giá : ' + data.fare.display + ' \n'
+        //           + 'Xe cách' + data.pickup_estimate + ' phút'
+        // bot.sendMessage(message.chat.id, msg);
       });
     } else if(message.text === '/pes_status') {
       callBotApi('pes_status', function(result){
-        var data = JSON.parse(result);
-        var msg = 'Đi MAT \n'
-                  + 'Giá : ' + data.fare.display + ' \n'
-                  + 'Xe cách' + data.pickup_estimate + ' phút'
-        bot.sendMessage(message.chat.id, msg);
+        // var data = JSON.parse(result);
+        // var msg = 'Đi MAT \n'
+        //           + 'Giá : ' + data.fare.display + ' \n'
+        //           + 'Xe cách' + data.pickup_estimate + ' phút'
+        // bot.sendMessage(message.chat.id, msg);
       });
     }
   }
