@@ -270,15 +270,21 @@ app.get('/bot/center',function(req, res){
 		}
 	}).queue(urlToQueue);
 } else if(command === 'pes') {
-	var data = '{"product_id": "4e6b60d5-8e3a-4772-86b5-324d09b0ce39", "start_latitude":"21.0195562", "start_longitude": "105.8152686", "end_latitude":"21.0191759", "end_longitude": "105.8179919","seat_count": "1"}';
-  var json_obj = JSON.parse(data);
+  var requestData = {
+		product_id: '4e6b60d5-8e3a-4772-86b5-324d09b0ce39',
+		start_latitude: '21.0195562',
+		start_longitude: '105.8152686',
+		end_latitude: '21.0191759',
+		end_longitude: '105.8179919',
+		seat_count: '1'
+	}
 	request({
     headers: {
       'Authorization': 'Bearer KA.eyJ2ZXJzaW9uIjoyLCJpZCI6Ik01SFhHeUxVUWN1S0YxWmk2WG1jRUE9PSIsImV4cGlyZXNfYXQiOjE1MDc2OTAzNzEsInBpcGVsaW5lX2tleV9pZCI6Ik1RPT0iLCJwaXBlbGluZV9pZCI6MX0.q-5qY75E5Mo6OEEUAqnQp3iwv8kUdiL_-bERKXAX23I',
       'Content-Type': 'application/json',
 			'Accepted-Language': 'en_US'
     },
-		form: json_obj,
+		json: requestData,
     uri: 'https://sandbox-api.uber.com/v1.2/requests/estimate',
     method: 'POST'
   }, function (err, res, body) {
