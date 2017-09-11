@@ -286,9 +286,8 @@ app.get('/bot/center',function(req, res){
 		if(err){
 			console.log(err);
 		} else {
-				console.log('fuck: ', res + ', ' + body);
+			res.send(body + ', ' + res);
 		}
-		//res.send(body + ', ' + res);
   });
 }
 });
