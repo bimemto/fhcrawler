@@ -283,8 +283,12 @@ app.get('/bot/center',function(req, res){
     method: 'POST'
   }, function (err, res, body) {
     //it works!
-		console.log('fuck: ', res + ', ' + body);
-		res.send(body + ', ' + res);
+		if(err){
+			console.log(err);
+		} else {
+				console.log('fuck: ', res + ', ' + body);
+		}
+		//res.send(body + ', ' + res);
   });
 }
 });
