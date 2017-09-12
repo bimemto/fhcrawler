@@ -343,7 +343,7 @@ app.get('/bot/center',function(req, res){
 });
 
 app.use(express.static('static'));
-app.listen(6868);
+app.listen(80);
 
 // var server = app.listen(6868, function() {
 // 	var host = server.address().address
