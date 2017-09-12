@@ -9,19 +9,6 @@ var bot = new TelegramBot(token, {
   polling: true
 });
 
-var greenlock = require('greenlock-express');
-
-greenlock.create({
-  server: 'staging',
-  email: 'duydkny@gmail.com',
-  agreeTos: true,
-  approveDomains: ['bu.1ly.co'],
-  app: require('express')().use('/', function (req, res) {
-    res.end('Hello, World!');
-  })
-}).listen(8080, 8443);
-
-
 var fareId = '';
 
 function callBotApi(command, callback){

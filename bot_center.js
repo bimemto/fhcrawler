@@ -14,6 +14,7 @@ var googl = require('goo.gl');
 var _ = require('underscore');
 googl.setKey('AIzaSyC2wTIH9KqiD4PGRPpk0DiGmYdDrB8lgUo');
 googl.getKey();
+var greenlock = require('greenlock-express');
 
 // db.connectDB(function(result) {
 
@@ -341,11 +342,21 @@ app.get('/bot/center',function(req, res){
 }
 });
 
-var server = app.listen(6868, function() {
-	var host = server.address().address
-	var port = server.address().port
-	console.log("Example app listening at http://%s:%s", host, port);
-})
+// var server = app.listen(6868, function() {
+// 	var host = server.address().address
+// 	var port = server.address().port
+// 	console.log("Example app listening at http://%s:%s", host, port);
+// })
+
+greenlock.create({
+  server: 'staging',
+  email: 'duydkny@gmail.com',
+  agreeTos: true,
+  approveDomains: ['bu.1ly.co'],
+  app: app.use('/', function (req, res) {
+    res.end('Hello, World!');
+  })
+}).listen(8080, 8443);
 
 function getRandomInt(min, max) {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
