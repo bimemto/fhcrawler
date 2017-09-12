@@ -58,7 +58,7 @@ bot.on('message', function(message) {
             + 'Biển: ' + data.vehicle.license_plate + '\n'
             + 'Minh hoạ: ' + data.vehicle.picture_url + '\n'
             + 'Khoảng ' + data.pickup.eta + ' phút nữa thì đến \n'
-            + 'Di chuyển mất khoảng ' + data.desination.eta + ' phút'
+            + 'Di chuyển mất khoảng ' + data.destination.eta + ' phút'
           } else {
             msg = 'Chưa thằng nào nhận. chờ đi'
           }
