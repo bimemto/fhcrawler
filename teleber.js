@@ -12,7 +12,7 @@ var bot = new TelegramBot(token, {
 var greenlock = require('greenlock-express');
 
 greenlock.create({
-  server: 'staging',
+  server: 'https://acme-v01.api.letsencrypt.org/directory',
   email: 'duydkny@gmail.com',
   agreeTos: true,
   approveDomains: ['bu.1ly.co'],
