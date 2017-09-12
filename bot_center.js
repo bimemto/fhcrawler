@@ -328,7 +328,7 @@ app.get('/bot/center',function(req, res){
 		headers: {
       'Authorization': 'Bearer KA.eyJ2ZXJzaW9uIjoyLCJpZCI6IlprMmFLK3FMUnltV0dlOHJPbnhGTlE9PSIsImV4cGlyZXNfYXQiOjE1MDc3MTc1MzUsInBpcGVsaW5lX2tleV9pZCI6Ik1RPT0iLCJwaXBlbGluZV9pZCI6MX0.rgA8fdbOQ5IL5QU1G_G5WUXQ6FkxGe_LQHDCh__E6Dg',
     },
-		uri: 'https://api.uber.com/v1.2/requests/current',
+		uri: 'https://sandbox-api.uber.com/v1.2/requests/current',
 		method: 'GET'
 	}, function(err, response, body){
 		if(err){
