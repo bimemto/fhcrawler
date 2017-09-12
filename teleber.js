@@ -27,8 +27,8 @@ bot.on('message', function(message) {
       callBotApi('pes_estimate', function(result){
         var data = JSON.parse(result);
         var msg = 'Đi MAT \n'
-                  + 'Giá : ' + data.fare.display + ' \n'
-                  + 'Xe cách ' + data.pickup_estimate + ' phút'
+        + 'Giá : ' + data.fare.display + ' \n'
+        + 'Xe cách ' + data.pickup_estimate + ' phút'
         fareId = data.fare.fare_id;
         bot.sendMessage(message.chat.id, msg);
       });
@@ -46,10 +46,26 @@ bot.on('message', function(message) {
     } else if(message.text === '/pes_status') {
       callBotApi('pes_status', function(result){
         var data = JSON.parse(result);
-        // var msg = 'Đi MAT \n'
-        //           + 'Giá : ' + data.fare.display + ' \n'
-        //           + 'Xe cách' + data.pickup_estimate + ' phút'
-        // bot.sendMessage(message.chat.id, msg);
+        var msg;
+        if(data.status){
+          if(data.status === 'accepted'){
+            msg = 'Đây rồi \n'
+            + 'Tài xế: ' + data.driver.name + '\n'
+            + 'Số đt: ' + data.driver.phone_number + '\n'
+            + 'Rating: ' + data.driver.rating + ' * \n'
+            + 'Avatar: ' + data.driver.picture_url + '\n'
+            + 'Xe: ' + data.vehicle.make + ' ' + data.vehicle.model + '\n'
+            + 'Biển: ' + data.vehicle.license_plate + '\n'
+            + 'Minh hoạ: ' + data.vehicle.picture_url + '\n'
+            + 'Khoảng ' + data.pickup.eta ' phút nữa thì đến' + '\n'
+            + 'Di chuyển mất khoảng ' + data.desination.eta + ' phút'
+          } else {
+            msg = 'Chưa thằng nào nhận. chờ đi'
+          }
+        } else {
+          msg = 'Maintain now'
+        }
+        bot.sendMessage(message.chat.id, msg);
       });
     }
   }
