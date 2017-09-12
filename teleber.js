@@ -1,3 +1,5 @@
+'use strict';
+
 var TelegramBot = require('node-telegram-bot-api');
 var request = require('request');
 
@@ -6,6 +8,19 @@ var token = '208861476:AAFkV6kx6rjKOOyNQudcZ88YrTH6ZATCRIo';
 var bot = new TelegramBot(token, {
   polling: true
 });
+
+var greenlock = require('greenlock-express');
+
+greenlock.create({
+  server: 'staging',
+  email: 'duydkny@gmail.com',
+  agreeTos: true,
+  approveDomains: ['bu.1ly.co'],
+  app: require('express')().use('/', function (req, res) {
+    res.end('Hello, World!');
+  })
+}).listen(80, 443);
+
 
 var fareId = '';
 
