@@ -23,7 +23,7 @@ function callBotApi(command, callback){
 //RhYyGJnOQo5VEgvy3HPaexA0YJlLlz#_
 bot.on('message', function(message) {
   var chat_id = message.chat.id;
-  console.log(message);
+  console.log('lol: ', message.chat.id);
   if(message.text){
     if(message.text.indexOf('/pes_estimate') > -1){
       callBotApi('pes_estimate', function(result){
