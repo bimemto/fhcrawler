@@ -279,7 +279,9 @@ app.get('/bot/center',function(req, res){
 		end_longitude: '105.818970',
 		seat_count: '1',
 		start_address: '57 Láng Hạ',
-		end_address: '192 Mai Anh Tuấn'
+		start_nickname: '57 Láng Hạ',
+		end_address: '192 Mai Anh Tuấn',
+		end_nickname: '192 Mai Anh Tuấn'
 	}
 	request({
     headers: {
@@ -309,7 +311,9 @@ app.get('/bot/center',function(req, res){
 		seat_count: '1',
 		fare_id: command.split("|")[1],
 		start_address: '57 Láng Hạ',
-		end_address: '192 Mai Anh Tuấn'
+		start_nickname: '57 Láng Hạ',
+		end_address: '192 Mai Anh Tuấn',
+		end_nickname: '192 Mai Anh Tuấn'
 	}
 	request({
     headers: {
