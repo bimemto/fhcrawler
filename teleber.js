@@ -25,7 +25,7 @@ bot.on('message', function(message) {
   var chat_id = message.chat.id;
   console.log(message);
   if(message.text){
-    if(message.text === '/pes_estimate'){
+    if(message.text.indexOf('/pes_estimate') > -1){
       callBotApi('pes_estimate', function(result){
         var data = JSON.parse(result);
         var msg = 'Đi MAT \n'
@@ -34,7 +34,7 @@ bot.on('message', function(message) {
         fareId = data.fare.fare_id;
         bot.sendMessage(message.chat.id, msg);
       });
-    } else if(message.text === '/pes_go') {
+    } else if(message.text.indexOf('/pes_go') > -1) {
       callBotApi('pes_go|' + fareId, function(result){
         var data = JSON.parse(result);
         var msg;
@@ -45,7 +45,7 @@ bot.on('message', function(message) {
         }
         bot.sendMessage(message.chat.id, msg);
       });
-    } else if(message.text === '/pes_status') {
+    } else if(message.text.indexOf('/pes_status') > -1) {
       callBotApi('pes_status', function(result){
         var data = JSON.parse(result);
         var msg;
