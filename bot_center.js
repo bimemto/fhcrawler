@@ -273,10 +273,10 @@ app.get('/bot/center',function(req, res){
 } else if(command === 'pes_estimate') {
   var requestData = {
 		product_id: '4e6b60d5-8e3a-4772-86b5-324d09b0ce39',
-		start_latitude: '21.0195562',
-		start_longitude: '105.8152686',
-		end_latitude: '21.0191759',
-		end_longitude: '105.8179919',
+		start_latitude: '21.019459',
+		start_longitude: '105.817133',
+		end_latitude: '21.018828',
+		end_longitude: '105.818970',
 		seat_count: '1'
 	}
 	request({
@@ -286,7 +286,7 @@ app.get('/bot/center',function(req, res){
 			'Accepted-Language': 'en_US'
     },
 		json: requestData,
-    uri: 'https://api.uber.com/v1.2/requests/estimate',
+    uri: 'https://sandbox-api.uber.com/v1.2/requests/estimate',
     method: 'POST'
   }, function (err, response, body) {
     //it works!
@@ -300,10 +300,10 @@ app.get('/bot/center',function(req, res){
 } else if(command.indexOf('pes_go') > -1){
 	var requestData = {
 		product_id: '4e6b60d5-8e3a-4772-86b5-324d09b0ce39',
-		start_latitude: '21.0195562',
-		start_longitude: '105.8152686',
-		end_latitude: '21.0191759',
-		end_longitude: '105.8179919',
+		start_latitude: '21.019459',
+		start_longitude: '105.817133',
+		end_latitude: '21.018828',
+		end_longitude: '105.818970',
 		seat_count: '1',
 		fare_id: command.split("|")[1]
 	}
@@ -313,7 +313,7 @@ app.get('/bot/center',function(req, res){
       'Content-Type': 'application/json'
     },
 		json: requestData,
-    uri: 'https://api.uber.com/v1.2/requests',
+    uri: 'https://sandbox-api.uber.com/v1.2/requests',
     method: 'POST'
   }, function (err, response, body) {
     //it works!
@@ -329,7 +329,7 @@ app.get('/bot/center',function(req, res){
 		headers: {
       'Authorization': 'Bearer KA.eyJ2ZXJzaW9uIjoyLCJpZCI6IlprMmFLK3FMUnltV0dlOHJPbnhGTlE9PSIsImV4cGlyZXNfYXQiOjE1MDc3MTc1MzUsInBpcGVsaW5lX2tleV9pZCI6Ik1RPT0iLCJwaXBlbGluZV9pZCI6MX0.rgA8fdbOQ5IL5QU1G_G5WUXQ6FkxGe_LQHDCh__E6Dg',
     },
-		uri: 'https://api.uber.com/v1.2/requests/current',
+		uri: 'https://sandbox-api.uber.com/v1.2/requests/current',
 		method: 'GET'
 	}, function(err, response, body){
 		if(err){
