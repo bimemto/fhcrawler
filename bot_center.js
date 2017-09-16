@@ -361,7 +361,7 @@ https.createServer(options, app).listen(8443);
 app.post('/uber/hook', function(request, response){
 	var status = request.body.meta.status;
 	console.log('request: ', request.body);
-	response..status(200).send('OK');
+	response.status(200).send('OK');
 })
 
 function getRandomInt(min, max) {
