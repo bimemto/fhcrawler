@@ -397,6 +397,8 @@ app.post('/uber/hook', function(request, response){
 			bot.sendMessage(chatId, 'Thằng khốn nạn nó huỷ rồi')
 		} else if(status === 'completed'){
 			bot.sendMessage(chatId, 'Đến nơi rồi')
+		} else if(status === 'rider_canceled'){
+			bot.sendMessage(chatId, 'Đã huỷ')
 		}
 	}
 	response.status(200).send('OK');
