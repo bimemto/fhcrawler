@@ -280,6 +280,8 @@ app.get('/bot/center',function(req, res){
 		start_address: '57 Láng Hạ',
 		end_address: '192 Mai Anh Tuấn'
 	}
+	var endpoint = sandbox ? 'https://sandbox-api.uber.com/v1.2/requests/estimate' : 'https://api.uber.com/v1.2/requests/estimate';
+	console.log('endpoint: ' + endpoint);
 	request({
     headers: {
       'Authorization': 'Bearer KA.eyJ2ZXJzaW9uIjoyLCJpZCI6IlprMmFLK3FMUnltV0dlOHJPbnhGTlE9PSIsImV4cGlyZXNfYXQiOjE1MDc3MTc1MzUsInBpcGVsaW5lX2tleV9pZCI6Ik1RPT0iLCJwaXBlbGluZV9pZCI6MX0.rgA8fdbOQ5IL5QU1G_G5WUXQ6FkxGe_LQHDCh__E6Dg',
@@ -287,7 +289,7 @@ app.get('/bot/center',function(req, res){
 			'Accepted-Language': 'en_US'
     },
 		json: requestData,
-    uri: sandbox ? 'https://sandbox-api.uber.com/v1.2/requests/estimate' : 'https://api.uber.com/v1.2/requests/estimate',
+    uri: endpoint,
     method: 'POST'
   }, function (err, response, body) {
     //it works!
