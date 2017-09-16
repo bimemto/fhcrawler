@@ -363,7 +363,7 @@ https.createServer(options, app).listen(8443);
 
 app.post('/uber/hook', function(request, response){
 	var status = request.body.meta.status;
-	console.log('request: ', request.body);
+	console.log('headers: ', request.headers);
 	if(request.body.event_type === 'requests.status_changed'){
 		if(status === 'accepted'){
 			bot.sendMessage(chatId, 'Yay! Có thằng nhận rồi')
