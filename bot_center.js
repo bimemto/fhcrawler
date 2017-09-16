@@ -1,3 +1,5 @@
+'use strict';
+
 var YQL = require("yql");
 var http = require('http');
 var cheerio = require('cheerio');
@@ -361,6 +363,42 @@ https.createServer(options, app).listen(8443);
 app.post('/uber/hook', function(request, response){
 	var status = request.body.meta.status;
 	console.log('request: ', request.body);
+	if(request.body.event_type === 'requests.status_changed'){
+		if(status === 'accepted'){
+			bot.sendMessage(chatId, 'Yay! Có thằng nhận rồi')
+			callBotApi('pes_status', function(result){
+        var data = JSON.parse(result);
+        var msg;
+        if(data.status){
+          if(data.status === 'accepted'){
+            msg = 'Đây rồi \n'
+            + 'Tài xế: ' + data.driver.name + '\n'
+            + 'Số đt: ' + data.driver.phone_number + '\n'
+            + 'Rating: ' + data.driver.rating + ' * \n'
+            + 'Avatar: ' + data.driver.picture_url + '\n'
+            + 'Xe: ' + data.vehicle.make + ' ' + data.vehicle.model + '\n'
+            + 'Biển: ' + data.vehicle.license_plate + '\n'
+            + 'Minh hoạ: ' + data.vehicle.picture_url + '\n'
+            + 'Khoảng ' + data.pickup.eta + ' phút nữa thì đến \n'
+            + 'Di chuyển mất khoảng ' + data.destination.eta + ' phút'
+          } else {
+            msg = 'Chưa thằng nào nhận. chờ đi'
+          }
+        } else {
+          msg = 'Maintain now'
+        }
+        bot.sendMessage(chatId, msg);
+      });
+		} else if(status === 'processing'){
+			bot.sendMessage(chatId, 'Chưa có thằng nào nhận. Chờ đi')
+		} else if(status === 'arriving'){
+			bot.sendMessage(chatId, 'Xe đến rồi')
+		} else if(status === 'driver_canceled'){
+			bot.sendMessage(chatId, 'Thằng khốn nạn nó huỷ rồi')
+		} else if(status === 'completed'){
+			bot.sendMessage(chatId, 'Đến nơi rồi')
+		}
+	}
 	response.status(200).send('OK');
 })
 
@@ -515,3 +553,77 @@ app.get('/euro/api/get_live_url', function(req, res){
 		}
 	}).queue(details_url);
 })
+
+//client teleber
+var TelegramBot = require('node-telegram-bot-api');
+
+var token = '208861476:AAFkV6kx6rjKOOyNQudcZ88YrTH6ZATCRIo';
+// Setup polling way
+var bot = new TelegramBot(token, {
+  polling: true
+});
+
+var fareId = '';
+var chatId = '';
+
+function callBotApi(command, callback){
+  request.get('http://bu.1ly.co:6868/bot/center?command=' + command, function(error, response, body){
+    if(error) {
+      callback('');
+    } else {
+      callback(body);
+    }
+  });
+}
+//RhYyGJnOQo5VEgvy3HPaexA0YJlLlz#_
+bot.on('message', function(message) {
+  chatId = message.chat.id;
+  console.log('lol: ', message);
+  if(message.text){
+    if(message.text.indexOf('/pes_estimate') > -1){
+      callBotApi('pes_estimate', function(result){
+        var data = JSON.parse(result);
+        var msg = 'Đi MAT \n'
+        + 'Giá : ' + data.fare.display + ' \n'
+        + 'Xe cách ' + data.pickup_estimate + ' phút'
+        fareId = data.fare.fare_id;
+        bot.sendMessage(chatId, msg);
+      });
+    } else if(message.text.indexOf('/pes_go') > -1) {
+      callBotApi('pes_go|' + fareId, function(result){
+        var data = JSON.parse(result);
+        var msg;
+        if(data.status === 'processing'){
+          msg = 'OK. Đợi tài xế nào'
+        } else {
+          msg = 'Maintain now'
+        }
+        bot.sendMessage(chatId, msg);
+      });
+    } else if(message.text.indexOf('/pes_status') > -1) {
+      callBotApi('pes_status', function(result){
+        var data = JSON.parse(result);
+        var msg;
+        if(data.status){
+          if(data.status === 'accepted'){
+            msg = 'Đây rồi \n'
+            + 'Tài xế: ' + data.driver.name + '\n'
+            + 'Số đt: ' + data.driver.phone_number + '\n'
+            + 'Rating: ' + data.driver.rating + ' * \n'
+            + 'Avatar: ' + data.driver.picture_url + '\n'
+            + 'Xe: ' + data.vehicle.make + ' ' + data.vehicle.model + '\n'
+            + 'Biển: ' + data.vehicle.license_plate + '\n'
+            + 'Minh hoạ: ' + data.vehicle.picture_url + '\n'
+            + 'Khoảng ' + data.pickup.eta + ' phút nữa thì đến \n'
+            + 'Di chuyển mất khoảng ' + data.destination.eta + ' phút'
+          } else {
+            msg = 'Chưa thằng nào nhận. chờ đi'
+          }
+        } else {
+          msg = 'Maintain now'
+        }
+        bot.sendMessage(chatId, msg);
+      });
+    }
+  }
+});
