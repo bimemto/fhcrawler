@@ -16,11 +16,8 @@ var googl = require('goo.gl');
 var _ = require('underscore');
 googl.setKey('AIzaSyC2wTIH9KqiD4PGRPpk0DiGmYdDrB8lgUo');
 googl.getKey();
-//var greenlock = require('greenlock-express');
 
-// db.connectDB(function(result) {
-
-// });
+var sandbox = true;
 
 function allowCrossDomain(req, res, next) {
 	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -290,7 +287,7 @@ app.get('/bot/center',function(req, res){
 			'Accepted-Language': 'en_US'
     },
 		json: requestData,
-    uri: 'https://sandbox-api.uber.com/v1.2/requests/estimate',
+    uri: sandbox ? 'https://sandbox-api.uber.com/v1.2/requests/estimate' : 'https://api.uber.com/v1.2/requests/estimate',
     method: 'POST'
   }, function (err, response, body) {
     //it works!
@@ -319,7 +316,7 @@ app.get('/bot/center',function(req, res){
       'Content-Type': 'application/json'
     },
 		json: requestData,
-    uri: 'https://sandbox-api.uber.com/v1.2/requests',
+    uri: sandbox ? 'https://sandbox-api.uber.com/v1.2/requests' : 'https://api.uber.com/v1.2/requests',
     method: 'POST'
   }, function (err, response, body) {
     //it works!
@@ -335,7 +332,7 @@ app.get('/bot/center',function(req, res){
 		headers: {
       'Authorization': 'Bearer KA.eyJ2ZXJzaW9uIjoyLCJpZCI6IlprMmFLK3FMUnltV0dlOHJPbnhGTlE9PSIsImV4cGlyZXNfYXQiOjE1MDc3MTc1MzUsInBpcGVsaW5lX2tleV9pZCI6Ik1RPT0iLCJwaXBlbGluZV9pZCI6MX0.rgA8fdbOQ5IL5QU1G_G5WUXQ6FkxGe_LQHDCh__E6Dg',
     },
-		uri: 'https://sandbox-api.uber.com/v1.2/requests/current',
+		uri: sandbox ? 'https://sandbox-api.uber.com/v1.2/requests/current' : 'https://api.uber.com/v1.2/requests/current',
 		method: 'GET'
 	}, function(err, response, body){
 		if(err){
@@ -495,6 +492,16 @@ app.get('/euro/api/match_list', function(req, res) {
 		}
 		res.send(data);
 	});
+})
+
+app.get('/uber/sandbox', function(req, res){
+	var value = req.param('value');
+	if(value === 'true'){
+		sandbox = true;
+	} else {
+		sandbox = false;
+	}
+	res.status(200).send('sandbox: ' + sandbox);
 })
 
 app.get('/euro/api/get_live_url', function(req, res){
