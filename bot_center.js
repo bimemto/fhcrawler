@@ -348,12 +348,12 @@ app.get('/bot/center',function(req, res){
 }
 });
 
-const https = require('https');
+var https = require('https');
 // Set up express server here
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(require('helmet')());
-const options = {
+var options = {
     cert: fs.readFileSync('/etc/letsencrypt/live/bu.1ly.co/fullchain.pem'),
     key: fs.readFileSync('/etc/letsencrypt/live/bu.1ly.co/privkey.pem')
 };
