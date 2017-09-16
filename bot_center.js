@@ -348,6 +348,8 @@ app.get('/bot/center',function(req, res){
 
 const https = require('https');
 // Set up express server here
+var bodyParser = require('body-parser');
+app.use(bodyParser.json());
 app.use(require('helmet')());
 const options = {
     cert: fs.readFileSync('/etc/letsencrypt/live/bu.1ly.co/fullchain.pem'),
@@ -357,8 +359,9 @@ app.listen(6868);
 https.createServer(options, app).listen(8443);
 
 app.post('/uber/hook', function(request, response){
-	console.log('request: ', request);
-	console.log('response: ', response);
+	console.log('request: ', request.body);
+	//console.log('response: ', response);
+
 })
 
 function getRandomInt(min, max) {
