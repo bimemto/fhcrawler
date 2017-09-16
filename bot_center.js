@@ -279,9 +279,7 @@ app.get('/bot/center',function(req, res){
 		end_longitude: '105.818970',
 		seat_count: '1',
 		start_address: '57 Láng Hạ',
-		start_nickname: '57 Láng Hạ',
-		end_address: '192 Mai Anh Tuấn',
-		end_nickname: '192 Mai Anh Tuấn'
+		end_address: '192 Mai Anh Tuấn'
 	}
 	request({
     headers: {
@@ -311,9 +309,7 @@ app.get('/bot/center',function(req, res){
 		seat_count: '1',
 		fare_id: command.split("|")[1],
 		start_address: '57 Láng Hạ',
-		start_nickname: '57 Láng Hạ',
-		end_address: '192 Mai Anh Tuấn',
-		end_nickname: '192 Mai Anh Tuấn'
+		end_address: '192 Mai Anh Tuấn'
 	}
 	request({
     headers: {
@@ -350,8 +346,20 @@ app.get('/bot/center',function(req, res){
 }
 });
 
-app.use(express.static('static'));
+//app.use(express.static('static'));
+//app.listen(6868);
+const https = require('https');
+const fs = require('fs');
+const express = require('express');
+const app = express();
+// Set up express server here
+app.use(require('helmet')());
+const options = {
+    cert: fs.readFileSync('/etc/letsencrypt/live/bu.1ly.co/fullchain.pem'),
+    key: fs.readFileSync('/etc/letsencrypt/live/bu.1ly.co/privkey.pem')
+};
 app.listen(6868);
+https.createServer(options, app).listen(8443);
 
 // var server = app.listen(6868, function() {
 // 	var host = server.address().address
