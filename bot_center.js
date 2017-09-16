@@ -363,7 +363,7 @@ https.createServer(options, app).listen(8443);
 
 app.post('/uber/hook', function(request, response){
 	var status = request.body.meta.status;
-	var xUberSig = request.headers.x_uber_signature;
+	var xUberSig = request.headers['x-uber-signature'];
 	console.log('signature: ', xUberSig);
 	if(request.body.event_type === 'requests.status_changed'){
 		if(status === 'accepted'){
