@@ -14,7 +14,7 @@ var googl = require('goo.gl');
 var _ = require('underscore');
 googl.setKey('AIzaSyC2wTIH9KqiD4PGRPpk0DiGmYdDrB8lgUo');
 googl.getKey();
-var greenlock = require('greenlock-express');
+//var greenlock = require('greenlock-express');
 
 // db.connectDB(function(result) {
 
@@ -349,9 +349,6 @@ app.get('/bot/center',function(req, res){
 //app.use(express.static('static'));
 //app.listen(6868);
 const https = require('https');
-const fs = require('fs');
-const express = require('express');
-const app = express();
 // Set up express server here
 app.use(require('helmet')());
 const options = {
