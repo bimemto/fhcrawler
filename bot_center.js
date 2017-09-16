@@ -360,7 +360,8 @@ https.createServer(options, app).listen(8443);
 
 app.post('/uber/hook', function(request, response){
 	var status = request.body.meta.status;
-	console.log('request: ', status);
+	console.log('request: ', request.body);
+	response.sendStatus(200);
 })
 
 function getRandomInt(min, max) {
