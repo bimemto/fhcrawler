@@ -32,9 +32,9 @@ app.post('/bot',function(req, res){
   var content = req.param('content', null);
   console.log("messenger: = "+messenger+", group_id: "+group_id + ", content: " + content);
   if(messenger === 'telegram'){
+    res.send('Sent ' + group_id + ": " + content);
     bot.sendMessage(group_id, content);
   }
-  res.send('OK');
 });
 
 var server = app.listen(9669, function() {
@@ -128,7 +128,7 @@ bot.on('message', function(message) {
   if (message.text.length > 5) {
     words = message.text.substring(message.text.indexOf(' ') + 1);
   }
-  request.post('http://thomay.vn/index.php?q=tutaochude2', 
+  request.post('http://thomay.vn/index.php?q=tutaochude2',
     {form: {
       'dieukien_tu': '',
       'dieukien_tu_last': '',
@@ -184,7 +184,7 @@ bot.on('message', function(message) {
   //   app_name = message.text.split(' ')[1];
   // }
   // if(app_name === 'beatvn'){
-    
+
   // }
 }
 }
@@ -286,7 +286,7 @@ function doAction(api){
               if (err) console.log(err);
             });
             var mess = callBotApi('troi', function(result){
-              api.sendMessage(result, event.threadID);  
+              api.sendMessage(result, event.threadID);
             });
           }  else if(event.body.indexOf('/img') > -1){
             api.markAsRead(event.threadID, function(err) {
@@ -311,7 +311,7 @@ function doAction(api){
               if (err) console.log(err);
             });
             var mess = callBotApi('nt', function(result){
-              api.sendMessage(result, event.threadID);  
+              api.sendMessage(result, event.threadID);
             });
           } else if(event.body.indexOf('/rau') > -1){
             api.markAsRead(event.threadID, function(err) {
@@ -319,7 +319,7 @@ function doAction(api){
             });
             var command = event.body.substring(1, event.body.length);
             var mess = callBotApi(command, function(result){
-              api.sendMessage(result, event.threadID);  
+              api.sendMessage(result, event.threadID);
             });
           } else if(event.body.indexOf('/kq') > -1){
             api.markAsRead(event.threadID, function(err) {
@@ -338,14 +338,14 @@ function doAction(api){
                   }
                   api.sendMessage(msg, event.threadID);
                 }
-              }); 
+              });
             });
           } else if(event.body.indexOf('/tt') > -1){
             api.markAsRead(event.threadID, function(err) {
               if (err) console.log(err);
             });
             callBotApi('tt', function(result){
-              api.sendMessage(result, event.threadID);  
+              api.sendMessage(result, event.threadID);
             });
           } else if(event.body.indexOf('/tho') > -1){
             api.markAsRead(event.threadID, function(err) {
@@ -353,7 +353,7 @@ function doAction(api){
             });
             var command = event.body.substring(1, event.body.length);
             callBotApi(command, function(result){
-              api.sendMessage(result, event.threadID);  
+              api.sendMessage(result, event.threadID);
             });
           } else if(event.body.indexOf('/ga') > -1){
             api.markAsRead(event.threadID, function(err) {
@@ -372,7 +372,7 @@ function doAction(api){
                         var ccu = response.body[i].ccu;
                         ccuMsg = ccuMsg + name + ': ' + ccu + '\r\n';
                       }
-                      api.sendMessage(ccuMsg, event.threadID);  
+                      api.sendMessage(ccuMsg, event.threadID);
                     }
                   }
                 }
