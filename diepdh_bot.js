@@ -186,6 +186,12 @@ bot.on('message', function(message) {
   // if(app_name === 'beatvn'){
 
   // }
+} else if(message.text.indexOf('/gccu') > -1){
+  var command = message.text.substring(1, message.text.length);
+  callBotApi(command, function(result){
+    var data = JSON.parse(result);
+    console.log(data);
+  });
 }
 }
 });

@@ -2,6 +2,7 @@
 
 var YQL = require("yql");
 var http = require('http');
+var moment = require('moment');
 var cheerio = require('cheerio');
 var banquo = require('banquo');
 var fs = require("fs");
@@ -16,6 +17,7 @@ var googl = require('goo.gl');
 var _ = require('underscore');
 googl.setKey('AIzaSyC2wTIH9KqiD4PGRPpk0DiGmYdDrB8lgUo');
 googl.getKey();
+var aes256cbc = require('./aes256cbc.js')
 
 var sandbox = true;
 
@@ -346,8 +348,35 @@ app.get('/bot/center',function(req, res){
 			console.log('lol ', body);
 		}
 	})
+} else if(command === 'gccu'){
+	//TODO call ccu api
+	var gameId = '';
+	if (command.length > 6) {
+		gameId = command.substring(command.indexOf(' ') + 1);
+	}
+	var apiUrl = "https://track-sdk.gamota.com/api/ccu/";
+	var start = moment().startOf('day').unix(); // set to 12:00 am today
+	var end = moment().endOf('day').unix(); // set to 23:59 pm today
+	var now = moment().unix();
+	var requestData = {
+		gameID: gameId,
+		startTime: start,
+		endTime: end,
+		iTime: now
+	}
+	var requestStr = JSON.stringify(requestData);
+	var token = aes256cbc.encrypt(requestStr);
+	request.get(apiUrl + token, function(error, response, body){
+    if(error) {
+      console.log('eRror: ' + error);
+    } else {
+      console.log('body: ' + body);
+    }
+  });
 }
 });
+
+
 
 var https = require('https');
 // Set up express server here

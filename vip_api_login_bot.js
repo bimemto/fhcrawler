@@ -3,7 +3,7 @@ var request = require('request');
 var querystring = require('querystring');
 
 var job = new CronJob({
-  cronTime: '*/10 * * * * *',
+  cronTime: '0 */5 * * * *',
   onTick: function() {
     loginGamota();
   },
